@@ -1,4 +1,4 @@
- ![icon](Assets\logo.png)
+ ![icon](assets\logo.png)
 
 Knižka
 ==========
