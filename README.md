@@ -38,52 +38,6 @@ Currently the following functions are implemented:
 
 You can find a complete changelog inside the application settings menu!
 
-## User guide
-
-Look into the wiki for GIFs-based tutorials: **[TBD]**
-
-## Build
-
-**[TBD]** Watch the following terminal session recording on how to compile distributable files
-[![asciicast](https://asciinema.org/a/102898.png)](https://asciinema.org/a/102898)
-
-To be sure that build environment is fully compliant with the project the following command creates a container with all the needed tools to compile the code:
-
-```
-cd {project-folder}; rm local.properties; docker rm android; docker run -v $PWD:/workspace --name android tabrindle/min-alpine-android-sdk:latest bash -c "yes | sdkmanager --update && yes | sdkmanager --licenses && cd /workspace && ./gradlew build --stacktrace -Dorg.gradle.daemon=true -Pandroid.useDeprecatedNdk=true"
-
-```
-
-## Test
-
-To execute all tests included into the project connect a device or emulator, then run the following command:
-
-```shell
-./gradlew connectedAndroidTest
-```
-
-## Contributing
-
-Due to the fact that I'm using [gitflow](https://github.com/nvie/gitflow) as code versioning methodology, you as developer should **always** start working on [develop branch](https://github.com/federicoiosue/Omni-Notes/tree/develop) that contains the most recent changes.
-
-There are many features/improvements that are not on **my** roadmap but someone else could decide to work on them anyway: hunt for issues tagged as [Help Wanted](https://github.com/federicoiosue/Omni-Notes/issues?utf8=✓&q=label%3A"Help+wanted") to find them!
-
-Feel free to add yourself to [contributors.md](https://github.com/federicoiosue/Omni-Notes/blob/develop/contributors.md) file.
-
-### New feature or improvements contributions
-
-This kind of contributions **must** have screenshots or screencast as demonstration of the new additions.
-
-### Code style
-
-If you plan to manipulate the code then you'll have to do it by following a [specific code style](https://gist.github.com/federicoiosue/dee53e882b3c70d544f8608769eb02fc).
-Also pay attention if you're using any plugin that automatically formats/cleans/rearrange your code and set it to only change that code that you touched and not the whole files.
-
-### Test your code contributions!
-
-All code changes and additions **must** be tested.
-See the [related section](#test) for more information or this two pull requests comments: [one](https://github.com/federicoiosue/Omni-Notes/pull/646#pullrequestreview-187973443) and [two](https://github.com/federicoiosue/Omni-Notes/pull/683#issuecomment-506206689)
-
 ### Forking project
 
 When forking the project you'll have to modify some files that are strictly dependent from my own development / build / third-party-services environment. Files that need some attention are the following:
