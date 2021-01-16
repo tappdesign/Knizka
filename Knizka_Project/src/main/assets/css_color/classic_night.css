@@ -1,0 +1,210 @@
+
+.PRPrayer p.BigFirstLetter:first-letter
+{
+   color: #BBBB77;  
+}
+
+.PRStartDecoration
+{
+	color: #CC9999;
+}
+
+.PREndDecoration
+{
+	color: #CC9999;
+}
+
+/* --- Decoration class - Start and End of Prayer   */
+.PRStartPrayerDecoration
+{
+   color: #444444;
+}
+
+.PREndPrayerDecoration
+{
+	color: #444444;
+}
+
+.TextTitle
+{
+   color: #BBBB77;
+}
+
+.PRAlternative
+{	
+	color: #BBBB77;	
+}
+
+.PRAlterText
+{	
+	border-bottom-color:#A3868A;
+	border-top-color:#A3868A;
+	border-right-color:#A3868A;
+	border-left-color:#A3868A;	
+}
+
+.PRAlterText:before 
+{
+	color: #BBBB77;	   	
+}
+.PRComment
+{
+	color: #CC9999;
+}
+
+.PRCommentSmall
+{
+   color: #BBBBBB;
+}
+
+.PRCommentInPrayer
+{
+	color: #CC9999;
+}
+
+.PRTitlePart
+{
+   color: #AAAA55;
+}
+
+.PRTitlePartSmall
+{
+	color: #AAAA55;
+}
+
+.PRChoosing
+{   
+	color: #FF5050; 	
+}
+
+.PRChoosing a:link 
+{ 
+	color:#AAAA88;
+}
+
+.PRChoosing a:visited 
+{ 
+	color:#AAAA88;
+}
+
+.PRChoosing a:active 
+{ 
+	color:#FF0000;
+}
+
+.PRChoosing ul 
+{ 
+	color:#AAAA88;
+}
+
+.PRChoosedTitle
+{   	
+	color: #AAAA55; 
+}
+
+.PRImprimatur
+{
+	color: #BBBBBB;
+}
+
+/* class .respons for responsories */
+.respons p.respR:before 
+{
+	color: #AAAA55;
+}
+
+.respons p.respV:before 
+{
+	color: #AAAA55;
+}
+
+.respons p.respO:before 
+{
+	color: #AAAA55;
+}
+
+.respons p.respF:before 
+{
+	color: #AAAA55;
+}
+
+.antiphon p.ant:before 
+{ 
+	color: #AAAA55;   
+}
+
+.KSVers
+{
+   color: #AAAA55;
+}
+
+
+.KP
+{
+	color: #AAAA55; 
+}
+
+.KNum 
+{
+	color: #AAAA55; 
+}
+
+.KF
+{
+	color: #AAAA55; 
+}
+
+.PRSongPart
+{
+    color: #AAAA55;
+}
+
+.PRSongPart:after 
+{
+	color: #AAAA55;
+}
+
+.PRSongPartNumber
+{
+    color: #AAAA55;
+}
+
+.PRSongPartKnaz
+{
+    color: #AAAA55;
+}
+
+.PRSongPartKnaz:after 
+{
+	color: #AAAA55;
+}
+
+.PRSongPartLud
+{
+       color: #AAAA55;
+}
+
+.PRSongPartLud:after 
+{
+	color: #AAAA55;
+}
+
+.KK 
+{
+	color: #AAAA55;
+}
+.KL 
+{
+	color: #AAAA55;
+}
+
+.KM
+{
+	color: #CC9999;
+}
+
+body 
+{
+   background-color:#333333;
+   color: #AAAAAA;
+}

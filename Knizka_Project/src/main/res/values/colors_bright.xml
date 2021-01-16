@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2020 TappDesign Studios
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This software is based on Omni-Notes project developed by Federico Iosue
+  ~ https://github.com/federicoiosue/Omni-Notes
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <!-- ActionBar -->
+    <color name="colorBrightPrimary">#AE7954</color>
+    <!-- StatusBar -->
+    <color name="colorBrightPrimaryDark">#7F432F</color>
+
+    <color name="colorBrightAccent">#CD3813</color>
+    <color name="colorBrightAccentPressed">#F69999</color>
+
+    <!-- Floating action button (FAB) colors -->
+    <color name="colorBrightFABColor">#CD3813</color>
+    <color name="colorBrightFABColorPressed">#F69999</color>
+
+    <!-- text of item -->
+    <color name="colorBrightTextColor">#202020</color>
+    <!-- settings - items - main -->
+    <color name="colorBrightTextColorPrimary">#333333</color>
+    <!-- settings - items - comments -->
+    <color name="colorBrightTextColorSecondary">#6A6A6A</color>
+
+    <!-- Background, text of Drawer-->
+    <color name="colorBrightDrawerBG">#F3F2F2</color>
+    <color name="colorBrightDrawerText">#30261B</color>
+    <color name="colorBrightDrawerTextSelected">#7F432F</color>
+
+    <!-- background in listview, in case of listview is empty and background of search label-->
+    <color name="colorBrightListViewBackgroundNothingFound">#E2E2E2</color>
+
+    <!-- Background of listView-->
+    <color name="colorBrightBGList">#E2E2E2</color>
+    <!-- Background of item listView-->
+    <color name="colorBrightBGCard">#FFFFFF</color>
+    <!-- bottom line in list view item-->
+    <color name="colorBrightBGCardBottom">#CCCCCC</color>
+
+    <!-- Background of overflow popup menu -->
+    <color name="colorBrightPopupMenuBG">#EDEDEC</color>
+    <!-- text of overflow popup menu -->
+    <color name="colorBrightPopupMenuText">#121212</color>
+
+    <!-- Title of note in list  -->
+    <color name="colorBrightNoteTitle">#303030</color>
+    <!-- Preview of note content in list  -->
+    <color name="colorBrightNotePreview">#464646</color>
+
+
+    <!-- Title of note in list  -->
+    <color name="colorBrightAddReminderBottomText">#BB212121</color>
+
+    <!-- Detail Colors -->
+    <color name="colorBrightDetailColorBackground">#FFFFFF</color>
+    <color name="colorBrightDetailColorBackgroundNewNote">#EDECEC</color>
+
+    <!-- background color of dialog  -->
+    <color name="colorBrightDialogBackground">#E2E2E2</color>
+    <!-- color of normal button in dialog  -->
+    <color name="colorBrightDialogNormalButtonColor">#AE7954</color>
+    <!-- color of normal text in dialog  -->
+    <color name="colorBrightDialogNormalTextColor">#000</color>
+
+    <!-- hint color  -->
+    <color name="colorBrightTextHintColor">#A0A0A0</color>
+    <!-- focused control (e.g. underline in editbox)  -->
+    <color name="colorBrightControlActivated">#016AB3</color>
+    <!-- color for checkbox text in settings -->
+    <color name="colorBrightTextColorPrimaryDisableOnly">#000</color>
+
+    <!-- General text color-->
+    <color name="colorBrightTextColorNormal">#212121</color>
+
+    <!-- Background of changelog  -->
+    <color name="colorBrightChangelogBackground">#FAFAFA</color>
+
+    <!-- color of keyboard number divider -->
+    <color name="colorBrightKeyboardNumberDivider">#FFF</color>
+
+
+</resources>

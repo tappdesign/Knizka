@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2020 TappDesign Studios
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This software is based on Omni-Notes project developed by Federico Iosue
+  ~ https://github.com/federicoiosue/Omni-Notes
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <style name="AppTheme.Dark">
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowBackground">@color/colorDarkPrimary</item>
+        <!-- ActionBar -->
+        <item name="themePrimary">@color/colorDarkPrimary</item>
+        <!-- StatusBar -->
+        <item name="themePrimaryDark">@color/colorDarkPrimaryDark</item>
+        <item name="themeAccent">@color/colorDarkAccent</item>
+        <item name="themeAccentPressed">@color/colorDarkAccentPressed</item>
+        <item name="actionModeBackground">@color/colorDarkPrimaryDark</item>
+
+        <!-- Floating action button (FAB) colors -->
+        <item name="themeFABColor">@color/colorDarkFABColor</item>
+        <item name="themeFABColorPressed">@color/colorDarkFABColorPressed</item>
+
+        <!-- popup menu style -->
+        <item name="actionOverflowMenuStyle">@style/PopupMenuThemeDark</item>
+        <item name="android:itemTextAppearance">@style/PopupMenuItemDark</item>
+
+        <item name="themeTextColor">@color/colorDarkTextColor</item>
+        <item name="themeTextColorPrimary">@color/colorDarkTextColorPrimary</item>
+        <item name="themeTextColorSecondary">@color/colorDarkTextColorSecondary</item>
+
+        <!-- Drawer colors -->
+        <item name="themeDrawerBG">@color/colorDarkDrawerBG</item>
+        <item name="themeDrawerText">@color/colorDarkDrawerText</item>
+        <item name="themeDrawerTextSelected">@color/colorDarkDrawerTextSelected</item>
+
+        <!-- background in listview, in case of listview is empty and background of search label-->
+        <item name="themeListViewBackgroundNothingFound">@color/colorDarkListViewBackgroundNothingFound</item>
+
+        <!-- background of item in listview -->
+        <item name="themeBGCard">@color/colorDarkBGCard</item>
+        <item name="themeBGCardBottom">@color/colorDarkBGCardBottom</item>
+        <!-- background of listview -->
+        <item name="themeBGList">@color/colorDarkBGList</item>
+        <item name="themeBGListDivider">@color/colorDarkBGList</item>
+
+        <item name="themeTextColorHint">@color/colorDarkTextHintColor</item>
+        <item name="themeColorControlActivated">@color/colorDarkControlActivated</item>
+        <item name="themeTextColorPrimaryDisableOnly">@color/colorDarkTextColorPrimaryDisableOnly</item>
+
+        <item name="themeTextColorStandard">@color/colorDarkTextColorNormal</item>
+        <!-- note title -->
+        <item name="themeTextColorNoteTitle">@color/colorDarkNoteTitle</item>
+        <!-- note preview -->
+        <item name="themeTextColorNotePreview">@color/colorDarkNotePreview</item>
+
+        <!-- color of background in changelog, unfortunatelly, we cannot change the text color -->
+        <item name="themeChangeLogBackgroundColor">@color/colorDarkChangelogBackground</item>
+
+
+        <!-- Detail colors -->
+        <item name="themeDetailColorBackground">@color/colorDarkDetailColorBackground</item>
+        <item name="themeDetailColorBackgroundNewNote">@color/colorDarkDetailColorBackgroundNewNote</item>
+        <item name="themeTextColorAddReminderBottom">@color/colorDarkAddReminderBottomText</item>
+
+        <item name="themeDialogBackgroundColor">@color/colorDarkDialogBackground</item>
+        <item name="themeDialogNormalButtonColor">@color/colorDarkDialogNormalButtonColor</item>
+        <item name="themeDialogTextNormal">@color/colorDarkDialogNormalTextColor</item>
+        <item name="themeKeyboardNumberDivider">@color/colorDarkKeyboardNumberDivider</item>
+
+        <item name="materialAlertDialogTheme">@style/AlertDialogStyle.Dark</item>
+
+        <!-- dialog style for preferences, e.g. for choosing in listpreferences -->
+        <item name="android:dialogTheme">@style/AppTheme.Dark.Dialog</item>
+        <item name="android:alertDialogTheme">@style/AppTheme.Dark.Dialog</item>
+        <item name="alertDialogTheme">@style/AppTheme.Dark.Dialog</item>
+
+        <item name="ic_attach_dialog_camera">@drawable/ic_photo_camera_white_24dp</item>
+        <item name="ic_attach_dialog_video">@drawable/ic_videocam_white_24dp</item>
+        <item name="ic_attach_dialog_file">@drawable/ic_insert_drive_file_white_24dp</item>
+        <item name="ic_attach_dialog_mic">@drawable/ic_mic_white_24dp</item>
+        <item name="ic_attach_dialog_draw">@drawable/ic_action_draw_white</item>
+        <item name="ic_attach_dialog_pin_drop">@drawable/ic_pin_drop_white_24dp</item>
+        <item name="ic_attach_dialog_clock">@drawable/ic_clock_outline_white_24dp</item>
+        <item name="ic_attach_dialog_laptop">@drawable/ic_laptop_white_24dp</item>
+
+        <item name="ic_alarm_note_layout">@drawable/ic_alarm_white_24dp</item>
+        <item name="ic_pin_drop_note_layout">@drawable/ic_pin_drop_white_18dp</item>
+        <item name="ic_archive_note_layout">@drawable/ic_archive_white_24dp</item>
+        <item name="ic_lock_note_layout">@drawable/ic_lock_white_24dp</item>
+        <item name="ic_attachment_note_layout">@drawable/ic_attachment_white_24dp</item>
+        <item name="ic_settings_drawer">@drawable/ic_settings_white_36dp</item>
+        <item name="ic_alarm_add_themed">@drawable/ic_alarm_add_white_18dp</item>
+
+        <item name="ic_search_clear_cancel">@drawable/ic_cancel_white_18dp</item>
+
+        <item name="ic_brightness_drawer">@drawable/ic_settings_brightness_white_24dp</item>
+
+        <item name="sublimePickerStyle">@style/SPStyleDark</item>
+
+    </style>
+
+    <style name="AppTheme.Dark.ApiSpec"/>
+
+    <style name="AppTheme.Dark.ApiSpec.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@drawable/bg_card</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="themeDialogTextNormal">@color/colorDarkDialogNormalTextColor</item>
+    </style>
+
+    <!-- styling popup menu - overflow menu -->
+    <style name="PopupMenuThemeDark" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
+        <item name="android:popupBackground">@color/colorDarkPopupMenuBG</item>
+    </style>
+    <style name="PopupMenuItemDark">
+        <item name="android:textColor">@color/colorDarkPopupMenuText</item>
+    </style>
+
+    <style name="AppThemeDialogActivity.Dark">
+
+        <item name="android:windowTitleStyle">@style/AppThemeDialogActivityTitle.Dark</item>
+
+        <item name="themePrimary">@color/colorDarkPrimary</item>
+        <item name="themePrimaryDark">@color/colorDarkPrimaryDark</item>
+        <item name="themeAccent">@color/colorDarkAccent</item>
+        <item name="themeAccentPressed">@color/colorDarkAccentPressed</item>
+
+
+        <item name="themeTextColorHint">@color/colorDarkTextHintColor</item>
+        <item name="themeColorControlActivated">@color/colorDarkControlActivated</item>
+        <item name="themeTextColorPrimaryDisableOnly">@color/colorDarkTextColorPrimaryDisableOnly</item>
+
+        <item name="themeDialogBackgroundColor">@color/colorDarkDialogBackground</item>
+        <item name="themeDialogNormalButtonColor">@color/colorDarkDialogNormalButtonColor</item>
+        <item name="themeDialogTextNormal">@color/colorDarkDialogNormalTextColor</item>
+
+        <item name="themeDialogActivityBackground">@color/colorDarkBGCard</item>
+        <item name="themeDialogActivityBackgroundBottom">@color/colorDarkBGCardBottom</item>
+
+        <item name="themeDialogActivityButtonTextColor">@color/alert</item>
+        <item name="themeDialogActivityButtonTextColorAccent">?themeAccent</item>
+        <item name="themeDialogActivityTextColor">@color/white</item>
+
+    </style>
+
+    <style name="AppThemeDialogActivityTitle.Dark">
+        <item name="android:background">@color/colorDarkPrimary</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="AlertDialogStyle.Dark">
+        <!-- Background Color-->
+        <item name="android:background">#272727</item>
+        <!-- Text Color for title and message -->
+        <item name="colorOnSurface">#F3DCDC</item>
+        <!-- Text Color for buttons -->
+        <item name="colorPrimary">@color/white</item>
+    </style>
+
+
+    <!--dialog for settings -->
+    <style name="AppTheme.Dark.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:background">#48484A</item>
+        <!-- color of button text -->
+        <item name="colorPrimary">#FA9B48</item>
+        <item name="colorPrimaryDark">#8DD3C5</item>
+        <!-- color of items in dialog -->
+        <item name="textColorAlertDialogListItem">#F6F3E1</item>
+        <!-- circle color of selected item -->
+        <item name="colorAccent">#F6F66F</item>
+        <!-- color of caption -->
+        <item name="android:textColor">#E1E6EA</item>
+        <!-- circle color of not selected items -->
+        <item name="android:textColorSecondary">#E1E6EA</item>
+
+    </style>
+
+    <style name="SPStyleDark" parent="SublimePickerStyleLight">
+        <item name="colorAccent">?themeAccent</item>
+        <item name="colorPrimaryDark">#272726</item>
+        <item name="colorPrimary">#FFEB3B</item>
+        <item name="android:textColorPrimary">#F8DEDE</item>
+        <item name="android:textColorSecondary">#727272</item>
+        <item name="android:textColorPrimaryInverse">#F1C2AA</item>
+
+        <!-- day numbers in calendar-->
+        <item name="spCalendarDayTextColorPtr">#F1C2AA</item>
+        <!-- button bar colors-->
+        <item name="spButtonLayoutStyle">@style/SublimeButtonLayoutStyleDark</item> //works
+        <!-- recurrence creator-->
+        <item name="spRecurrenceOptionCreatorStyle">@style/SublimeRecurrenceOptionCreatorStyleDark</item>
+    </style>
+
+    <style name="SublimeRecurrenceOptionCreatorStyleDark" parent="RecurrenceOptionCreatorStyle">
+        <!-- caption background -->
+        <!-- <item name="spHeaderBackground">#FFFF00</item> -->
+        <item name="spRocFreqSpinnerItemStyle">@style/SublimeSpinnerItemDark</item>
+        <item name="spRocEndSpinnerDropDownItemStyle">@style/SublimeSpinnerDropDownDark</item>
+    </style>
+
+    <!-- drop down colors -->
+    <style name="SublimeSpinnerDropDownDark" parent="EndSpinnerDropDownItemStyle">
+        <item name="android:textAppearance">@style/SublimeSpinnerDropDownTextDark</item>
+        <item name="android:background">#4C4C4C</item>
+    </style>
+    <style name="SublimeSpinnerDropDownTextDark" parent="STextAppearance.EndSpinnerDropDownItem">
+        <item name="android:textColor">#F8DEDE</item>
+    </style>
+
+    <!-- color of text in caption of custom recurrence picker -->
+    <style name="SublimeSpinnerItemDark" parent="FreqSpinnerItemStyle">
+        <item name="android:textAppearance">@style/SublimeSpinnerItemTextAppearanceDark</item>
+    </style>
+    <style name="SublimeSpinnerItemTextAppearanceDark" parent = "STextAppearance.FreqSpinnerItem">
+        <item name="android:textColor">?android:attr/textColorPrimaryInverse</item>
+    </style>
+
+    <!-- bar button styles -->
+    <style name="SublimeButtonLayoutStyleDark" parent="ButtonLayoutStyle">
+        <item name="spButtonModeOkCancelButtonStyle">@style/SublimeButtonBarButtonStyleDark</item>
+    </style>
+    <style name="SublimeButtonBarButtonStyleDark" parent="SButtonBarButtonStyle" >
+        <item name="android:textColor">#FFB952</item>
+    </style>
+
+</resources>

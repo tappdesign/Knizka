@@ -1,0 +1,324 @@
+
+.PRPrayer p.BigFirstLetter:first-letter
+{
+	color: #CFBA28; 
+}
+
+.PRStartDecoration
+{
+	color: #B7975D;
+}
+
+.PREndDecoration
+{
+	color: #B7975D;
+}
+
+/* --- Decoration class - Start and End of Prayer   */
+.PRStartPrayerDecoration
+{
+	color: #B7975D;
+}
+
+
+.PREndPrayerDecoration
+{
+	color: #B7975D;
+}
+
+.TextTitle
+{
+	color: #CFBA28; 
+	background-color:#963404;
+
+	
+	border-style:solid;
+	border-width: 1px;
+	border-bottom-color:#A3868A;
+	border-top-color:#A3868A;
+	border-right-color:#A3868A;
+	border-left-color:#A3868A;
+	
+	padding-top: 25px;
+    padding-right: 1px;
+    padding-bottom: 25px;
+    padding-left: 15px;
+}
+
+.PRAlternative
+{	
+	color: #CFBA28;	
+
+	border-style:dashed;
+	border-width: 1px;
+	border-color:#84835A;
+	
+	padding-left: 15px;
+	
+	margin-Top: 15px;
+	margin-bottom: 15px;
+}
+
+
+.PRAlterText
+{	
+	border-bottom-color:#84835A;
+	border-top-color:#84835A;
+	border-right-color:#84835A;
+	border-left-color:#84835A;	
+}
+
+.PRAlterText:before 
+{
+	color: #CFBA28;	   	
+}
+
+.PRComment
+{
+	color: #F22F11;
+	background-color: #23170A;
+	
+	border-style:solid;
+	border-width: 1px;
+	border-color:#5E5E40;
+
+	padding-top: 3px;
+    padding-right: 1px;
+    padding-bottom: 3px;
+    padding-left: 15px;
+}
+
+.PRCommentSmall
+{
+	color: #F22F11;
+	background-color: #23170A;
+	
+	border-style:solid;
+	border-width: 1px;
+	border-color:#5E5E40;
+	
+	margin-left: 20px;
+	margin-bottom: 5px;
+
+    padding-left: 5px;
+}
+
+.PRCommentInPrayer
+{
+	color: #F22F11;
+}
+
+.PRTitlePart
+{
+	color: #CFBA28; 
+	background-color:#712803;
+
+	margin-bottom: 6px;
+	margin-top: 15px;
+
+	border-style:solid;
+	border-width: 1px;
+	border-color: #5E5E40;
+	
+	padding-left: 10px;
+}
+
+.PRTitlePartSmall
+{
+	color: #96861D; 
+
+	margin-bottom: 3px;  
+	margin-top: 10px;
+	
+	border-style:solid;
+	border-width: 1px;
+	border-color: #5E5E40;
+	
+	padding-top: 3px;
+    padding-right: 1px;
+    padding-bottom: 3px;
+    padding-left: 10px;
+}
+
+.PRChoosing
+{   
+	color: #2B0F01; 	
+	background-color:#CFBA28;
+	
+	border-style:solid;
+	border-width: 1px;
+	border-color: #5E5E40;
+}
+
+.PRChoosing a:link 
+{ 
+	color:#800000;    
+}
+
+.PRChoosing a:visited 
+{ 
+	color:#800000;    
+}
+
+.PRChoosing a:active 
+{ 
+	color:#FF0000;    
+}
+
+.PRChoosing ul 
+{ 
+	color:#800000;    
+}
+
+.PRChoosedTitle
+{   	
+	color: #96861D; 
+	
+	border-style:solid;
+	border-width: 1px;
+	border-color: #A3868A;
+	
+    padding-left: 10px;	
+}
+
+
+.PRReadingFragment
+{   
+	color: #2B0F01;
+	background-color:#AE7004;
+	
+	border-style:dashed;
+	border-width: 1px;
+	
+	border-color: #FFFF00;
+	
+	padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+}
+
+.PRImprimatur
+{
+	color: #B7975D;
+}
+
+/* class .respons for responsories */
+.respons p.respR:before 
+{
+	color: #94841C;
+}
+
+.respons p.respV:before
+{
+	color: #94841C;  
+}
+
+.respons p.respO:before
+{
+	color: #94841C; 
+}
+
+.respons p.respF:before
+{
+	color: #94841C;  
+}
+
+.antiphon p.ant:before 
+{ 
+	color: #94841C;	
+}
+
+
+.KSVers
+{
+	color: #CFBA28; 
+	background-color:#712803;
+
+	margin-bottom: 6px;
+	margin-top: 15px;
+
+	border-style:solid;
+	border-width: 1px;
+	border-color: #5E5E40;
+	
+	padding-left: 10px;
+}
+
+.KP
+{
+	color: #BAA724; 
+}
+
+.KNum 
+{
+	color: #BAA724; 
+}
+
+.KN
+{
+	color: #BAA724; 
+}
+
+.KF
+{
+	color: #BAA724; 
+}
+
+.PRSongPart
+{
+    color: #94841C;
+}
+
+.PRSongPart:after 
+{
+	color: #94841C;
+}
+
+.PRSongPartNumber
+{
+    color: #94841C;
+}
+
+.PRSongPartKnaz
+{
+    color: #BAA724;
+}
+
+.PRSongPartKnaz:after 
+{
+	color: #BAA724;
+}
+
+.PRSongPartLud
+{
+    color: #BAA724;  
+}
+
+.PRSongPartLud:after 
+{
+	color: #BAA724;
+}
+
+.KK 
+{
+	color: #BAA724;
+}
+.KL 
+{
+	color: #BAA724;
+}
+
+.KM
+{
+	color: #F22F11;
+}
+
+
+body 
+{
+	background-color:#2B0F01;	
+	color: #BCBB80; 
+}
+
+

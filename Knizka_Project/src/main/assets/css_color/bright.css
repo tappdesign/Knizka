@@ -1,0 +1,227 @@
+
+body 
+{
+	background-color:#fff;	
+	/* text color */
+	color: #772B35; 
+}
+
+/********************************************/
+/*  Titles 							 		*/
+/********************************************/
+
+.TextTitle
+{
+	color: #772B35; 
+	background-color:#FFE6D9;
+	border-color: #A3868A;
+}
+
+.PRTitlePart
+{
+	color: #772B35; 
+	background-color:#F4C0A4;
+	border-color: #5E5E40;	
+}
+
+.PRTitlePartSmall
+{
+	color: #91303d; 
+	background-color:#f8f9fa;
+	border-color: #DDCACC;
+}
+
+.PRChoosedTitle
+{   	
+	color: #91303d; 
+	background-color:#f8f9fa;
+	border-color: #DDCACC;
+}
+
+/********************************************/
+/*  Comments 							 	*/
+/********************************************/
+.PRComment
+{
+	color: #083399;
+	background-color: #FDE5CB;	
+	border-color: #C6C6A9;
+}
+
+.PRCommentSmall
+{
+	color: #083399;
+	background-color: #FDE5CB;
+	border-color:#C6C6A9;
+}
+
+.PRCommentInPrayer
+{
+	color: #F93819;
+}
+
+/********************************************/
+/*  Texts	 							 	*/
+/********************************************/
+.PRAlterText
+{	
+	border-bottom-color:#84835A;
+	border-top-color:#84835A;
+	border-right-color:#84835A;
+	border-left-color:#84835A;	
+}
+
+.PRAlterText:before 
+{
+	color: #E16E7D;	   	
+}
+
+.PRChoosing
+{   
+	color: #2B0F01; 	
+	background-color:#8A4E0E;
+	border-color: #5E5E40;
+}
+
+.PRChoosing a:link 
+{ 
+	color:#dfd873;    
+}
+
+.PRChoosing a:visited 
+{ 
+	color:#dfd873;    
+}
+
+.PRChoosing a:active 
+{ 
+	color:#FF0000;    
+}
+
+.PRChoosing ul 
+{ 
+	color:#dfd873;    
+}
+
+.PRReadingFragment
+{   
+	color: #F4EFEF;
+	background-color:#A26803;
+	border-color: #FFFF00;
+}
+
+.PRImprimatur
+{
+	color: #A2792E;
+}
+
+
+/* class .respons for responsories */
+.respons p.respR:before 
+{
+	color: #E16E7D;
+}
+
+.respons p.respV:before
+{
+	color: #E16E7D;  
+}
+
+.respons p.respO:before
+{
+	color: #E16E7D; 
+}
+
+.respons p.respF:before
+{
+	color: #E16E7D;  
+}
+
+.antiphon p.ant:before 
+{ 
+	color: #E16E7D;	
+}
+
+.NoteWrapper p.BigFirstLetter:first-letter
+{
+	/*color: #D55869; */
+	color: #E16E7D; 
+	
+}
+
+
+/* -------------------------------- START -   WARNING NOT USED IN NEW HTML? */
+
+
+.PRStartDecoration
+{
+	color: #F7C2C2;
+}
+
+.PREndDecoration
+{
+	color: #F7C2C2;
+}
+
+/* --- Decoration class - Start and End of Prayer   */
+.PRStartPrayerDecoration
+{
+	color: #F7C2C2;
+}
+
+.PREndPrayerDecoration
+{
+	color: #F7C2C2;
+}
+/* -------------------------------- END -    WARNING NOT USED IN NEW HTML? */
+
+
+
+/* KNIZKA */
+
+
+.SongWrapper p.BigFirstLetter:first-letter
+{
+	color: #CFBA28; 
+}
+
+.KSVers
+{
+	color: #C13F50; 
+	background-color:#F9EAE2;
+	border-color: #A3868A;
+}
+
+.KP
+{
+	color: #992B0A; 
+}
+
+.KNum 
+{
+	color: #992B0A; 
+}
+
+.KN
+{
+	color: #992B0A; 
+}
+
+.KF
+{
+	color: ##992B0A; 
+}
+
+.KK 
+{
+	color: #C13F50;
+}
+.KL 
+{
+	color: #E85D48;
+}
+
+.KM
+{
+	color: #E85D48;
+}

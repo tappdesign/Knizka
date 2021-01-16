@@ -1,0 +1,25 @@
+@font-face {
+    font-family: MyFont;
+    src: url(file:///android_asset/fonts/DeiGrat.ttf)
+}
+body {
+    font-family: MyFont;
+	line-height: 150%;
+}
+
+
+.PRPrayer
+{
+	font-family: MyFont;
+}
+
+.PRCaption
+{
+	font-family: MyFont;
+}
+
+.PRStartPrayerDecoration
+{
+	margin-Top: 15px;
+	margin-bottom: 15px;
+}

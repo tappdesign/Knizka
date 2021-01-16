@@ -1,0 +1,27 @@
+@font-face {
+    font-family: MyFont;
+    src: url(file:///android_asset/fonts/GFSNeohellenic.ttf)
+}
+body {
+    font-family: MyFont;
+	font-size: 130%;
+	line-height: 110%;
+}
+
+
+.PRPrayer
+{
+	font-family: MyFont;
+}
+
+.PRCaption
+{
+	font-family: MyFont;
+	line-height: 110%;
+}
+
+
+.PRStartPrayerDecoration:before
+{
+	content: ""; 
+}

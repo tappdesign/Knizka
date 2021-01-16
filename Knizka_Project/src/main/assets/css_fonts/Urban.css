@@ -1,0 +1,19 @@
+@font-face {
+    font-family: MyFont;
+    src: url(file:///android_asset/fonts/3rdMan.ttf)
+}
+body {
+    font-family: MyFont;
+	font-size: 140%;
+}
+
+
+.PRPrayer
+{
+	font-family: MyFont;
+}
+
+.PRCaption
+{
+	font-family: MyFont;
+}

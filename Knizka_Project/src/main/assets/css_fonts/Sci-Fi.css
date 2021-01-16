@@ -1,0 +1,18 @@
+@font-face {
+    font-family: MyFont;
+    src: url(file:///android_asset/fonts/Zekton.ttf)
+}
+body {
+    font-family: MyFont;	
+}
+
+
+.PRPrayer
+{
+	font-family: MyFont;
+}
+
+.PRCaption
+{
+	font-family: MyFont;
+}

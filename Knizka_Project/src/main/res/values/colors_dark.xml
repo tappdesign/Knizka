@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2020 TappDesign Studios
+  ~ Copyright (C) 2013-2020 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This software is based on Omni-Notes project developed by Federico Iosue
+  ~ https://github.com/federicoiosue/Omni-Notes
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<resources>
+    <!-- ActionBar -->
+    <color name="colorDarkPrimary">#212121</color>
+    <!-- StatusBar -->
+    <color name="colorDarkPrimaryDark">#000000</color>
+
+    <color name="colorDarkAccent">#CD3813</color>
+    <color name="colorDarkAccentPressed">#F69999</color>
+
+    <!-- Floating action button (FAB) colors -->
+    <color name="colorDarkFABColor">#51017C</color>
+    <color name="colorDarkFABColorPressed">#D689F6</color>
+
+    <!-- text of item -->
+    <color name="colorDarkTextColor">#CCCCCC</color>
+    <!-- settings - items - main -->
+    <color name="colorDarkTextColorPrimary">#DFDFDF</color>
+    <!-- settings - items - comments -->
+    <color name="colorDarkTextColorSecondary">#FBE0CB</color>
+
+    <!-- Background, text of Drawer-->
+    <color name="colorDarkDrawerBG">#232323</color>
+    <color name="colorDarkDrawerText">#FDD9B1</color>
+    <color name="colorDarkDrawerTextSelected">#F6E869</color>
+
+    <!-- background in listview, in case of listview is empty and background of search label-->
+    <color name="colorDarkListViewBackgroundNothingFound">#000000</color>
+
+    <!-- Background of listView-->
+    <color name="colorDarkBGList">#000000</color>
+    <!-- Background of item listView-->
+    <color name="colorDarkBGCard">#212121</color>
+    <!-- bottom line in list view item-->
+    <color name="colorDarkBGCardBottom">#333333</color>
+
+    <!-- Background of overflow popup menu -->
+    <color name="colorDarkPopupMenuBG">#000000</color>
+    <!-- text of overflow popup menu -->
+    <color name="colorDarkPopupMenuText">#FAFAFA</color>
+
+    <!-- Title of note in list  -->
+    <color name="colorDarkNoteTitle">#FAFAFA</color>
+    <!-- Preview of note content in list  -->
+    <color name="colorDarkNotePreview">#BBBBBB</color>
+
+
+    <!-- Title of note in list  -->
+    <color name="colorDarkAddReminderBottomText">#99FFFFFF</color>
+
+    <!-- Detail Colors -->
+    <color name="colorDarkDetailColorBackground">#000000</color>
+    <color name="colorDarkDetailColorBackgroundNewNote">#5A5A5A</color>
+    <!-- background color of dialog  -->
+    <color name="colorDarkDialogBackground">#333333</color>
+    <!-- color of normal button in dialog  -->
+    <color name="colorDarkDialogNormalButtonColor">#F67850</color>
+    <!-- color of normal text in dialog  -->
+    <color name="colorDarkDialogNormalTextColor">#FFF</color>
+
+    <!-- hint color  -->
+    <color name="colorDarkTextHintColor">#7A7A7A</color>
+    <!-- focused control (e.g. underline in editbox)  -->
+    <color name="colorDarkControlActivated">#F48383</color>
+    <!-- color for checkbox in settings -->
+    <color name="colorDarkTextColorPrimaryDisableOnly">#E6E2E2</color>
+
+    <!-- General text color-->
+    <color name="colorDarkTextColorNormal">#E6E2E2</color>
+
+    <!-- Background of changelog  -->
+    <color name="colorDarkChangelogBackground">#FFFFAA</color>
+
+    <!-- color of keyboard number divider -->
+    <color name="colorDarkKeyboardNumberDivider">#555</color>
+
+</resources>

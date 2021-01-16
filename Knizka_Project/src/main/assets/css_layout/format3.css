@@ -1,0 +1,611 @@
+.PRPrayer
+{
+	margin-left: 2px;
+	margin-right: 2px;
+	font-family: sans-serif;
+}
+
+.PRPrayer p.BigFirstLetter
+{
+	margin: 0;
+	-webkit-margin-after: 0em;
+	-webkit-margin-before: 0em;
+}
+
+.PRPrayer p.BigFirstLetter:first-letter
+{
+	font-size:xx-large;
+}
+
+/* --- Decoration class - Start and End of HTML   */
+.PRStartDecoration
+{
+	font-family: Tahoma;
+	text-align: center;
+	font-size: 150%;
+}
+
+.PRStartDecoration:before
+{
+    
+}
+
+.PREndDecoration
+{
+	font-family: Tahoma;
+	text-align: center;	
+	font-size: 150%;
+	margin-bottom: 2cm;
+}
+
+.PREndDecoration:before
+{
+    
+}
+
+/* --- Decoration class - Start and End of Prayer   */
+
+.PRStartPrayerDecoration
+{
+	font-family: Tahoma;
+	text-align: center;
+	color: #ff0000;
+	font-size: 250%;
+}
+
+.PRStartPrayerDecoration:before
+{
+    content: "\271E";
+}
+
+
+.PREndPrayerDecoration
+{
+	font-family: Tahoma;
+	text-align: center;	
+	font-size: 250%;
+	margin-top: 10px;
+}
+
+.PREndPrayerDecoration:before
+{
+    content: "\2767";
+}
+
+.TextTitle
+{
+	font-weight: bold;
+	
+	font-size: 140%;
+	margin-bottom: 10px;
+
+	padding-top: 10px;
+    padding-right: 1px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+}
+
+.TextSubTitle
+{	
+	font-weight: bold;
+	
+	font-size: 110%;
+	margin-bottom: 10px;
+
+	padding-top: 10px;
+    padding-right: 1px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+}
+
+
+.PRAlternative
+{	
+	font-style: italic;
+	font-weight: bold;
+
+	margin-bottom: 10px;
+	padding-top: 10px;
+    padding-right: 1px;
+    padding-bottom: 10px;
+    padding-left: 0px;
+	
+	font-size: 80%;
+}
+
+
+.PRAlterText
+{	
+	margin-bottom: 20px;
+	margin-top: 20px;
+
+	padding-top: 1px;
+    padding-right: 1px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+	
+	border-style:dashed;
+	border-width: 1px;	
+}
+
+
+.PRAlterText:before 
+{
+    content:"Alebo:\A"; 
+	white-space:pre;		
+	font-weight: bold;
+	font-size: 80%;
+	font-style: italic;
+}
+.PRComment
+{
+	font-style: italic;
+	font-size: 80%;
+	margin-left: 20px;
+	margin-bottom: 5px;
+	margin-top: 10px;	
+
+	padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+}
+
+.PRCommentSmall
+{
+	font-style: italic;
+	font-size: 50%;
+
+	margin-left: 20px;
+	margin-bottom: 5px;
+	padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+}
+
+
+.PRCommentInPrayer
+{
+	font-style: italic; 
+	font-size: 75%; 
+	margin-bottom: 5px;
+	margin-top: 5px;
+	
+}
+
+.PRTitlePart
+{
+	font-weight: bold;
+	font-size: 120%;
+	
+	margin-bottom: 3px;
+	margin-top: 12px;
+	
+	padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+}
+
+.PRTitlePartSmall
+{
+	font-weight: bold;	
+	
+	margin-top: 6px;
+
+	padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 2px;
+    padding-left: 0px;
+}
+
+.PRChoosing
+{   
+	font-weight: bold; 
+	margin-bottom: 25px;  
+	
+	padding-top: 5px;
+    padding-right: 1px;
+    padding-left: 10px;
+}
+
+
+.PRChoosing a:link { 	
+    background-color:transparent;
+    text-decoration:none;
+}
+
+.PRChoosing a:visited { 	
+    background-color:transparent;
+    text-decoration:none;
+}
+
+.PRChoosing a:active { 	
+    background-color:transparent;
+    text-decoration:none;
+}
+
+.PRChoosing ul { 	
+    background-color:transparent;    
+}
+
+.PRChoosing li { 
+    padding-bottom: 3px;
+}
+
+
+.PRChoosedTitle
+{   	
+	font-weight: bold; 
+	
+	margin-bottom: 10px;	
+
+	padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+    padding-left: 0px;	
+}
+
+
+
+.PRReadingFragment
+{   	
+	margin-bottom: 20px;  
+	font-weight: bold; 
+	font-size: 90%;	
+}
+
+.PRImprimatur
+{
+	font-style: italic;
+	font-size: 50%;
+	margin-bottom: 5px;
+	margin-top: 5px;
+}
+
+
+
+/* class .respons for responsories */
+
+
+.respons  {
+	margin-bottom: 15px;
+}
+
+.respons p
+{
+	
+}
+
+
+.respons p.respR, p.respV, p.respO, p.respF
+{
+	margin: 0;
+	-webkit-margin-after: 0em;
+	-webkit-margin-before: 0em;
+}
+
+.respons p.respR:before
+{	
+	content: 'R. ';
+	font-weight: bold;
+}
+
+.respons p.respV:before
+{	
+	content: 'V. ';
+	font-weight: bold;
+}
+
+.respons p.respO:before
+{	
+	content: 'O. ';
+	font-weight: bold;
+}
+
+.respons p.respF:before
+{	
+	content: 'F. ';
+	font-weight: bold;
+}
+
+
+.antiphon { 
+	margin-bottom: 1em; 
+	margin-top: 1em; 
+}
+
+.antiphon p.ant{ 
+	margin: 0; 
+	-webkit-margin-after: 0em; 
+	-webkit-margin-before: 0em; 
+}
+
+.antiphon p.ant:before { 	
+	content: 'Ant. '; 
+	font-weight: bold; 
+}
+
+
+
+.PRSongPart{      
+    font-weight: bold;
+}
+
+
+.PRSongPart:after {
+	content: ':';
+	font-weight: bold;
+}
+
+.PRSongPartNumber{
+    font-weight: bold;
+}
+
+.PRSongPartKnaz{
+    font-weight: bold;
+}
+
+
+.PRSongPartKnaz:after {
+	content: ':';
+	font-weight: bold;
+}
+
+
+.PRSongPartLud{
+    font-weight: bold;
+}
+
+
+.PRSongPartLud:after {
+	content: ':';
+	font-weight: bold;
+}
+
+
+p.StandardText
+{
+	margin-bottom: 3px;  
+	margin-top: 9px;
+	
+	padding: 0;
+} 
+p
+{
+   margin:0cm 0cm 0cm 0cm;
+   padding: 0;
+}
+
+div.KStrophe {
+    padding:0px;
+    margin-bottom: 10px;
+}
+div.KSong {
+    margin-left: 2px;
+	margin-right: 2px;
+    padding:0px;
+}
+
+
+.KSVers
+{
+	font-weight: bold;
+	font-size: 120%;
+	
+	margin-bottom: 3px;
+	margin-top: 12px;
+	
+	padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+}
+
+div.KDialog
+{
+    margin-top:10px;	
+}
+.KSplit::before{
+	/*content: " - ";*/
+}
+
+.KNum 
+{
+	font-weight: bold;
+}
+.KNum.n1::before{
+	
+}
+.KNum.n2::before{
+	
+}
+.KNum.n3::before{
+		
+}
+.KNum.n4::before{
+	
+}
+.KNum.n5::before{
+	
+}
+.KNum.n6::before{
+	
+}
+.KNum.n7::before{
+	
+}
+.KNum.n8::before{
+	
+}
+.KNum.n9::before{
+	
+}
+.KNum.n10::before{
+	
+}
+.KNum.n11::before{
+	
+}
+.KNum.n12::before{
+	
+}
+.KNum.n13::before{
+	
+}
+.KNum.n14::before{
+	
+}
+.KNum.n15::before{
+	
+}
+.KNum.n16::before{
+	
+}
+.KNum.n17::before{
+	
+}
+.KNum.n18::before{
+	
+}
+.KNum.n19::before{
+	
+}
+.KNum.n20::before{
+	
+}
+.KNum.n21::before{
+	
+}
+
+/* part "ofertorium or similar" After numbering*/
+.KP
+{
+	font-weight: bold;
+}
+.KP.gl::before{
+	content: "Glória: ";
+}
+.KP.ep::before{
+	content: "Epištola: ";
+}
+.KP.ev::before{
+	content: "Evanjelium: ";
+}
+
+.KP.of::before{
+	content: "Ofertórium: ";
+}
+.KP.sa::before{
+	content: "Sanktus: ";
+}
+.KP.kr::before{
+	content: "Krédo: ";
+}
+.KP.zv::before{
+	content: "Po pozdvihovaní: ";
+}
+.KP.ag::before{
+	content: "Agnus: ";
+}
+.KP.pr::before{
+	content: "Prijímanie: ";
+}
+.KP.po::before{
+	content: "Požehnanie: ";
+}
+.KP.ze::before{
+	content: "Kyrie: ";
+}
+.KP.di::before{
+	content: "Dies irae: ";
+}
+.KP.gr::before{
+	content: "Graduále: ";
+}
+.KP.be::before{
+	content: "Benediktus: ";
+}
+  
+.KM
+{
+	margin-top:5px;
+	margin-bottom:5px;
+	font-style: italic;
+}  
+ 
+.KB
+{
+ 	font-weight: bold;
+}  
+ 
+.KN
+{
+
+}
+
+.KV
+{
+	display: block;
+}
+
+.KV.bl{
+	display: block; 
+	margin-bottom: 10px;	
+}
+
+.KD
+{
+
+ }
+.KK::before
+{
+    content: "Kňaz: ";
+  font-weight: bold;
+ }
+.KL::before
+{
+	content: "Ľud: ";
+	font-weight: bold;
+}
+ 
+.KO
+{
+    display: block;
+    font-style: italic;
+    margin-top: 10px; 
+}
+
+.KO::before
+{
+	content: "Modlime sa: \A";
+	white-space: pre-wrap; 
+}
+ 
+/* first row in song*/
+.KF
+{
+	font-weight: bold;
+}
+
+.KRef
+{
+	display: block;
+	font-style: italic;
+}
+
+.KSpc
+{
+	display: block;
+	margin-top: 20px;	
+}
+
+
+
+body
+{
+
+}
+
+

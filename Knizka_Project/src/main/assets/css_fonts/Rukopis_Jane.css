@@ -1,0 +1,26 @@
+@font-face {
+    font-family: MyFont;
+    src: url(file:///android_asset/fonts/JaneAusU.ttf)
+}
+body {
+    font-family: MyFont;
+	font-size: 140%;
+	line-height: 105%;
+}
+
+
+.PRPrayer
+{
+	font-family: MyFont;
+}
+
+.PRCaption
+{
+	font-family: MyFont;
+}
+
+.PRStartPrayerDecoration
+{
+	margin-Top: 15px;
+	margin-bottom: 15px;
+}

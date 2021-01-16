@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (C) 2013-2019 Federico Iosue (federico@iosue.it)
+  ~
+  ~ This program is free software: you can redistribute it and/or modify
+  ~ it under the terms of the GNU General Public License as published by
+  ~ the Free Software Foundation, either version 3 of the License, or
+  ~ (at your option) any later version.
+  ~
+  ~ This program is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~ GNU General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU General Public License
+  ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingStart="@dimen/padding_half"
+    android:paddingEnd="@dimen/padding_half">
+
+    <com.neopixl.pixlui.components.textview.TextView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/icon_selector"
+        android:freezesText="true"
+        android:gravity="center_vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textAppearance="@style/Text.Small"
+        android:textColor="@color/location_text"
+        android:visibility="gone"
+        pixlui:typeface="Roboto-Regular.ttf" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingStart="0dp"
+        android:paddingLeft="0dp"
+        android:paddingTop="@dimen/padding_detail_pk">
+
+        <WebView
+            android:id="@+id/myweb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="100sp" />
+
+        <com.neopixl.pixlui.components.edittext.EditText
+            android:id="@+id/detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:background="@null"
+            android:hint="@string/content"
+            android:inputType="textCapSentences|textMultiLine"
+            android:linksClickable="false"
+            android:textAppearance="@style/Text.Big"
+	    android:textColorHint="?attr/themeTextColorHint"
+	    android:textColor="?attr/themeTextColor"
+	    android:imeOptions="actionDone"
+           pixlui:typeface="RobotoSlab-Regular.ttf"
+            android:textCursorDrawable="@null"
+	    android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:visibility="visible"
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/reminder_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/icon_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="@dimen/padding_half"
+        android:paddingLeft="@dimen/padding_half"
+        android:paddingTop="10dp"
+        android:visibility="visible"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:id="@+id/reminder_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginEnd="5dp"
+            android:layout_marginRight="5dp"
+            android:alpha="0.6"
+            android:contentDescription="@string/reminder"
+            android:src="?attr/ic_alarm_add_themed" />
+
+        <com.neopixl.pixlui.components.textview.TextView
+            android:id="@+id/datetime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:freezesText="true"
+            android:gravity="center_vertical"
+            android:hint="@string/add_reminder"
+            android:textAppearance="@style/Text.Small"
+            android:textColor="?attr/themeTextColorAddReminderBottom"
+            android:textColorHint="?attr/themeTextColorAddReminderBottom"
+            pixlui:typeface="Roboto-Regular.ttf" />
+    </LinearLayout>
+</LinearLayout>

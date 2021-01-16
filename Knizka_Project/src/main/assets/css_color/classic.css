@@ -1,0 +1,220 @@
+
+.PRPrayer p.BigFirstLetter:first-letter
+{
+	color:#FF0000;  	
+}
+
+.PRStartDecoration
+{
+	color: #FF0000;
+}
+
+.PREndDecoration
+{
+	color: #FF0000;	
+}
+
+/* --- Decoration class - Start and End of Prayer   */
+.PRStartPrayerDecoration
+{
+	color: #FF0000;
+}
+
+.PREndPrayerDecoration
+{
+	color: #FF0000;
+}
+
+.TextTitle
+{
+	color: red;
+}
+
+.PRAlternative
+{	
+	color: red;	
+}
+
+
+.PRAlterText
+{	
+	border-bottom-color:#A3868A;
+	border-top-color:#A3868A;
+	border-right-color:#A3868A;
+	border-left-color:#A3868A;	
+}
+
+.PRAlterText:before 
+{
+	color: red;	   	
+}
+
+.PRComment
+{
+	color: red;
+}
+
+.PRCommentSmall
+{
+	color: black;
+}
+
+.PRCommentInPrayer
+{
+	color: #FF0000;
+}
+
+.PRTitlePart
+{
+	color: black;
+}
+
+.PRTitlePartSmall
+{
+	color: black;	
+}
+
+.PRChoosing
+{   
+	color: #FF5050; 	
+}
+
+.PRChoosing a:link 
+{ 
+	color:#800000;    
+}
+
+.PRChoosing a:visited 
+{ 
+	color:#800000;    
+}
+
+.PRChoosing a:active 
+{ 
+	color:#FF0000;    
+}
+
+.PRChoosing ul 
+{ 
+	color:#800000;    
+}
+
+.PRChoosedTitle
+{   	
+	color: #FF5050; 	
+}
+
+.PRImprimatur
+{
+	color: black;	
+}
+
+/* class .respons for responsories */
+.respons p.respR:before 
+{
+	color: #FF0000;	
+}
+
+.respons p.respV:before
+{
+	color: #FF0000;	
+}
+
+.respons p.respO:before
+{
+	color: #FF0000;	
+}
+
+.respons p.respF:before
+{
+	color: #FF0000;	
+}
+
+.antiphon p.ant:before 
+{ 
+	color: #FF0000;   	
+}
+
+
+.KSVers
+{
+	color: black;
+}
+
+.KP
+{
+	color: #FF0000; 
+}
+
+.KNum 
+{
+	color: #FF0000; 
+}
+
+.KN
+{
+	color: #FF0000; 
+}
+
+.KF
+{
+	color: #FF0000; 
+}
+
+.PRSongPart
+{
+    color: #FF0000;
+}
+
+.PRSongPart:after 
+{
+	color: #FF0000;	
+}
+
+.PRSongPartNumber
+{
+    color: #FF0000;
+}
+
+.PRSongPartKnaz
+{
+    color: #FF0000;    
+}
+
+.PRSongPartKnaz:after 
+{
+	color: #FF0000;	
+}
+
+.PRSongPartLud
+{
+    color: #FF0000;    
+}
+
+.PRSongPartLud:after 
+{
+	color: #FF0000;	
+}
+
+.KK 
+{
+	color: #FF0000;
+}
+.KL 
+{
+	color: #FF0000;
+}
+
+
+.KM
+{
+	color: #FF0000;
+}
+
+body 
+{
+   background-color:#FFFFCC;
+   color: #000000;   
+}
+
+
