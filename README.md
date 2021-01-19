@@ -75,7 +75,7 @@ They're all listed into the [build.gradle](https://github.com/federicoiosue/Omni
 ## Developed by
 
 
-* TappDesign Studio
+* TAppDesign Studio
 * Federico Iosue - [Website](https://federico.iosue.it)
 
 
