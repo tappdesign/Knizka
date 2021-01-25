@@ -626,12 +626,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     setActionItemsVisibility(menu, false);
     if ( Navigation.getNavigation() == JKS_NUMBER_SEARCH)
     {
-      String navigationText = getResources().getStringArray(R.array.navigation_list_codes)[JKS];
-      prefs.edit().putString(PREF_NAVIGATION, navigationText).apply();
-      mainActivity.setActionBarTitle(navigationText);
+      if (!prefs.getBoolean("settings_always_show_JKS_number_search", false))
+      {
+        String navigationText = getResources().getStringArray(R.array.navigation_list_codes)[JKS];
+        prefs.edit().putString(PREF_NAVIGATION, navigationText).apply();
+        mainActivity.setActionBarTitle(navigationText);
+      }
       showDialogForNumbers();
     }
-
   }
 
   private boolean isAchievable(int navigation)

@@ -327,6 +327,7 @@
   <string name="colors_app">Farby aplikácie</string>
   <string name="colors_widget">Farby miniaplikácie</string>
   <string name="settings_instant_search">Rýchle hľadanie</string>
+  <string name="settings_always_show_JKS_number_search">Vždy zobrazuj vyhľadanie podľa čísla v JKS</string>
   <string name="settings_navdrawer_on_exit">Navigačná ponuka po ukončení</string>
   <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname modlitieb sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
   <string name="settings_text_size">Veľkosť textu</string>
