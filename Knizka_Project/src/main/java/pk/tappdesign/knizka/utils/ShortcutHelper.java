@@ -76,7 +76,7 @@ public class ShortcutHelper {
 
     if (shortcutManager.isRequestPinShortcutSupported()) {
       Uri uri = new Uri.Builder().scheme("app")
-                                 .authority("knizka")
+                                 .authority(context.getString(R.string.app_package))
                                  .appendQueryParameter("id", String.valueOf(note.get_id()))
                                  .build();
       Intent intent = new Intent(Intent.ACTION_VIEW, uri);
