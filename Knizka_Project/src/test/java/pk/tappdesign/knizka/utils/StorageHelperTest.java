@@ -20,7 +20,7 @@ package pk.tappdesign.knizka.utils;
 import static org.junit.Assert.*;
 
 import android.os.Environment;
-import it.feio.android.omninotes.BaseUnitTest;
+import pk.tappdesign.knizka.BaseUnitTest;
 import java.io.File;
 import org.junit.After;
 import org.junit.Test;
