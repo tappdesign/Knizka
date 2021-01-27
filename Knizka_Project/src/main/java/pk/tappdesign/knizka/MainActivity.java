@@ -79,6 +79,8 @@ import pk.tappdesign.knizka.utils.ThemeHelper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -504,6 +506,12 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     DbHelper.getInstance().insertNoteToLastShown(note);
   }
 
+   public void switchToDetail(List<Note> notes) {
+     if ((notes != null) && (!notes.isEmpty()))
+     {
+        switchToDetail(notes.get(0));
+     }
+   }
 
   /**
    * Notes sharing

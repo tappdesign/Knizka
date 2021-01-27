@@ -51,6 +51,7 @@
   <string name="note_updated">Text bol aktualizovaný</string>
   <string name="empty_note_not_saved">Prázdna modlitba nebola uložená</string>
   <string name="empty_note_not_shared">Prázdna modlitba nie je zdieľateľná</string>
+  <string name="song_not_found">Pieseň nenájdená</string>
   <string name="note_archived">Položka bola archivovaná</string>
   <string name="note_unarchived">Položka bola obnovená z archívu</string>
   <string name="note_duplicated">Položky boli duplikované</string>
