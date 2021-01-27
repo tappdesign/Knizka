@@ -38,6 +38,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_EXPANDED_VIEW;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FAB_EXPANSION_BEHAVIOR;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WIDGET_PREFIX;
@@ -82,6 +84,7 @@ import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -275,8 +278,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
     prefs = mainActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
+
+    SetKeepScreenOn();
   }
 
+  private void SetKeepScreenOn()
+  {
+    boolean IsKeepScreenOn = prefs.getBoolean(PREF_KEEP_SCREEN_ON, PREF_KEEP_SCREEN_ON_DEFAULT);
+
+    if (IsKeepScreenOn)
+    {
+      mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    } else {
+      mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+  }
 
   private void initFab () {
     fab = new Fab(binding.fab.getRoot(), binding.list, prefs.getBoolean(PREF_FAB_EXPANSION_BEHAVIOR, false));

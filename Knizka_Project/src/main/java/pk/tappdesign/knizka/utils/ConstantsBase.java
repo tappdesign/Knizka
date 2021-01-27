@@ -118,6 +118,8 @@ public interface ConstantsBase {
 	String PREF_CURRENT_APP_VERSION = "settings_current_app_version";
 	String PREF_FAB_EXPANSION_BEHAVIOR = "settings_fab_expansion_behavior";
 	String PREF_ATTACHMENTS_ON_BOTTOM = "settings_attachments_on_bottom";
+	String PREF_KEEP_SCREEN_ON = "settings_keep_screen_on";
+	boolean PREF_KEEP_SCREEN_ON_DEFAULT = false;
 	String PREF_SNOOZE_DEFAULT = "10";
 	String PREF_TOUR_COMPLETE = "pref_tour_complete";
 	String PREF_ENABLE_SWIPE = "settings_enable_swipe";
