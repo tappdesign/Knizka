@@ -18,9 +18,10 @@
 <changelog bulletedList="true">
 
     <changelogversion
-        changeDate="Jan 18, 2021"
+        changeDate="Feb 01, 2021"
         versionName="1.1.0">
         <changelogtext>[u]Fix:[/u] Zmenená shortcut ikona a náhľadový obrázok widgetu</changelogtext>
+        <changelogtext>[u]Fix:[/u] Pád aplikácie po otočení zariadenia</changelogtext>
         <changelogtext>[b]New:[/b] Dialóg pre zadanie čísla piesne je vždy zobrazený (konfigurovateľné)</changelogtext>
         <changelogtext>[b]New:[/b] Priame zobrazenie vyhľadanej piesne podľa čísla</changelogtext>
         <changelogtext>[b]New:[/b] Možnosť nezhasínať obrazovku</changelogtext>
