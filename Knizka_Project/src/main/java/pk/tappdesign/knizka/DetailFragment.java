@@ -60,6 +60,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_CHECKED;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_CHECKMARKS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SHOW_FULLSCREEN;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SHOW_FULLSCREEN_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 import static pk.tappdesign.knizka.utils.ConstantsBase.SWIPE_MARGIN;
 import static pk.tappdesign.knizka.utils.ConstantsBase.SWIPE_OFFSET;
@@ -112,6 +114,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
@@ -309,6 +312,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
    };
    private boolean activityPausing;
+   private final ViewTreeObserver.OnWindowFocusChangeListener focusHandler = this::onWindowFocusChanged;
+   Handler hideUITimeoutHandler = new Handler();
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -332,6 +337,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    @Override
    public void onStop() {
       super.onStop();
+      showSystemUI();
       GeocodeHelper.stop();
    }
 
@@ -339,6 +345,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    public void onResume() {
       super.onResume();
       activityPausing = false;
+      hideSystemUI();
       EventBus.getDefault().register(this);
    }
 
@@ -346,7 +353,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
       binding = FragmentDetailBinding.inflate(inflater, container, false);
       View view = binding.getRoot();
+      view.getViewTreeObserver().addOnWindowFocusChangeListener(focusHandler);
       return view;
+   }
+
+   @Override
+   public void onDestroyView() {
+      if (binding.getRoot() != null)
+      {
+         binding.getRoot().getViewTreeObserver().removeOnWindowFocusChangeListener(focusHandler);
+      }
+      super.onDestroyView();
    }
 
    @Override
@@ -377,7 +394,64 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
     setHasOptionsMenu(true);
     setRetainInstance(false);
+
+      final View decorView = getActivity().getWindow().getDecorView();
+      decorView.setOnSystemUiVisibilityChangeListener(
+              visibility -> {
+                 if ((visibility & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0)
+                 {
+                    // status bar is shown
+                    showSystemUI();
+                    hideUITimeoutHandler.postDelayed(hideUIMenuExecutor, 3000); // hide systemUI it after 3 seconds again
+                 } else {
+                    hideSystemUI();
+                 }
+              });
   }
+
+   Runnable hideUIMenuExecutor = new Runnable() {
+      public void run() {
+         hideSystemUI();
+      }
+   };
+
+   private void hideSystemUI() {
+      if (getActivity() != null) {
+
+         boolean isFullScreen = prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
+
+         // do not set fullscreen if note is edited
+         if( (isFullScreen) && (binding.fragmentDetailContent.myweb.getVisibility() != View.GONE))
+         {
+            getActivity().getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+                            | View.SYSTEM_UI_FLAG_IMMERSIVE);
+            mainActivity.getSupportActionBar().hide();
+         }
+      }
+   }
+
+   private void showSystemUI() {
+      if (getActivity() != null) {
+         getActivity().getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+         mainActivity.getSupportActionBar().show();
+      }
+   }
+
+   public void onWindowFocusChanged(boolean hasFocus) {
+      // if we lost focus from fragment, e.g. overflow menu was clicked, we should cancel timer for hiding action bar and system bars
+       if (hasFocus) {
+         // we have focus, try hide UI if it is configured
+          hideSystemUI();
+      } else {
+         // focust lost, some other menu or dialog is on the top, cancel hide UI menu timer
+          hideUITimeoutHandler.removeCallbacks(hideUIMenuExecutor);
+      }
+   }
 
   private void addSketchedImageIfPresent() {
     if (mainActivity.getSketchUri() != null) {
@@ -1069,10 +1143,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          searchMenuItem.collapseActionView();
       }
 
+      boolean isFullScreen = prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
+      boolean isEditMode = binding.fragmentDetailContent.myweb.getVisibility() == View.GONE;
       boolean newNote = noteTmp.get_id() == null;
 
+      menu.findItem(R.id.menu_fullscreen_on).setVisible((!isFullScreen) && (!(isEditMode)));
+      menu.findItem(R.id.menu_fullscreen_off).setVisible((isFullScreen) && (!(isEditMode)));
       menu.findItem(R.id.menu_favorite).setVisible(noteTmp.isFavorite());
       menu.findItem(R.id.menu_favorite_off).setVisible(!noteTmp.isFavorite());
+      menu.findItem(R.id.menu_ZoomIn).setVisible(!(isEditMode));
+      menu.findItem(R.id.menu_ZoomOut).setVisible(!(isEditMode));
       menu.findItem(R.id.menu_checklist_on).setVisible(!noteTmp.isChecklist());
       menu.findItem(R.id.menu_checklist_off).setVisible(noteTmp.isChecklist());
       menu.findItem(R.id.menu_checklist_moveToBottom).setVisible(noteTmp.isChecklist() && mChecklistManager.getCheckedCount() > 0);
@@ -1101,7 +1181,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
          menu.findItem(R.id.menu_trash).setVisible(!newNote);
          menu.findItem(R.id.menu_edit_note).setVisible(!newNote && ((noteTmp.getPackageID() == ConstantsBase.PACKAGE_USER_ADDED) || (noteTmp.getPackageID() == ConstantsBase.PACKAGE_USER_INTENT)));
-         if (menu.findItem(R.id.menu_edit_note).isVisible() && (binding.fragmentDetailContent.myweb.getVisibility() == View.GONE)) {
+         if (menu.findItem(R.id.menu_edit_note).isVisible() && (isEditMode)) {
             menu.findItem(R.id.menu_edit_note).setVisible(false);  // note is already editing, we cannot display this menu
             menu.findItem(R.id.menu_discard_changes).setVisible(true);
          }
@@ -1153,6 +1233,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
 
       switch (item.getItemId()) {
+
+         case R.id.menu_fullscreen_on:
+         case R.id.menu_fullscreen_off:
+            toggleFullscreen();
+            break;
          case R.id.menu_ZoomIn:
             zoomTexIn();
             break;
@@ -1281,6 +1366,19 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       mainActivity.showMessage((noteTmp.isFavorite() == true ? mainActivity.getResources().getString(R.string.added_to_favorites) : mainActivity.getResources().getString(R.string.removed_from_favorites)), ONStyle.INFO);
       mainActivity.supportInvalidateOptionsMenu();
       DbHelper.getInstance().insertNoteToFavorites(noteTmp, (noteTmp.isFavorite()));
+   }
+
+   private void toggleFullscreen() {
+      boolean isFullScreen = !prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
+      prefs.edit().putBoolean(PREF_SHOW_FULLSCREEN, isFullScreen).commit();
+
+      if (isFullScreen)
+      {
+         hideSystemUI();
+      } else {
+         showSystemUI();
+      }
+      mainActivity.supportInvalidateOptionsMenu();
    }
 
    private void zoomTexIn() {
@@ -1633,6 +1731,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       binding.fragmentDetailContent.detailContent.setText(removeTitleFrom(noteTmp.getHTMLContent()));
       contentView.setVisibility(View.VISIBLE);
       tileCard.setVisibility(View.VISIBLE);
+      mainActivity.supportInvalidateOptionsMenu(); // need refresh action bar menu because some icons are irrelevant in edit mode
    }
 
    /**

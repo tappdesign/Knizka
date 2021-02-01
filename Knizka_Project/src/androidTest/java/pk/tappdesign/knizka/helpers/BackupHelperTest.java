@@ -26,7 +26,6 @@ import static rx.Observable.from;
 
 import android.net.Uri;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-import androidx.test.platform.app.InstrumentationRegistry;
 import pk.tappdesign.knizka.BaseAndroidTestCase;
 import pk.tappdesign.knizka.RetryableAssert;
 import pk.tappdesign.knizka.exceptions.BackupException;
@@ -38,10 +37,8 @@ import pk.tappdesign.knizka.utils.StorageHelper;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.nio.file.Files;
 import java.util.Collection;
-import javax.annotation.Nonnull;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.RegexFileFilter;
@@ -55,37 +52,19 @@ import rx.Observable;
 @RunWith(AndroidJUnit4.class)
 public class BackupHelperTest extends BaseAndroidTestCase {
 
-  private File targetDir;
-  private File targetAttachmentsDir;
   private File backupDir;
   private File attachmentsBackupDir;
 
 
   @Before
   public void setUp() throws IOException {
-    targetDir = new File(
-        StorageHelper.getCacheDir(InstrumentationRegistry.getInstrumentation().getTargetContext()),
-        "_autobackupTest");
-    if (targetDir.exists()) {
-      FileUtils.forceDelete(targetDir);
-    }
-    targetAttachmentsDir = new File(targetDir, StorageHelper.getAttachmentDir().getName());
-    assertTrue(targetAttachmentsDir.mkdirs());
-
     backupDir = Files.createTempDirectory("backupDir").toFile();
     attachmentsBackupDir = new File(backupDir, StorageHelper.getAttachmentDir().getName());
     assertTrue(attachmentsBackupDir.mkdirs());
-
   }
 
   @After
   public void tearDown() throws Exception {
-    if (targetDir.exists()) {
-      FileUtils.forceDelete(targetDir);
-    }
-    if (targetAttachmentsDir.exists()) {
-      FileUtils.forceDelete(targetAttachmentsDir);
-    }
     if (backupDir.exists()) {
       FileUtils.forceDelete(backupDir);
     }
@@ -121,8 +100,8 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   public void exportNote() {
     Note note = createTestNote("test title", "test content", 0);
 
-    BackupHelper.exportNote(targetDir, note);
-    Collection<File> noteFiles = FileUtils.listFiles(targetDir, new RegexFileFilter("\\d{13}.json"),
+    BackupHelper.exportNote(backupDir, note);
+    Collection<File> noteFiles = FileUtils.listFiles(backupDir, new RegexFileFilter("\\d{13}.json"),
         TrueFileFilter.INSTANCE);
     assertEquals(1, noteFiles.size());
     Note retrievedNote = from(noteFiles).map(BackupHelper::importNote).toBlocking()
@@ -134,11 +113,11 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   public void exportNote_withAttachment() throws IOException {
     Note note = createTestNote("test title", "test content", 1);
 
-    BackupHelper.exportNote(targetDir, note);
-    BackupHelper.exportAttachments(null, targetAttachmentsDir,
+    BackupHelper.exportNote(backupDir, note);
+    BackupHelper.exportAttachments(null, attachmentsBackupDir,
         note.getAttachmentsList(), note.getAttachmentsListOld());
     Collection<File> files = FileUtils
-        .listFiles(targetDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
+        .listFiles(backupDir, TrueFileFilter.TRUE, TrueFileFilter.TRUE);
 
     Note retrievedNote = from(files).filter(file -> file.getName().equals(note
         .getCreation() + ".json")).map(BackupHelper::importNote).toBlocking().first();
@@ -168,13 +147,13 @@ public class BackupHelperTest extends BaseAndroidTestCase {
   }
 
   @Test
-  public void importAttachment()
-      throws IOException, BackupAttachmentException, InvocationTargetException, IllegalAccessException {
+  public void importAttachment() throws IOException, BackupAttachmentException {
     Attachment attachment = createTestAttachmentBackup();
 
-    BackupHelper.importAttachment(attachmentsBackupDir, targetAttachmentsDir, attachment);
+    BackupHelper.importAttachment(attachmentsBackupDir, StorageHelper.getAttachmentDir(), attachment);
+    LogDelegate.i("checking " + attachment.getUri().getPath());
 
-    RetryableAssert.assertTrue(1000, new File(attachment.getUri().getPath()), "exists");
+    assertTrue(new File(attachment.getUri().getPath()).exists());
   }
 
   private Attachment createTestAttachmentBackup() throws IOException {

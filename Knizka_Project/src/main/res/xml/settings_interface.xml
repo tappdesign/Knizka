@@ -76,4 +76,20 @@
       android:title="@string/theme_app"
       app:iconSpaceReserved="false" />
 
-    </PreferenceScreen>
+  <SwitchPreference
+      android:defaultValue="false"
+      android:key="settings_keep_screen_on"
+      android:summaryOff="@string/settings_keep_screen_on_summary_off"
+      android:summaryOn="@string/settings_keep_screen_on_summary_on"
+      android:title="@string/settings_keep_screen_on"
+      app:iconSpaceReserved="false" />
+
+  <SwitchPreference
+      android:defaultValue="false"
+      android:key="settings_show_full_screen"
+      android:summaryOff="@string/settings_show_in_full_screen_off"
+      android:summaryOn="@string/settings_show_in_full_screen_on"
+      android:title="@string/settings_show_in_full_screen"
+      app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

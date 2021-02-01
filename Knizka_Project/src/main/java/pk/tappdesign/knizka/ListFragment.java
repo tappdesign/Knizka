@@ -38,6 +38,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_EXPANDED_VIEW;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FAB_EXPANSION_BEHAVIOR;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WIDGET_PREFIX;
@@ -82,6 +84,7 @@ import android.view.MotionEvent;
 import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -129,7 +132,6 @@ import pk.tappdesign.knizka.models.listeners.OnViewTouchedListener;
 import pk.tappdesign.knizka.models.listeners.RecyclerViewItemClickSupport;
 import pk.tappdesign.knizka.models.views.Fab;
 import pk.tappdesign.knizka.utils.AnimationsHelper;
-import pk.tappdesign.knizka.utils.ConstantsBase;
 import pk.tappdesign.knizka.utils.IntentChecker;
 import pk.tappdesign.knizka.utils.KeyboardUtils;
 import pk.tappdesign.knizka.utils.Navigation;
@@ -148,8 +150,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import org.apache.commons.lang3.ObjectUtils;
-import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
+
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
@@ -208,7 +209,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     super.onCreate(savedInstanceState);
     mFragment = this;
     setHasOptionsMenu(true);
-    setRetainInstance(false);
+    setRetainInstance(true);
     EventBus.getDefault().register(this, 1);
   }
 
@@ -277,8 +278,21 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
     prefs = mainActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
+
+    SetKeepScreenOn();
   }
 
+  private void SetKeepScreenOn()
+  {
+    boolean isKeepScreenOn = prefs.getBoolean(PREF_KEEP_SCREEN_ON, PREF_KEEP_SCREEN_ON_DEFAULT);
+
+    if (isKeepScreenOn)
+    {
+      mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    } else {
+      mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+    }
+  }
 
   private void initFab () {
     fab = new Fab(binding.fab.getRoot(), binding.list, prefs.getBoolean(PREF_FAB_EXPANSION_BEHAVIOR, false));
@@ -626,12 +640,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     setActionItemsVisibility(menu, false);
     if ( Navigation.getNavigation() == JKS_NUMBER_SEARCH)
     {
-      String navigationText = getResources().getStringArray(R.array.navigation_list_codes)[JKS];
-      prefs.edit().putString(PREF_NAVIGATION, navigationText).apply();
-      mainActivity.setActionBarTitle(navigationText);
+      if (!prefs.getBoolean("settings_always_show_JKS_number_search", false))
+      {
+        String navigationText = getResources().getStringArray(R.array.navigation_list_codes)[JKS];
+        prefs.edit().putString(PREF_NAVIGATION, navigationText).apply();
+        mainActivity.setActionBarTitle(navigationText);
+      }
       showDialogForNumbers();
     }
-
   }
 
   private boolean isAchievable(int navigation)
@@ -989,6 +1005,19 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     startActivityForResult(intent, REQUEST_CODE_ADD_ALARMS);
   }
 
+  private boolean loadSongDirect(String songNumber)
+  {
+    boolean result = false;
+    List<Note> notes = DbHelper.getInstance().getNotesByJKSNumber(songNumber);
+    if (!notes.isEmpty())
+    {
+      mainActivity.switchToDetail(notes.get(0));
+      result = true;
+    } else {
+      mainActivity.showMessage(R.string.song_not_found, ONStyle.ALERT);
+    }
+    return result;
+  }
 
   private void showDialogForNumbers () {
 
@@ -1004,10 +1033,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
             .positiveColorAttr(R.attr.themeDialogNormalButtonColor)
             .onPositive((dialog12, which) -> {
               String songNumber = textNumber.getText().toString();
-              dialog12.dismiss();
               if (!songNumber.isEmpty())
               {
-                NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByJKSNumber", songNumber);
+                if (loadSongDirect(songNumber))
+                {
+                  dialog12.dismiss();
+                }
+              } else {
+                //dialog12.dismiss();
               }
             })
             .build();
@@ -1024,8 +1057,10 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       public void onTextChanged(CharSequence s, int start, int before, int count) {
         if(textNumber.getText(). length() == 3) {
           String txtNum = textNumber.getText().toString();
-          dialog.dismiss();
-          NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getNotesByJKSNumber", txtNum);
+          if (loadSongDirect(txtNum))
+          {
+            dialog.dismiss();
+          }
         }
       }
     });
@@ -1192,6 +1227,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     if (ACTION_SHORTCUT_WIDGET.equals(intent.getAction())) {
       return;
+    }
+
+    if (Navigation.getNavigation() == RANDOM) {
+      mainActivity.switchToDetail(DbHelper.getInstance().getRandom());
+      //change navigation from random to "all notes"
+      mainActivity.updateNavigation(mainActivity.getResources().getStringArray(R.array.navigation_list_codes)[NOTES]);
     }
 
     // Searching

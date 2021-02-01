@@ -62,13 +62,13 @@ public class CountFactoryTest extends BaseAndroidTestCase {
 
   @Test
   public void getWordCounter_japanese () {
-    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(Locale.JAPAN);
+     Knizka.getAppContext().getResources().getConfiguration().setLocale(Locale.JAPAN);
     assertEquals(IdeogramsWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 
   @Test
   public void getWordCounter_unknowLocale () {
-    OmniNotes.getAppContext().getResources().getConfiguration().setLocale(new Locale("meow"));
+     Knizka.getAppContext().getResources().getConfiguration().setLocale(new Locale("meow"));
     assertEquals(DefaultWordCounter.class, CountFactory.getWordCounter().getClass());
   }
 

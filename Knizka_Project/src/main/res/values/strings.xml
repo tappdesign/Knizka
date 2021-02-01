@@ -66,6 +66,7 @@
     <string name="empty_note_not_saved">Can\'t save an empty note</string>
     <string name="empty_note_not_shared">Can\'t share an empty note</string>
     <string name="note_doesnt_exist">Note doesn\'t exists anymore</string>
+    <string name="song_not_found">Song doesn\'t exists</string>
     <string name="note_archived">Note archived</string>
     <string name="note_unarchived">Note restored from archive</string>
     <string name="note_duplicated">Note duplicated</string>
@@ -112,7 +113,7 @@
     <string name="data_export_failed">Data backup failed: check logcat for details</string>
     <string name="data_import_completed">Data restore completed</string>
     <string name="click_to_refresh_application">Click to refresh application</string>
-    <string name="backup_existing">Backup already exist. It\'ll be overwritten</string>
+    <string name="backup_existing">Backup already exists. It\'ll be overwritten</string>
     <string name="remove_pinned">FATTO</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
@@ -352,6 +353,7 @@
     <string name="colors_app">Application color scheme</string>
     <string name="colors_widget">Widget color scheme</string>
     <string name="settings_instant_search">Instant search</string>
+    <string name="settings_always_show_JKS_number_search">Always show number search in JKS</string>
     <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
     <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
     <string name="settings_text_size">Text size</string>
@@ -375,6 +377,12 @@
     <string name="settings_attachments_on_bottom">Attachments on bottom</string>
     <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
     <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
+    <string name="settings_keep_screen_on">Keep screen on</string>
+    <string name="settings_keep_screen_on_summary_on">Screen will be always ON</string>
+    <string name="settings_keep_screen_on_summary_off">Screen will switch off as it is configured in system settings</string>
+    <string name="settings_show_in_full_screen">Show texts in Fullscreen</string>
+    <string name="settings_show_in_full_screen_on">Shows texts in Fullscreen without system bars</string>
+    <string name="settings_show_in_full_screen_off">Shows texts with system bars</string>
     <string name="settings_prettified_dates">Prettified dates</string>
     <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
     <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>
