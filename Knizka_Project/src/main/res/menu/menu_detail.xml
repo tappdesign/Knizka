@@ -19,6 +19,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
+        android:id="@+id/menu_fullscreen_on"
+        android:icon="@drawable/ic_full_screen_on_white_24dp"
+        android:orderInCategory="50"
+        android:title="@string/favorite"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_fullscreen_off"
+        android:icon="@drawable/ic_full_screen_off_white_24dp"
+        android:orderInCategory="50"
+        android:title="@string/favorite"
+        app:showAsAction="always"/>
+
+    <item
         android:id="@+id/menu_ZoomIn"
         android:icon="@drawable/ic_zoom_in_white_24dp"
         android:orderInCategory="100"

@@ -83,4 +83,13 @@
       android:summaryOn="@string/settings_keep_screen_on_summary_on"
       android:title="@string/settings_keep_screen_on"
       app:iconSpaceReserved="false" />
-    </PreferenceScreen>
+
+  <SwitchPreference
+      android:defaultValue="false"
+      android:key="settings_show_full_screen"
+      android:summaryOff="@string/settings_show_in_full_screen_off"
+      android:summaryOn="@string/settings_show_in_full_screen_on"
+      android:title="@string/settings_show_in_full_screen"
+      app:iconSpaceReserved="false" />
+
+</PreferenceScreen>

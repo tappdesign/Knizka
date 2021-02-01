@@ -355,6 +355,9 @@
   <string name="settings_keep_screen_on">Nezhasínať obrazovku</string>
   <string name="settings_keep_screen_on_summary_on">Obrazovka zariadenia bude stále zapnutá</string>
   <string name="settings_keep_screen_on_summary_off">Obrazovka zariadenia sa po čase vypne, ako je nastavené v systémových nastaveniach</string>
+  <string name="settings_show_in_full_screen">Zobraz texty na celej obrazovke</string>
+  <string name="settings_show_in_full_screen_on">Zobrazuje texty na celú obrazovku bez toolbarov</string>
+  <string name="settings_show_in_full_screen_off">Zobrazuje texty s toolbarmi (štandardné zobrazenie)</string>
   <string name="settings_prettified_dates">Prettified dates</string>
   <string name="settings_prettified_dates_summary_on">Dátumy sú zobrazené v jednoduchšom formáte</string>
   <string name="settings_prettified_dates_summary_off">Dátumy sú zobrazené v detailnejšom formáte</string>

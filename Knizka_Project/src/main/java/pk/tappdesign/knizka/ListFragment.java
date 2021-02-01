@@ -284,9 +284,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   private void SetKeepScreenOn()
   {
-    boolean IsKeepScreenOn = prefs.getBoolean(PREF_KEEP_SCREEN_ON, PREF_KEEP_SCREEN_ON_DEFAULT);
+    boolean isKeepScreenOn = prefs.getBoolean(PREF_KEEP_SCREEN_ON, PREF_KEEP_SCREEN_ON_DEFAULT);
 
-    if (IsKeepScreenOn)
+    if (isKeepScreenOn)
     {
       mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
     } else {

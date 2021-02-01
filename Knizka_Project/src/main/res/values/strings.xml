@@ -380,6 +380,9 @@
     <string name="settings_keep_screen_on">Keep screen on</string>
     <string name="settings_keep_screen_on_summary_on">Screen will be always ON</string>
     <string name="settings_keep_screen_on_summary_off">Screen will switch off as it is configured in system settings</string>
+    <string name="settings_show_in_full_screen">Show texts in Fullscreen</string>
+    <string name="settings_show_in_full_screen_on">Shows texts in Fullscreen without system bars</string>
+    <string name="settings_show_in_full_screen_off">Shows texts with system bars</string>
     <string name="settings_prettified_dates">Prettified dates</string>
     <string name="settings_prettified_dates_summary_on">Dates are shown in a simplier format</string>
     <string name="settings_prettified_dates_summary_off">Dates are shown in a more detailed format</string>

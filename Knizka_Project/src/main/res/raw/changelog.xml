@@ -24,6 +24,7 @@
         <changelogtext>[b]New:[/b] Dialóg pre zadanie čísla piesne je vždy zobrazený (konfigurovateľné)</changelogtext>
         <changelogtext>[b]New:[/b] Priame zobrazenie vyhľadanej piesne podľa čísla</changelogtext>
         <changelogtext>[b]New:[/b] Možnosť nezhasínať obrazovku</changelogtext>
+        <changelogtext>[b]New:[/b] Možnosť prepnutia textu na celú obrazovku</changelogtext>
     </changelogversion>
 
     <changelogversion
