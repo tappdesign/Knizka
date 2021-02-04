@@ -29,7 +29,7 @@
         <item>JKS</item>
         <item>JKS - Search</item>
         <item>Intentions</item>
-
+        <item>JKS Categories</item>
     </string-array>
 
     <string-array name="navigation_list_codes">
@@ -45,6 +45,7 @@
         <item>JKS</item>
         <item>JKS_Search</item>
         <item>Intentions</item>
+        <item>JKS_Categories</item>
     </string-array>
 
     <integer-array name="navigation_list_icons">
@@ -60,7 +61,7 @@
         <item>@drawable/ic_prayer_jks_black_48dp</item>
         <item>@drawable/ic_prayers_jks_search_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
-
+        <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
     </integer-array>
 
     <integer-array name="navigation_list_icons_selected">
@@ -76,7 +77,24 @@
         <item>@drawable/ic_prayer_jks_black_48dp</item>
         <item>@drawable/ic_prayers_jks_search_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
+        <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
+    </integer-array>
 
+
+    <integer-array name="main_menu_items_order">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>12</item>
+        <item>11</item>
     </integer-array>
 
     <string-array name="sortable_columns">

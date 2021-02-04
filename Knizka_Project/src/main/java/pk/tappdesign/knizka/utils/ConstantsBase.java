@@ -115,6 +115,8 @@ public interface ConstantsBase {
 	String PREF_FILTER_PAST_REMINDERS = "settings_filter_past_reminders";
 	String PREF_FILTER_ARCHIVED_IN_CATEGORIES = "settings_filter_archived_in_categories";
 	String PREF_DYNAMIC_MENU = "settings_dynamic_menu";
+	String PREF_NAVIGATION_SHOW_JKS_CATEGORIES = "settings_navdrawer_show_jks_categories";
+	boolean PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT = true;
 	String PREF_CURRENT_APP_VERSION = "settings_current_app_version";
 	String PREF_FAB_EXPANSION_BEHAVIOR = "settings_fab_expansion_behavior";
 	String PREF_ATTACHMENTS_ON_BOTTOM = "settings_attachments_on_bottom";

@@ -23,6 +23,8 @@ package pk.tappdesign.knizka.async;
 
 import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_DYNAMIC_MENU;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SHOW_UNCATEGORIZED;
 
 import android.content.Context;
@@ -118,7 +120,20 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         items.add(item);
       }
     }
-    return items;
+
+    // now reorder items
+    TypedArray itemsOrderArray = mainActivity.getResources().obtainTypedArray(R.array.main_menu_items_order);
+    final List<NavigationItem> orderedItems = new ArrayList<>();
+    for (int i = 0; i < itemsOrderArray.length(); i++) {
+      for (int j = 0; j < items.size(); j++) {
+          if (itemsOrderArray.getInt(i,0) == items.get(j).getArrayIndex())
+          {
+            NavigationItem newItem = new NavigationItem(items.get(j));
+            orderedItems.add(newItem);
+          }
+      }
+    }
+    return orderedItems;
   }
 
 
@@ -159,6 +174,11 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         break;
       case Navigation.PRAYER_SETS:
         if (dynamicMenu && dynamicNavigationLookupTable.getPrayerSets() == 0) {
+          skippable = true;
+        }
+        break;
+      case Navigation.JKS_CATEGORIES:
+        if (dynamicMenu && prefs.getBoolean(PREF_NAVIGATION_SHOW_JKS_CATEGORIES, PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT) == false) {
           skippable = true;
         }
         break;

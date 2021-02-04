@@ -331,6 +331,8 @@
   <string name="settings_always_show_JKS_number_search">Vždy zobrazuj vyhľadanie podľa čísla v JKS</string>
   <string name="settings_navdrawer_on_exit">Navigačná ponuka po ukončení</string>
   <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname modlitieb sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
+  <string name="settings_navdrawer_show_jks_categories">Zobraz JKS kategórie</string>
+  <string name="settings_navdrawer_show_jks_categories_summary">Zobrazí položku JKS kategórie v navigačnom menu</string>
   <string name="settings_text_size">Veľkosť textu</string>
   <string name="settings_screen_behaviors">Správania</string>
   <string name="settings_enable_swipe">Potiahnutie položiek</string>

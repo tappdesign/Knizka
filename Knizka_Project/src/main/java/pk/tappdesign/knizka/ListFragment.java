@@ -41,6 +41,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDER
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_ADDED;
@@ -49,6 +51,7 @@ import static pk.tappdesign.knizka.utils.Navigation.CATEGORY;
 import static pk.tappdesign.knizka.utils.Navigation.FAVORITES;
 import static pk.tappdesign.knizka.utils.Navigation.INTENTIONS;
 import static pk.tappdesign.knizka.utils.Navigation.JKS;
+import static pk.tappdesign.knizka.utils.Navigation.JKS_CATEGORIES;
 import static pk.tappdesign.knizka.utils.Navigation.JKS_NUMBER_SEARCH;
 import static pk.tappdesign.knizka.utils.Navigation.LAST_SHOWN;
 import static pk.tappdesign.knizka.utils.Navigation.NOTES;
@@ -665,6 +668,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       case PRAYER_SETS:
       case JKS:
       case JKS_NUMBER_SEARCH:
+      case JKS_CATEGORIES:
       case INTENTIONS:
         result = true;
         break;

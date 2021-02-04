@@ -32,6 +32,7 @@
     <item>JKS - všetky piesne</item>
     <item>JKS - číslo piesne</item>
     <item>Úmysly</item>
+    <item>JKS - Kategórie</item>
   </string-array>
 
   <string-array name="sortable_columns_human_readable">
