@@ -247,6 +247,7 @@
     <string name="removed_from_favorites">Removed from Favorites</string>
     <string name="choose_html_color_scheme">Choose</string>
     <string name="dialog_html_color_scheme_caption">Choose color scheme for texts</string>
+    <string name="dialog_JKS_categories_caption">Category of JKS songs</string>
     <string name="dialog_button_cancel">Cancel</string>
 
     <!-- Settings -->

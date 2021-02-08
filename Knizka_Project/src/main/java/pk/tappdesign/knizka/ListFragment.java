@@ -38,6 +38,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_EXPANDED_VIEW;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FAB_EXPANSION_BEHAVIOR;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
@@ -92,6 +94,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
@@ -104,6 +107,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -827,7 +832,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     boolean navigationArchive = navigation == Navigation.ARCHIVE;
     boolean navigationTrash = navigation == Navigation.TRASH;
     boolean navigationCategory = navigation == CATEGORY;
-    boolean navigationJKS = (navigation == Navigation.JKS) || navigation == Navigation.JKS_NUMBER_SEARCH ;
+    boolean navigationJKS = (navigation == Navigation.JKS) || (navigation == Navigation.JKS_NUMBER_SEARCH) || (navigation == JKS_CATEGORIES);
 
     boolean filterPastReminders = prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, true);
     boolean filterArchivedInCategory = navigationCategory && prefs.getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false);
@@ -859,7 +864,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     menu.findItem(R.id.menu_tags).setVisible(searchViewHasFocus);
     menu.findItem(R.id.menu_search_jks_number).setVisible(!drawerOpen && navigationJKS && !searchViewHasFocus);
-
+    menu.findItem(R.id.menu_jks_categories).setVisible(!drawerOpen && navigationJKS && !searchViewHasFocus);
   }
 
 
@@ -930,6 +935,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         case R.id.menu_search_jks_number:
           showDialogForNumbers();
           break;
+        case R.id.menu_jks_categories:
+          showDialogForCategories();
+          break;
         default:
           LogDelegate.e("Wrong element choosen: " + item.getItemId());
       }
@@ -972,7 +980,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           duplicateNotes();
           break;
         case R.id.menu_search_jks_number:
-          showDialogForNumbers(); //todo: @pk: when is this called? is it necessary?
+          showDialogForNumbers();
           break;
 //                case R.ID.menu_synchronize:
 //                    synchronizeSelectedNotes();
@@ -1021,6 +1029,22 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       mainActivity.showMessage(R.string.song_not_found, ONStyle.ALERT);
     }
     return result;
+  }
+
+
+  private void showDialogForCategories () {
+    
+    MaterialAlertDialogBuilder importDialog = new MaterialAlertDialogBuilder(getActivity())
+            .setTitle(R.string.dialog_JKS_categories_caption)
+            .setItems(getResources().getStringArray(R.array.jks_songs_category), (dialog, position) -> {
+
+              int[] categoryValues = getResources().getIntArray(R.array.jks_songs_category_values);
+              NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getJKSByCategories",
+                      String.valueOf(categoryValues[position]));
+            });
+
+    importDialog.show();
+
   }
 
   private void showDialogForNumbers () {

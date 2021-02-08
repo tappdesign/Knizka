@@ -34,6 +34,13 @@
         android:visible="false"
         app:showAsAction="collapseActionView|always"/>
     <item
+        android:id="@+id/menu_jks_categories"
+        android:icon="@drawable/ic_jks_categories_white_24dp"
+        android:orderInCategory="130"
+        android:title="@string/search"
+        android:visible="false"
+        app:showAsAction="collapseActionView|always"/>
+    <item
         android:id="@+id/menu_filter"
         android:icon="@drawable/ic_filter_white_24dp"
         android:orderInCategory="150"

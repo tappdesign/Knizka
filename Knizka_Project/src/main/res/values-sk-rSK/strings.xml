@@ -225,6 +225,7 @@
   <string name="removed_from_favorites">Odstránené z obľúbených</string>
   <string name="choose_html_color_scheme">Vybrať</string>
   <string name="dialog_html_color_scheme_caption">Vybrať farebnú schému pre texty</string>
+  <string name="dialog_JKS_categories_caption">Kategórie piesní</string>
   <string name="dialog_button_cancel">Zrušiť</string>
 
   <!-- Settings -->

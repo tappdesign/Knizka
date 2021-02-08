@@ -555,6 +555,13 @@ public class DbHelper extends SQLiteOpenHelper {
     return getNotes(whereCondition, "", "", true);
   }
 
+
+  public List<Note> getJKSByCategories(String jksCategoryID) {
+    String whereCondition = " WHERE "
+            +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 AND " + COL_MERGED_CATEGORY + " = " + jksCategoryID ;
+    return getNotes(whereCondition, "", "", true);
+  }
+
   public List<Note> getIntentions() {
     String whereCondition = " WHERE " +  WHERE_NOT_ARCHIVED_NOT_TRASHED_IS_INTENT ;
     return getNotes(whereCondition, "", "", true);

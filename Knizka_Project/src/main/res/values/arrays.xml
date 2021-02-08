@@ -97,6 +97,68 @@
         <item>11</item>
     </integer-array>
 
+    <!-- should be translated to english -->
+    <string-array name="jks_songs_category">
+        <item>Advent  [1-33]</item>
+        <item>Vianoce  [34 - 120]</item>
+        <item>V pôste  [121 - 191]</item>
+        <item>Popolcová streda</item>
+        <item>Ku krížovej ceste</item>
+        <item>Po krížovej ceste</item>
+        <item>Na Zelený štvrtok</item>
+        <item>Na Kvetnú nedeľu</item>
+        <item>Na Veľký Piatok</item>
+        <item>Na Bielu sobotu</item>
+        <item>Na Veľkú Noc  [192 - 215]</item>
+        <item>Na Nanebovstúpenie Pána</item>
+        <item>Na Svätého Ducha  [216 - 226]</item>
+        <item>Na Svätú Trojicu</item>
+        <item>Na Božie Telo</item>
+        <item>K Božskému Srdcu Ježišovmu  [227 - 235]</item>
+        <item>Ku sv. omši  [236 - 259]</item>
+        <item>K Najsvätejšej Sviatosti Oltárnej  [260 - 327]</item>
+        <item>Ku sv. prijímaniu</item>
+        <item>K prvému sv. prijímaniu</item>
+        <item>Mariánske antifóny</item>
+        <item>Pred požehnaním</item>
+        <item>Po požehnaní</item>
+        <item>K Panne Márii [328 - 416]</item>
+        <item>K svätým  [417 - 459]</item>
+        <item>Zádušné  [460 - 478]</item>
+        <item>Rozličné  [479 - 544]</item>
+    </string-array>
+
+    <integer-array name="jks_songs_category_values">
+        <item>1001</item>
+        <item>1002</item>
+        <item>1003</item>
+        <item>1004</item>
+        <item>1005</item>
+        <item>1006</item>
+        <item>1007</item>
+        <item>1008</item>
+        <item>1009</item>
+        <item>1010</item>
+        <item>1011</item>
+        <item>1012</item>
+        <item>1013</item>
+        <item>1014</item>
+        <item>1015</item>
+        <item>1016</item>
+        <item>1017</item>
+        <item>1018</item>
+        <item>1019</item>
+        <item>1020</item>
+        <item>1021</item>
+        <item>1022</item>
+        <item>1023</item>
+        <item>1024</item>
+        <item>1025</item>
+        <item>1026</item>
+        <item>1027</item>
+    </integer-array>
+
+
     <string-array name="sortable_columns">
         <item>title</item>
         <item>creation</item>
