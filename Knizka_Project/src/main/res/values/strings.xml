@@ -144,6 +144,8 @@
     <string name="notes_category_removed">Category removed from notes</string>
     <string name="notes_categorized_as">Notes categorized as</string>
     <string name="insert_jks_number">Insert JKS number</string>
+    <string name="jks_category_all">(all songs)</string>
+    <string name="jks_category_prefix">Category:</string>
     <string name="insert_security_password">Insert password</string>
     <string name="lock">Lock</string>
     <string name="save_note_to_lock_it">Save note to lock it</string>

@@ -63,6 +63,8 @@
         <item name="themeColorControlActivated">@color/colorDarkControlActivated</item>
         <item name="themeTextColorPrimaryDisableOnly">@color/colorDarkTextColorPrimaryDisableOnly</item>
 
+        <item name="themeTextColorCategory">@color/colorDarkTextColorHighlight</item>
+
         <item name="themeTextColorStandard">@color/colorDarkTextColorNormal</item>
         <!-- note title -->
         <item name="themeTextColorNoteTitle">@color/colorDarkNoteTitle</item>

@@ -64,6 +64,8 @@
         <item name="themeColorControlActivated">@color/colorBrightControlActivated</item>
         <item name="themeTextColorPrimaryDisableOnly">@color/colorBrightTextColorPrimaryDisableOnly</item>
 
+        <item name="themeTextColorCategory">@color/colorBrightTextColorHighlight</item>
+
         <item name="themeTextColorStandard">@color/colorBrightTextColorNormal</item>
         <!-- note title -->
         <item name="themeTextColorNoteTitle">@color/colorBrightNoteTitle</item>

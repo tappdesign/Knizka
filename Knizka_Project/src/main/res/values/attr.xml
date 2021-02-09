@@ -38,6 +38,7 @@
     <attr name="themeBGList" format="reference" />
     <attr name="themeBGListDivider" format="reference" />
     <attr name="themeTextColorStandard" format="reference" />
+    <attr name="themeTextColorCategory" format="reference" />
 
     <attr name="themeTextColorNoteTitle" format="reference" />
     <attr name="themeTextColorNotePreview" format="reference" />

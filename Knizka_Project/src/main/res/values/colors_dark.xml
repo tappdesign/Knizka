@@ -89,6 +89,9 @@
     <!-- General text color-->
     <color name="colorDarkTextColorNormal">#E6E2E2</color>
 
+    <!-- General highlight text color-->
+    <color name="colorDarkTextColorHighlight">#6996F4</color>
+
     <!-- Background of changelog  -->
     <color name="colorDarkChangelogBackground">#FFFFAA</color>
 

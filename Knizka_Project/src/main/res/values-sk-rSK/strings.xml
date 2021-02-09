@@ -123,6 +123,8 @@
   <string name="notes_category_removed">Kategória bola odstránená z poznámok</string>
   <string name="notes_categorized_as">Poznámky boli kategorizované ako</string>
   <string name="insert_jks_number">Vložte číslo piesne</string>
+  <string name="jks_category_all">(všetky piesne)</string>
+  <string name="jks_category_prefix">Kategória:</string>
   <string name="insert_security_password">Vložte bezpečnostné heslo</string>
   <string name="lock">Zamknúť</string>
   <string name="save_note_to_lock_it">Uložiť poznámku pre jej uzamknutie</string>

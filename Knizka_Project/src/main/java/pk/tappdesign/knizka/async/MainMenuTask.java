@@ -181,6 +181,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         if (dynamicMenu && prefs.getBoolean(PREF_NAVIGATION_SHOW_JKS_CATEGORIES, PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT) == false) {
           skippable = true;
         }
+        skippable = true; // always TRUE! never show JKS Category in Drawer menu, it is not necesary for now
         break;
       case Navigation.INTENTIONS:
         if (dynamicMenu && dynamicNavigationLookupTable.getIntentions() == 0) {
