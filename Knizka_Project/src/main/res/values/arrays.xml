@@ -48,6 +48,22 @@
         <item>JKS_Categories</item>
     </string-array>
 
+    <string-array name="navigation_list_activity_caption">
+        <item>Prayers</item>
+        <item>Archive</item>
+        <item>Reminders</item>
+        <item>Trash</item>
+        <item>Uncategorized</item>
+        <item>Favorites</item>
+        <item>Last shown</item>
+        <item>Random</item>
+        <item>Prayers Set</item>
+        <item>JKS - Songs</item>
+        <item>JKS - Search</item>
+        <item>Intentions</item>
+        <item>JKS Categories</item>
+    </string-array>
+
     <integer-array name="navigation_list_icons">
         <item>@drawable/ic_prayers_black_48dp</item>
         <item>@drawable/ic_archive_black_48dp</item>

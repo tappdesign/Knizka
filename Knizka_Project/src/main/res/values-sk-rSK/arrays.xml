@@ -29,13 +29,27 @@
     <item>Nedávno zobrazené</item>
     <item>Náhodné</item>
     <item>Zostavy</item>
-    <item>JKS</item>
+    <item>JKS - piesne</item>
     <item>JKS - vyhľadanie piesne</item>
     <item>Úmysly</item>
     <item>JKS - Kategórie</item>
   </string-array>
 
-
+  <string-array name="navigation_list_activity_caption">
+    <item>Všetky modlitby</item>
+    <item>Archív</item>
+    <item>Pripomienky</item>
+    <item>Odstránené</item>
+    <item>Nekategorizované</item>
+    <item>Obľúbené</item>
+    <item>Nedávno zobrazené</item>
+    <item>Náhodné</item>
+    <item>Zostavy</item>
+    <item>JKS</item>
+    <item>JKS - vyhľadanie piesne</item>
+    <item>Úmysly</item>
+    <item>JKS - Kategórie</item>
+  </string-array>
 
   <string-array name="jks_songs_category">
     <item>Advent [1-33]</item>

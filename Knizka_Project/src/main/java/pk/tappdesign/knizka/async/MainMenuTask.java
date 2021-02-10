@@ -107,6 +107,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
       return new ArrayList<>();
     }
 
+    String[] navigation_list_activity_caption = mainActivity.getResources().getStringArray(R.array.navigation_list_activity_caption);
     String[] mNavigationArray = mainActivity.getResources().getStringArray(R.array.navigation_list);
     TypedArray mNavigationIconsArray = mainActivity.getResources().obtainTypedArray(R.array.navigation_list_icons);
     TypedArray mNavigationIconsSelectedArray = mainActivity.getResources().obtainTypedArray(R.array
@@ -116,7 +117,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
     for (int i = 0; i < mNavigationArray.length; i++) {
       if (!checkSkippableItem(i)) {
         NavigationItem item = new NavigationItem(i, mNavigationArray[i], mNavigationIconsArray.getResourceId(i,
-            0), mNavigationIconsSelectedArray.getResourceId(i, 0));
+            0), mNavigationIconsSelectedArray.getResourceId(i, 0), navigation_list_activity_caption[i]);
         items.add(item);
       }
     }

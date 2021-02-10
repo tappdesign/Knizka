@@ -19,6 +19,13 @@
 
     <changelogversion
         changeDate="Feb 01, 2021"
+        versionName="1.2.0">
+        <changelogtext>[u]New:[/u] Pridané kategórie piesní JKS</changelogtext>
+
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Feb 01, 2021"
         versionName="1.1.0">
         <changelogtext>[u]Fix:[/u] Zmenená shortcut ikona a náhľadový obrázok widgetu</changelogtext>
         <changelogtext>[u]Fix:[/u] Pád aplikácie po otočení zariadenia</changelogtext>

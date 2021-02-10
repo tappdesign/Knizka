@@ -28,19 +28,21 @@ public class NavigationItem {
     private String text;
     private int icon;
     private int iconSelected;
+    private String activityCaption;
 
-
-    public NavigationItem(int arrayIndex, String text, int icon, int iconSelected) {
+    public NavigationItem(int arrayIndex, String text, int icon, int iconSelected, String activityCaption) {
         this.arrayIndex = arrayIndex;
         this.text = text;
         this.icon = icon;
         this.iconSelected = iconSelected;
+        this.activityCaption = activityCaption;
     }
     public NavigationItem(NavigationItem item) {
         this.arrayIndex = item.arrayIndex;
         this.text = item.text;
         this.icon = item.icon;
         this.iconSelected = item.iconSelected;
+        this.activityCaption = item.activityCaption;
     }
 
     public int getArrayIndex() {
@@ -80,5 +82,13 @@ public class NavigationItem {
 
     public void setIconSelected(int iconSelected) {
         this.iconSelected = iconSelected;
+    }
+
+    public String getActivityCaption() {
+        return activityCaption;
+    }
+
+    public void setActivityCaption(String activityCaption) {
+        this.activityCaption = activityCaption;
     }
 }
