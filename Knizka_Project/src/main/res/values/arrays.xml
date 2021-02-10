@@ -26,7 +26,7 @@
         <item>Last shown</item>
         <item>Random</item>
         <item>Prayers Set</item>
-        <item>JKS</item>
+        <item>JKS - Songs</item>
         <item>JKS - Search</item>
         <item>Intentions</item>
         <item>JKS Categories</item>
@@ -59,7 +59,7 @@
         <item>@drawable/ic_prayer_random_black_48dp</item>
         <item>@drawable/ic_prayers_set_black_48dp</item>
         <item>@drawable/ic_prayer_jks_black_48dp</item>
-        <item>@drawable/ic_prayers_jks_search_black_48dp</item>
+        <item>@drawable/ic_numbers_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
         <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
     </integer-array>
@@ -75,7 +75,7 @@
         <item>@drawable/ic_prayer_random_black_48dp</item>
         <item>@drawable/ic_prayers_set_black_48dp</item>
         <item>@drawable/ic_prayer_jks_black_48dp</item>
-        <item>@drawable/ic_prayers_jks_search_black_48dp</item>
+        <item>@drawable/ic_numbers_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
         <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
     </integer-array>
