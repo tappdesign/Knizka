@@ -90,6 +90,9 @@
     <!-- General text color-->
     <color name="colorBrightTextColorNormal">#212121</color>
 
+    <!-- General highlight text color-->
+    <color name="colorBrightTextColorHighlight">#5585EA</color>
+
     <!-- Background of changelog  -->
     <color name="colorBrightChangelogBackground">#FAFAFA</color>
 

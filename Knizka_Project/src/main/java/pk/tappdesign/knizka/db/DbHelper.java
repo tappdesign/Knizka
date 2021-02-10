@@ -24,6 +24,8 @@ import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_INTENT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_AUDIO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_FILES;
@@ -485,7 +487,8 @@ public class DbHelper extends SQLiteOpenHelper {
           return getPrayerSet();
         case Navigation.JKS:
         case Navigation.JKS_NUMBER_SEARCH:
-          return getJKS();
+        case Navigation.JKS_CATEGORIES:
+            return getNotesByCategory();
         case Navigation.INTENTIONS:
           return getIntentions();
         case Navigation.CATEGORY:
@@ -552,6 +555,13 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getJKS() {
     String whereCondition = " WHERE "
             +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 ";
+    return getNotes(whereCondition, "", "", true);
+  }
+
+
+  public List<Note> getJKSByCategories(String jksCategoryID) {
+    String whereCondition = " WHERE "
+            +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 AND " + COL_MERGED_CATEGORY + " = " + jksCategoryID ;
     return getNotes(whereCondition, "", "", true);
   }
 
@@ -931,7 +941,16 @@ public class DbHelper extends SQLiteOpenHelper {
     return notes;
   }
 
+  public List<Note> getNotesByCategory() {
 
+    int categoryID = prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
+    if (categoryID > 0)
+    {
+      return getNotesByCategory(new Long(categoryID));
+    } else {
+      return getJKS();
+    }
+  }
 
   /**
    * Retrieves all tags

@@ -28,8 +28,15 @@
         app:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/menu_search_jks_number"
-        android:icon="@drawable/ic_search_jks_white_48dp"
+        android:icon="@drawable/ic_numbers_white_24dp"
         android:orderInCategory="125"
+        android:title="@string/search"
+        android:visible="false"
+        app:showAsAction="collapseActionView|always"/>
+    <item
+        android:id="@+id/menu_jks_categories"
+        android:icon="@drawable/ic_jks_categories_white_24dp"
+        android:orderInCategory="130"
         android:title="@string/search"
         android:visible="false"
         app:showAsAction="collapseActionView|always"/>

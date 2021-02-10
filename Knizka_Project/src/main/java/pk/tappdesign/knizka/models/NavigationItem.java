@@ -36,7 +36,12 @@ public class NavigationItem {
         this.icon = icon;
         this.iconSelected = iconSelected;
     }
-
+    public NavigationItem(NavigationItem item) {
+        this.arrayIndex = item.arrayIndex;
+        this.text = item.text;
+        this.icon = item.icon;
+        this.iconSelected = item.iconSelected;
+    }
 
     public int getArrayIndex() {
         return arrayIndex;

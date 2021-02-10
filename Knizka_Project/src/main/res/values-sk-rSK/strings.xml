@@ -123,6 +123,8 @@
   <string name="notes_category_removed">Kategória bola odstránená z poznámok</string>
   <string name="notes_categorized_as">Poznámky boli kategorizované ako</string>
   <string name="insert_jks_number">Vložte číslo piesne</string>
+  <string name="jks_category_all">(všetky piesne)</string>
+  <string name="jks_category_prefix">Kategória:</string>
   <string name="insert_security_password">Vložte bezpečnostné heslo</string>
   <string name="lock">Zamknúť</string>
   <string name="save_note_to_lock_it">Uložiť poznámku pre jej uzamknutie</string>
@@ -225,6 +227,7 @@
   <string name="removed_from_favorites">Odstránené z obľúbených</string>
   <string name="choose_html_color_scheme">Vybrať</string>
   <string name="dialog_html_color_scheme_caption">Vybrať farebnú schému pre texty</string>
+  <string name="dialog_JKS_categories_caption">Kategórie piesní</string>
   <string name="dialog_button_cancel">Zrušiť</string>
 
   <!-- Settings -->
@@ -331,6 +334,8 @@
   <string name="settings_always_show_JKS_number_search">Vždy zobrazuj vyhľadanie podľa čísla v JKS</string>
   <string name="settings_navdrawer_on_exit">Navigačná ponuka po ukončení</string>
   <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname modlitieb sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
+  <string name="settings_navdrawer_show_jks_categories">Zobraz JKS kategórie</string>
+  <string name="settings_navdrawer_show_jks_categories_summary">Zobrazí položku JKS kategórie v navigačnom menu</string>
   <string name="settings_text_size">Veľkosť textu</string>
   <string name="settings_screen_behaviors">Správania</string>
   <string name="settings_enable_swipe">Potiahnutie položiek</string>

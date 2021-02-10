@@ -55,7 +55,8 @@ public class Navigation {
     public static final int JKS = 9;
     public static final int JKS_NUMBER_SEARCH = 10;
     public static final int INTENTIONS = 11;
-    public static final int CATEGORY = 12;
+    public static final int JKS_CATEGORIES = 12;
+    public static final int CATEGORY = 50;
 
     /**
      * Returns actual navigation status
@@ -86,6 +87,8 @@ public class Navigation {
             return JKS;
         } else if (navigationListCodes[JKS_NUMBER_SEARCH].equals(navigation)) {
             return JKS_NUMBER_SEARCH;
+        } else if (navigationListCodes[JKS_CATEGORIES].equals(navigation)) {
+            return JKS_CATEGORIES;
         } else if (navigationListCodes[INTENTIONS].equals(navigation)) {
             return INTENTIONS;
         } else {

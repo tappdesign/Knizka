@@ -144,6 +144,8 @@
     <string name="notes_category_removed">Category removed from notes</string>
     <string name="notes_categorized_as">Notes categorized as</string>
     <string name="insert_jks_number">Insert JKS number</string>
+    <string name="jks_category_all">(all songs)</string>
+    <string name="jks_category_prefix">Category:</string>
     <string name="insert_security_password">Insert password</string>
     <string name="lock">Lock</string>
     <string name="save_note_to_lock_it">Save note to lock it</string>
@@ -247,6 +249,7 @@
     <string name="removed_from_favorites">Removed from Favorites</string>
     <string name="choose_html_color_scheme">Choose</string>
     <string name="dialog_html_color_scheme_caption">Choose color scheme for texts</string>
+    <string name="dialog_JKS_categories_caption">Category of JKS songs</string>
     <string name="dialog_button_cancel">Cancel</string>
 
     <!-- Settings -->
@@ -356,6 +359,8 @@
     <string name="settings_always_show_JKS_number_search">Always show number search in JKS</string>
     <string name="settings_navdrawer_on_exit">Navigation menu on exit</string>
     <string name="settings_navdrawer_on_exit_summary">Pressing \"back\" when in notes list opens navigation menu instead of exiting</string>
+    <string name="settings_navdrawer_show_jks_categories">Show JKS categories</string>
+    <string name="settings_navdrawer_show_jks_categories_summary">Shows JKS categories item in navigation menu</string>
     <string name="settings_text_size">Text size</string>
     <string name="settings_screen_behaviors">Behaviors</string>
     <string name="settings_enable_swipe">Swipe notes</string>
