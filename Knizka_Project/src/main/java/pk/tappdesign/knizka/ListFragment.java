@@ -353,7 +353,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Activity title initialization based on navigation
    */
   private void initTitle () {
-    String[] navigationList = getResources().getStringArray(R.array.navigation_list);
+    String[] navigationListActivityCaptions = getResources().getStringArray(R.array.navigation_list_activity_caption);
+  //  String[] navigationList = getResources().getStringArray(R.array.navigation_list);
     String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
     String navigation = mainActivity.navigationTmp != null ? mainActivity.navigationTmp : prefs.getString
         (PREF_NAVIGATION, navigationListCodes[0]);
@@ -361,7 +362,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     String title;
     // If is a traditional navigation item
     if (index >= 0 && index < navigationListCodes.length) {
-      title = navigationList[index];
+      title = navigationListActivityCaptions[index];
     } else {
       Category category = DbHelper.getInstance().getCategory(Long.parseLong(navigation));
       title = category != null ? category.getName() : "";
@@ -1152,9 +1153,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       // if navigation is a category it will be set into note
       try {
         if (Navigation.checkNavigation(CATEGORY) || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
-          String categoryId = ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
-              Navigation.getCategory().toString());
-          note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
+          if (note.getPackageID() != PACKAGE_USER_INTENT) // do not set category to intent directly, could be assigned later
+          {
+            String categoryId = ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
+                    Navigation.getCategory().toString());
+            note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
+          }
         }
       } catch (NumberFormatException e) {
         LogDelegate.v("Maybe was not a category!");

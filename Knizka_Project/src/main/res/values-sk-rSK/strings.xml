@@ -118,7 +118,7 @@
   <string name="delete_category_confirmation">Táto kategória je použitá v niektorých položkách.\nChcete napriek tomu vymazať kategóriu?</string>
   <string name="discard">Zahodiť</string>
   <string name="remove_category">Odstrániť kategóriu</string>
-  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
+  <string name="no_tags_created">Zatiaľ neboli vytvorené žiadne značky</string>
   <string name="no_categories_created">Zatiaľ nebola vytvorená žiadna kategória</string>
   <string name="notes_category_removed">Kategória bola odstránená z poznámok</string>
   <string name="notes_categorized_as">Poznámky boli kategorizované ako</string>
@@ -223,6 +223,7 @@
   <string name="uncompleted_checklists">Incompleted checklists</string>
   <string name="info">Informácie</string>
   <string name="completed">Completed</string>
+  <string name="undo_changes_note_confirmation">Potvrdiť zahodenie zmien?</string>
   <string name="added_to_favorites">Pridané do obľúbených</string>
   <string name="removed_from_favorites">Odstránené z obľúbených</string>
   <string name="choose_html_color_scheme">Vybrať</string>
@@ -344,7 +345,7 @@
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať položku</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím položku odstrániť</string>
   <string name="settings_show_uncategorized">Skupina Nekategorizované</string>
-  <string name="settings_show_uncategorized_summary">Pridať novú položku do navigačnej ponuky pre nekategorizované poznámky</string>
+  <string name="settings_show_uncategorized_summary">Pridať novú skupinu do navigačnej ponuky pre nekategorizované poznámky</string>
   <string name="settings_show_category_count">Počet modlitieb</string>
   <string name="settings_show_category_count_summary">Zobraziť počet priradených modlitieb vedľa kategórie</string>
   <string name="settings_auto_location">Automatická poloha</string>

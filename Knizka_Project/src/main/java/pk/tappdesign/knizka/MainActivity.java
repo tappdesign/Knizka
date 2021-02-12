@@ -58,6 +58,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import pk.tappdesign.knizka.async.UpdateWidgetsTask;
+import pk.tappdesign.knizka.async.UpdaterTask;
 import pk.tappdesign.knizka.async.bus.PasswordRemovedEvent;
 import pk.tappdesign.knizka.async.bus.SwitchFragmentEvent;
 import pk.tappdesign.knizka.async.notes.NoteProcessorDelete;
@@ -120,7 +121,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     }
 
     // check for an apk update
-//		new UpdaterTask(this).execute(); Removed due to missing backend
+	 new UpdaterTask(this).execute();
   }
 
   @Override

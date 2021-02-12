@@ -118,6 +118,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -1000,9 +1001,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    }
 
    private void initViewWebView() {
-
+      binding.fragmentDetailContent.myweb.setWebChromeClient(new WebChromeClient());
       binding.fragmentDetailContent.myweb.getSettings().setLoadsImagesAutomatically(true);
       binding.fragmentDetailContent.myweb.getSettings().setJavaScriptEnabled(true);
+      binding.fragmentDetailContent.myweb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
       binding.fragmentDetailContent.myweb.setWebViewClient(new ourBrowser());
       binding.fragmentDetailContent.myweb.getSettings().setTextZoom(prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT));
