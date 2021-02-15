@@ -6,6 +6,24 @@ body
 	color: #969696; 
 }
 
+
+/********************************************/
+/*  Accordion						 		*/
+/********************************************/
+
+
+.tdAccordion
+{
+	color: #E6CD29; 
+	background-color:#88360d;
+	border-color: #5E5E40;	
+}
+
+.active, .tdAccordion:hover {
+  background-color: #88360d;
+}
+
+
 /********************************************/
 /*  Titles 							 		*/
 /********************************************/
@@ -20,7 +38,7 @@ body
 .PRTitlePart
 {
 	color: #E6CD29; 
-	background-color:#88360d;;
+	background-color:#88360d;
 	border-color: #5E5E40;	
 }
 
