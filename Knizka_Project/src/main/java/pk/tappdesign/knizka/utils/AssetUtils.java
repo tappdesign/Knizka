@@ -20,9 +20,11 @@
  */
 package pk.tappdesign.knizka.utils;
 
+import android.content.Context;
 import android.content.res.AssetManager;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
 
@@ -47,6 +49,30 @@ public class AssetUtils {
 		String[] files = assetManager.list(path);
 		Arrays.sort(files);
 		return files;
+	}
+
+	public static String readFileFromAssetsAsString(Context context, String AFileName)
+	{
+		String result = "";
+
+		try {
+			InputStream is =  context.getAssets().open(AFileName);
+
+			int size = is.available();
+
+			// Read the entire asset into a local byte buffer.
+			byte[] buffer = new byte[size];
+			is.read(buffer);
+			is.close();
+
+			// Convert the buffer into a string.
+			result = new String(buffer);
+
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+
+		return  result;
 	}
 
 }

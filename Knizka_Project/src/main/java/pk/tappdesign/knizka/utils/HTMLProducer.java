@@ -23,6 +23,8 @@ package pk.tappdesign.knizka.utils;
 
 import android.content.SharedPreferences;
 
+import pk.tappdesign.knizka.helpers.ReadFileAssetsHelper;
+
 import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_DIV_END_TAG;
 import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_TEXT_TITLE_CLASS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
@@ -56,8 +58,11 @@ public class HTMLProducer {
 
         retVal = "<html><head> <link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/format1.css\" /> " + //todo: @pk: make format configurable
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
-                "</head><body>"+
-                HTML_TEXT_TITLE_CLASS + caption + HTML_DIV_END_TAG + htmlText +"</body>";
+                ReadFileAssetsHelper.getInstance().getTDJSUtils() +
+                "</head><body onload=\"assignAccordions()\">"+
+                HTML_TEXT_TITLE_CLASS + caption + HTML_DIV_END_TAG + htmlText +
+
+                "</body>";
 
         return retVal;
     }
