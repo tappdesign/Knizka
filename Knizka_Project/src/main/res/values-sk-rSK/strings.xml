@@ -25,7 +25,7 @@
   <string name="title">Názov</string>
   <string name="title_activity_list">Knižka</string>
   <string name="search">Hľadať</string>
-  <string name="search_hint">Hľadať v modlitbách</string>
+  <string name="search_hint">Vyhľadávanie</string>
   <string name="content">Obsah</string>
   <string name="save">Uložiť</string>
   <string name="share">Zdieľať</string>
@@ -345,7 +345,7 @@
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať položku</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím položku odstrániť</string>
   <string name="settings_show_uncategorized">Skupina Nekategorizované</string>
-  <string name="settings_show_uncategorized_summary">Pridať novú skupinu do navigačnej ponuky pre nekategorizované poznámky</string>
+  <string name="settings_show_uncategorized_summary">Pridať novú skupinu do navigačnej ponuky pre nekategorizované položky</string>
   <string name="settings_show_category_count">Počet modlitieb</string>
   <string name="settings_show_category_count_summary">Zobraziť počet priradených modlitieb vedľa kategórie</string>
   <string name="settings_auto_location">Automatická poloha</string>
