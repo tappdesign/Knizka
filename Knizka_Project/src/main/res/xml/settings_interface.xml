@@ -35,6 +35,13 @@
     android:title="@string/settings_text_size"
   />
 
+
+  <Preference
+      android:key="settings_jks_format"
+      android:summary="@string/settings_jks_format_summary"
+      android:title="@string/settings_jks_format_title"
+      app:iconSpaceReserved="false" />
+
   <ListPreference
     android:defaultValue="strip"
     android:entries="@array/colors_app"

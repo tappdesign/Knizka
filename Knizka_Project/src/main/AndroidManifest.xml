@@ -160,6 +160,12 @@
             android:theme="@style/AppTheme.Bright.ApiSpec.Dialog"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <!-- jks_format -->
+        <activity
+            android:name="pk.tappdesign.knizka.JKSFormatActivity"
+            android:theme="@style/AppTheme.Bright.ApiSpec.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <!-- Info -->
         <activity
             android:name="pk.tappdesign.knizka.AboutActivity"
