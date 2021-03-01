@@ -125,12 +125,14 @@
   <string name="insert_jks_number">Vložte číslo piesne</string>
   <string name="jks_category_all">(všetky piesne)</string>
   <string name="jks_category_prefix">Kategória:</string>
+  <string name="jks_layout_number">Číslo formátu:</string>
   <string name="insert_security_password">Vložte bezpečnostné heslo</string>
   <string name="lock">Zamknúť</string>
   <string name="save_note_to_lock_it">Uložiť poznámku pre jej uzamknutie</string>
   <string name="save_note_to_unlock_it">Uložiť poznámku pre jej odomknutie</string>
   <string name="unlock">Odomknúť</string>
   <string name="title_activity_password">Upraviť bezpečnostné heslo</string>
+  <string name="title_activity_jks_song_format">Vyberte formát piesní</string>
   <string name="title_activity_about">Informácie</string>
   <string name="deleted">vymazané</string>
   <string name="no_items_in_list">Nič tu nie je!</string>
@@ -284,6 +286,7 @@
   <string name="wrong_password">Nesprávne heslo</string>
   <string name="empty_password">Heslo je prázdne</string>
   <string name="agree_unlocking_all_notes">Odstrániť heslo\na odomknúť všetky zamknuté poznámky?</string>
+  <string name="settings_jks_instructions">Vyberte formát piesní</string>
   <string name="settings_enable_tag_marker">Značky kategórií</string>
   <string name="settings_backup_summary">Importovať alebo exportovať údaje aplikácie</string>
   <string name="settings_max_video_size_summary">Maximálna povolená veľkosť v MB</string>
@@ -338,6 +341,10 @@
   <string name="settings_navdrawer_show_jks_categories">Zobraz JKS kategórie</string>
   <string name="settings_navdrawer_show_jks_categories_summary">Zobrazí položku JKS kategórie v navigačnom menu</string>
   <string name="settings_text_size">Veľkosť textu</string>
+  <string name="settings_jks_format_title">Formát JKS piesní</string>
+  <string name="settings_jks_format_set">Formát JKS piesní úspešne nastavený</string>
+  <string name="settings_jks_format_set_button_caption">Nastaviť</string>
+  <string name="settings_jks_format_set_button_cancel">Zrušiť</string>
   <string name="settings_screen_behaviors">Správania</string>
   <string name="settings_enable_swipe">Potiahnutie položiek</string>
   <string name="settings_enable_swipe_summary">Potiahnutím položky vykonať akcie</string>
@@ -358,6 +365,7 @@
   <string name="settings_attachments_on_bottom">Prílohy na spodku</string>
   <string name="settings_attachments_on_bottom_summary_on">Zobraziť prílohy pod obsahom modlitby</string>
   <string name="settings_attachments_on_bottom_summary_off">Zobraziť prílohy nad obsahom modlitby</string>
+  <string name="settings_jks_format_summary">Nastaviť formát zobrazenia JKS piesní</string>
   <string name="settings_keep_screen_on">Nezhasínať obrazovku</string>
   <string name="settings_keep_screen_on_summary_on">Obrazovka zariadenia bude stále zapnutá</string>
   <string name="settings_keep_screen_on_summary_off">Obrazovka zariadenia sa po čase vypne, ako je nastavené v systémových nastaveniach</string>

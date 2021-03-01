@@ -2,6 +2,25 @@ body
 {
 
 }
+
+/* akordy */
+div.chordline {
+
+}
+
+.akord {
+   display: none; 
+}
+
+.pomlcka {
+   display: none; 
+}
+
+.stup {
+   display: none; 
+}
+
+/* accordion */
 .tdAccordion {
  
 	cursor: pointer;

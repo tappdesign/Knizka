@@ -143,6 +143,7 @@ import pk.tappdesign.knizka.models.listeners.OnViewTouchedListener;
 import pk.tappdesign.knizka.models.listeners.RecyclerViewItemClickSupport;
 import pk.tappdesign.knizka.models.views.Fab;
 import pk.tappdesign.knizka.utils.AnimationsHelper;
+import pk.tappdesign.knizka.utils.Display;
 import pk.tappdesign.knizka.utils.IntentChecker;
 import pk.tappdesign.knizka.utils.KeyboardUtils;
 import pk.tappdesign.knizka.utils.Navigation;
@@ -290,7 +291,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
     prefs = mainActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
-    SetKeepScreenOn();
+    Display.setKeepScreenOn(mainActivity, prefs);
+    //SetKeepScreenOn();
   }
 
   private void SetKeepScreenOn()

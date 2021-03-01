@@ -416,6 +416,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       });
     }
 
+
+    // Set format of JKS
+    Preference jksFormat = findPreference("settings_jks_format");
+    if (jksFormat != null) {
+      jksFormat.setOnPreferenceClickListener(preference -> {
+        Intent jksFormatIntent = new Intent(getActivity(), JKSFormatActivity.class);
+        startActivity(jksFormatIntent);
+        return false;
+      });
+    }
+
     // Application's colors
     final ListPreference colorsApp = findPreference("settings_colors_app");
     if (colorsApp != null) {

@@ -31,6 +31,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_DARK;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_LAYOUT_JKS_CSS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_LAYOUT_JKS_CSS_DEFAULT;
 
 public class HTMLProducer {
 
@@ -52,17 +54,49 @@ public class HTMLProducer {
     }
 
 
-    public static String getHTML(SharedPreferences prefs, String caption, String htmlText)
+    private static String getJKSLayoutFromSetting(SharedPreferences prefs, long noteHandleID)
+    {
+        String result;
+
+        if ((noteHandleID >= 12000000) && (noteHandleID <= 12999999))
+        {
+            result = prefs.getString(PREF_LAYOUT_JKS_CSS, PREF_LAYOUT_JKS_CSS_DEFAULT);
+
+        } else {
+            result = "format1.css";
+        }
+
+        return result;
+    }
+
+
+
+    public static String getHTML(SharedPreferences prefs, long noteHandleID, String caption, String htmlText)
     {
         String retVal;
 
-        retVal = "<html><head> <link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/format1.css\" /> " + //todo: @pk: make format configurable
+        retVal = "<html><head> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + getJKSLayoutFromSetting(prefs, noteHandleID) +"\" /> " +
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
                 ReadFileAssetsHelper.getInstance().getTDJSUtils() +
                 "</head><body onload=\"assignAccordions()\">"+
                 HTML_TEXT_TITLE_CLASS + caption + HTML_DIV_END_TAG + htmlText +
+                "</body></html>";
 
-                "</body>";
+        return retVal;
+    }
+
+    public static String getLoremIpsumHTML(SharedPreferences prefs, String layoutCSS)
+    {
+        String retVal;
+
+        retVal = "<html><head> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + layoutCSS +  "\" /> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
+                ReadFileAssetsHelper.getInstance().getTDJSUtils() +
+                "</head><body onload=\"assignAccordions()\">"+
+                ReadFileAssetsHelper.getInstance().getLoremIpsumJKS() +
+                "</body></html>";
 
         return retVal;
     }

@@ -98,6 +98,8 @@ public interface ConstantsBase {
 	String ACTION_SEND_AND_EXIT = "action_send_and_exit";
 	String ACTION_SEARCH_UNCOMPLETE_CHECKLISTS = "action_search_uncomplete_checklists";
 
+	String LAYOUT_JKS_PREFIX = "layout_jks_";
+
 	String PREF_LANG = "settings_language";
 	String PREF_LAST_UPDATE_CHECK = "last_update_check";
 	String PREF_NAVIGATION = "navigation";
@@ -142,8 +144,8 @@ public interface ConstantsBase {
 
 	String PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT = "bright";
 	String PREF_HTML_COLOR_SCHEME_VALUE_DARK = "dark";
-
-
+	String PREF_LAYOUT_JKS_CSS = "layout_jks_css";
+	String PREF_LAYOUT_JKS_CSS_DEFAULT = LAYOUT_JKS_PREFIX + "01.css";
 
 	String MIME_TYPE_IMAGE = "image/jpeg";
 	String MIME_TYPE_AUDIO = "audio/amr";

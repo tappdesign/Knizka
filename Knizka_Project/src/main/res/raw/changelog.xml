@@ -19,9 +19,17 @@
 
     <changelogversion
         changeDate="Feb 16, 2021"
+        versionName="1.3.0">
+        <changelogtext>[b]New:[/b] Výber formátu piesní JKS</changelogtext>
+        <changelogtext>[b]New:[/b] Pridané akordy k piesňam</changelogtext>
+        <changelogtext>[u]Fix:[/u] Oprava zhasínania obrazovky po otočení</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Feb 16, 2021"
         versionName="1.2.0">
-        <changelogtext>[u]New:[/u] Pridané kategórie piesní JKS</changelogtext>
-        <changelogtext>[u]New:[/u] Aktualizovaná databáza, oprava gramatických chýb</changelogtext>
+        <changelogtext>[b]New:[/b] Pridané kategórie piesní JKS</changelogtext>
+        <changelogtext>[b]New:[/b] Aktualizovaná databáza, oprava gramatických chýb</changelogtext>
     </changelogversion>
 
     <changelogversion
