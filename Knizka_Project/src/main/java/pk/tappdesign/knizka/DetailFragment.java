@@ -393,6 +393,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     init();
 
+    Display.setKeepScreenOn(mainActivity, prefs);
+
     setHasOptionsMenu(true);
     setRetainInstance(false);
 
@@ -1318,7 +1320,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
    private void loadNoteToWebView() {
-      binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(prefs, noteTmp.getTitle(), noteTmp.getHTMLContent()), null, null, null);
+       binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(prefs, noteTmp.getHandleID(), noteTmp.getTitle(), noteTmp.getHTMLContent()), null, null, null);
    }
 
    private void changeHtmlColorScheme(int i) {
@@ -1884,7 +1886,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    @Override
    public void onNoteSaved(Note noteSaved) {
-      MainActivity.notifyAppWidgets(Knizka.getAppContext());
       if (!activityPausing) {
          EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
          deleteMergedNotes(mergedNotesIds);
@@ -1902,16 +1903,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       ArrayList<Note> notesToDelete = new ArrayList<>();
       if (mergedNotesIds != null) {
          for (String mergedNoteId : mergedNotesIds) {
-            Note note = new Note();
-            note.set_id(Long.valueOf(mergedNoteId));
-            notesToDelete.add(note);
+            Note noteToDelete = new Note();
+            noteToDelete.set_id(Long.valueOf(mergedNoteId));
+            notesToDelete.add(noteToDelete);
          }
          new NoteProcessorDelete(notesToDelete).process();
       }
    }
 
    private String getNoteTitle() {
-      if (binding.detailTitle != null && !TextUtils.isEmpty(binding.detailTitle.getText())) {
+    if (!TextUtils.isEmpty(binding.detailTitle.getText())) {
          return binding.detailTitle.getText().toString();
       } else {
          return "";

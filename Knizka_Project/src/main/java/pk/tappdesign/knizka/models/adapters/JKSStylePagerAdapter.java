@@ -46,11 +46,16 @@ public class JKSStylePagerAdapter extends FragmentStatePagerAdapter {
 
    @Override
    public int getCount() {
-      return 100;
+      return 4;
    }
 
    @Override
    public CharSequence getPageTitle(int position) {
       return "OBJECT " + (position + 1);
+   }
+
+   @Override
+   public float getPageWidth (int position) {
+      return 0.93f; // required to see adjacent pages
    }
 }

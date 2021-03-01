@@ -28,10 +28,13 @@ public class ReadFileAssetsHelper {
    private static ReadFileAssetsHelper instance = null;
 
    private static String tdJSUtils;
+   private static String loremIpsumJKS;
 
    public static synchronized ReadFileAssetsHelper doGetInstance()
    {
       tdJSUtils = "<script>" + AssetUtils.readFileFromAssetsAsString(Knizka.getAppContext(), "js/tdUtils.js") + "</script>";
+      loremIpsumJKS =  AssetUtils.readFileFromAssetsAsString(Knizka.getAppContext(), "html/LoremIpsumJKS.html") ;
+
       return new ReadFileAssetsHelper();
    }
 
@@ -50,5 +53,11 @@ public class ReadFileAssetsHelper {
    public static String getTDJSUtils()
    {
       return tdJSUtils;
+   }
+
+
+   public static String getLoremIpsumJKS()
+   {
+      return loremIpsumJKS;
    }
 }

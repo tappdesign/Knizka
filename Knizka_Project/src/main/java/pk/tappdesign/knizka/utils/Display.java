@@ -25,6 +25,7 @@ import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -33,6 +34,9 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 import pk.tappdesign.knizka.helpers.LogDelegate;
+
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON_DEFAULT;
 
 
 public class Display {
@@ -135,6 +139,19 @@ public class Display {
             return realHeight - usableHeight;
         } else {
             return 0;
+        }
+    }
+
+
+    public static void setKeepScreenOn(Activity mainActivity, SharedPreferences prefs)
+    {
+        boolean isKeepScreenOn = prefs.getBoolean(PREF_KEEP_SCREEN_ON, PREF_KEEP_SCREEN_ON_DEFAULT);
+
+        if (isKeepScreenOn)
+        {
+            mainActivity.getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        } else {
+            mainActivity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
     }
 

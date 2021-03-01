@@ -67,6 +67,8 @@
         <item name="themeTextColorCategory">@color/colorBrightTextColorHighlight</item>
 
         <item name="themeTextColorStandard">@color/colorBrightTextColorNormal</item>
+
+        <item name="themeButtonTextColorAccent">@color/colorBrightAccent</item>
         <!-- note title -->
         <item name="themeTextColorNoteTitle">@color/colorBrightNoteTitle</item>
         <!-- note preview -->

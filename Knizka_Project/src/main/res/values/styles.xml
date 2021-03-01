@@ -159,7 +159,7 @@
     </style>
 
     <style name="Button.Themed.Dialog.Accent" >
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">?attr/themeButtonTextColorAccent</item>
     </style>
 
     <style name="Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton"/>

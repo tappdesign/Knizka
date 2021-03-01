@@ -26,8 +26,8 @@
     <!-- StatusBar -->
     <color name="colorDarkPrimaryDark">#000000</color>
 
-    <color name="colorDarkAccent">#CD3813</color>
-    <color name="colorDarkAccentPressed">#F69999</color>
+    <color name="colorDarkAccent">#FBAF16</color>
+    <color name="colorDarkAccentPressed">#FFEB3B</color>
 
     <!-- Floating action button (FAB) colors -->
     <color name="colorDarkFABColor">#51017C</color>

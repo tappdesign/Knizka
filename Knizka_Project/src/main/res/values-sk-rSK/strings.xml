@@ -125,6 +125,7 @@
   <string name="insert_jks_number">Vložte číslo piesne</string>
   <string name="jks_category_all">(všetky piesne)</string>
   <string name="jks_category_prefix">Kategória:</string>
+  <string name="jks_layout_number">Číslo formátu:</string>
   <string name="insert_security_password">Vložte bezpečnostné heslo</string>
   <string name="lock">Zamknúť</string>
   <string name="save_note_to_lock_it">Uložiť poznámku pre jej uzamknutie</string>
@@ -341,6 +342,9 @@
   <string name="settings_navdrawer_show_jks_categories_summary">Zobrazí položku JKS kategórie v navigačnom menu</string>
   <string name="settings_text_size">Veľkosť textu</string>
   <string name="settings_jks_format_title">Formát JKS piesní</string>
+  <string name="settings_jks_format_set">Formát JKS piesní úspešne nastavený</string>
+  <string name="settings_jks_format_set_button_caption">Nastaviť</string>
+  <string name="settings_jks_format_set_button_cancel">Zrušiť</string>
   <string name="settings_screen_behaviors">Správania</string>
   <string name="settings_enable_swipe">Potiahnutie položiek</string>
   <string name="settings_enable_swipe_summary">Potiahnutím položky vykonať akcie</string>

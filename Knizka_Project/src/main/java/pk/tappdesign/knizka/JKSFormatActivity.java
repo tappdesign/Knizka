@@ -29,6 +29,10 @@ import android.widget.EditText;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import de.keyboardsurfer.android.widget.crouton.Crouton;
+import de.keyboardsurfer.android.widget.crouton.LifecycleCallback;
+import de.keyboardsurfer.android.widget.crouton.Style;
+import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.utils.ThemeHelper;
 
 public class JKSFormatActivity extends BaseActivity {
@@ -36,13 +40,7 @@ public class JKSFormatActivity extends BaseActivity {
    public final static String FRAGMENT_PAGER = "fragment_pager";
 
    private ViewGroup croutonHandle;
-   private EditText passwordCheck;
-   private EditText password;
-   private EditText question;
-   private EditText answer;
-   private EditText answerCheck;
    private JKSFormatActivity mActivity;
-   //private FragmentManager mFragmentManager;
    private String currentTheme = "";
 
    @Override
@@ -50,8 +48,8 @@ public class JKSFormatActivity extends BaseActivity {
       super.onCreate(savedInstanceState);
       currentTheme = ThemeHelper.trySetTheme(this);
       DisplayMetrics metrics = getResources().getDisplayMetrics();
-      int screenWidth = (int) (metrics.widthPixels * 0.80);
-      int screenHeight = (int) (metrics.heightPixels * 0.80);
+      int screenWidth = (int) (metrics.widthPixels * 1.0);
+      int screenHeight = (int) (metrics.heightPixels * 1.0);
       setContentView(R.layout.activity_jks_format);
       getWindow().setLayout(screenWidth, screenHeight);
       mActivity = this;
@@ -78,57 +76,24 @@ public class JKSFormatActivity extends BaseActivity {
          fragmentTransaction.add(R.id.frame_layout_for_pager, new ViewPagerFragment(), FRAGMENT_PAGER)
                  .commit();
       }
+
+      croutonHandle = findViewById(R.id.crouton_handle);
    }
 
-/*
-
-   @SuppressLint("CommitPrefEdits")
-   private void updatePassword(String passwordText, String questionText, String answerText) {
-      if (passwordText == null) {
-         if (prefs.getString(PREF_PASSWORD, "").length() == 0) {
-            Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, croutonHandle).show();
-            return;
+   public void showExitMessageAndFinish(int messageId, Style style) {
+      Crouton crouton = Crouton.makeText(mActivity, messageId, style, croutonHandle);
+      crouton.setLifecycleCallback(new LifecycleCallback() {
+         @Override
+         public void onDisplayed() {
+            // Does nothing!
          }
-         new MaterialDialog.Builder(mActivity)
-                 .content(R.string.agree_unlocking_all_notes)
-                 .positiveText(R.string.ok)
-                 .onPositive((dialog, which) -> PasswordHelper.removePassword()).build().show();
-      } else if (passwordText.length() == 0) {
-         Crouton.makeText(mActivity, R.string.empty_password, ONStyle.WARN, croutonHandle).show();
-      } else {
-         Observable
-                 .from(DbHelper.getInstance().getNotesWithLock(true))
-                 .subscribeOn(Schedulers.newThread())
-                 .observeOn(AndroidSchedulers.mainThread())
-                 .doOnSubscribe(() -> prefs.edit()
-                         .putString(PREF_PASSWORD, Security.md5(passwordText))
-                         .putString(PREF_PASSWORD_QUESTION, questionText)
-                         .putString(PREF_PASSWORD_ANSWER, Security.md5(answerText))
-                         .commit())
-                 .doOnNext(note -> DbHelper.getInstance().updateNote(note, false))
-                 .doOnCompleted(() -> {
-                    Crouton crouton = Crouton.makeText(mActivity, R.string.password_successfully_changed, ONStyle
-                            .CONFIRM, croutonHandle);
-                    crouton.setLifecycleCallback(new LifecycleCallback() {
-                       @Override
-                       public void onDisplayed() {
-                          // Does nothing!
-                       }
-
-
-                       @Override
-                       public void onRemoved() {
-                          onBackPressed();
-                       }
-                    });
-                    crouton.show();
-                 })
-                 .subscribe();
-      }
+         @Override
+         public void onRemoved() {
+            onBackPressed();
+         }
+      });
+      crouton.show();
    }
-
-*/
-
 
    @Override
    public void onBackPressed() {

@@ -66,6 +66,9 @@
         <item name="themeTextColorCategory">@color/colorDarkTextColorHighlight</item>
 
         <item name="themeTextColorStandard">@color/colorDarkTextColorNormal</item>
+
+        <item name="themeButtonTextColorAccent">@color/colorDarkAccent</item>
+
         <!-- note title -->
         <item name="themeTextColorNoteTitle">@color/colorDarkNoteTitle</item>
         <!-- note preview -->
@@ -128,7 +131,11 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="themeDialogTextNormal">@color/colorDarkDialogNormalTextColor</item>
+        <item name="themeDialogNormalButtonColor">@color/colorDarkDialogNormalTextColor</item>
+
     </style>
+
+
 
     <!-- styling popup menu - overflow menu -->
     <style name="PopupMenuThemeDark" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
@@ -211,6 +218,10 @@
         <!-- circle color of not selected items -->
         <item name="android:textColorSecondary">#E1E6EA</item>
 
+    </style>
+
+    <style name="Button.Dialog.Accent.Dark" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/alert</item>
     </style>
 
     <style name="SPStyleDark" parent="SublimePickerStyleLight">

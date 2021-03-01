@@ -25,17 +25,29 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebChromeClient;
+import android.webkit.WebView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import pk.tappdesign.knizka.DetailFragment;
+import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
+import pk.tappdesign.knizka.utils.HTMLProducer;
+
+import static pk.tappdesign.knizka.utils.ConstantsBase.LAYOUT_JKS_PREFIX;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WEBVIEW_ZOOM;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WEBVIEW_ZOOM_DEFAULT;
 
 
 public class JKSStyleFragment extends Fragment {
    public static final String ARG_OBJECT = "object";
+
+   private WebView vw;
+   private String layoutCSS;
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +57,24 @@ public class JKSStyleFragment extends Fragment {
    @Override
    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
       Bundle args = getArguments();
-      ((TextView) view.findViewById(R.id.jksLayoutName)).setText(Integer.toString(args.getInt(ARG_OBJECT)));
-
+      ((TextView) view.findViewById(R.id.jksLayoutName)).setText(getContext().getResources().getString(R.string.jks_layout_number) + " " + args.getInt(ARG_OBJECT));
+      layoutCSS = LAYOUT_JKS_PREFIX + String.format("%02d", args.getInt(ARG_OBJECT)) + ".css";
+      initViewWebView(view);
    }
+
+   private void initViewWebView(View view) {
+      vw = view.findViewById(R.id.webViewForlayout);
+
+      vw.setWebChromeClient(new WebChromeClient());
+      vw.getSettings().setLoadsImagesAutomatically(true);
+      vw.getSettings().setJavaScriptEnabled(true);
+      vw.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+
+      loadNoteToWebView();
+   }
+
+   private void loadNoteToWebView() {
+      vw.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getLoremIpsumHTML(Knizka.getSharedPreferences(), layoutCSS), null, null, null);
+   }
+
 }

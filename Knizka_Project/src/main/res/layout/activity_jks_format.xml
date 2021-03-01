@@ -21,43 +21,13 @@
   -->
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/frame_layout_for_pager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <com.neopixl.pixlui.components.textview.TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_jks_instructions"
-            android:textColor="?attr/themeDialogTextNormal"
-            android:textSize="20sp"
-            android:gravity="center_horizontal"
-            android:alpha="0.8"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            pixlui:typeface="Roboto-Regular.ttf" />
-
-        <FrameLayout
-            android:id="@+id/frame_layout_for_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-
-        <Button
-            android:id="@+id/jks_setting_confirm"
-            style="@style/Button.Dialog.Accent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:gravity="end"
-            android:text="@string/ok"/>
-
-    </LinearLayout>
+        android:layout_height="wrap_content" />
 
     <include
         android:id="@+id/crouton_handle"

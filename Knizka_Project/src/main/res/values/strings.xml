@@ -146,6 +146,7 @@
     <string name="insert_jks_number">Insert JKS number</string>
     <string name="jks_category_all">(all songs)</string>
     <string name="jks_category_prefix">Category:</string>
+    <string name="jks_layout_number">Format number:</string>
     <string name="insert_security_password">Insert password</string>
     <string name="lock">Lock</string>
     <string name="save_note_to_lock_it">Save note to lock it</string>
@@ -365,6 +366,8 @@
     <string name="settings_navdrawer_show_jks_categories_summary">Shows JKS categories item in navigation menu</string>
     <string name="settings_text_size">Text size</string>
     <string name="settings_jks_format_title">JKS song format</string>
+    <string name="settings_jks_format_set_button_caption">OK</string>
+    <string name="settings_jks_format_set_button_cancel">cancel</string>
     <string name="settings_screen_behaviors">Behaviors</string>
     <string name="settings_enable_swipe">Swipe notes</string>
     <string name="settings_enable_swipe_summary">Swipe on notes to perform actions</string>
@@ -386,6 +389,7 @@
     <string name="settings_attachments_on_bottom_summary_on">Shows attachments below note content</string>
     <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
     <string name="settings_jks_format_summary">Display format of JKS songs</string>
+    <string name="settings_jks_format_set">Format for JKS song saved</string>
     <string name="settings_keep_screen_on">Keep screen on</string>
     <string name="settings_keep_screen_on_summary_on">Screen will be always ON</string>
     <string name="settings_keep_screen_on_summary_off">Screen will switch off as it is configured in system settings</string>

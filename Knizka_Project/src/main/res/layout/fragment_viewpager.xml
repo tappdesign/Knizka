@@ -21,12 +21,42 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pixlui="http://schemas.android.com/apk/com.neopixl.pixlui"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:gravity="right">
+
+        <Button
+            android:id="@+id/jks_button_layout_cancel"
+            style="@style/Button.Themed.Dialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:alpha="0.7"
+            android:text="@string/settings_jks_format_set_button_cancel" />
+
+        <Button
+            android:id="@+id/jks_button_layout_confirm"
+            style="@style/Button.Themed.Dialog.Accent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_jks_format_set_button_caption" />
+    </LinearLayout>
+
+
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/pager"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="0px"
+        android:paddingLeft="24dp"
+        android:paddingRight="12dp"
+        android:layout_weight="1" />
 
 </LinearLayout>
