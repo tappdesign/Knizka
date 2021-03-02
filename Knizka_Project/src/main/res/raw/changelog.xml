@@ -23,6 +23,7 @@
         <changelogtext>[b]New:[/b] Výber formátu piesní JKS</changelogtext>
         <changelogtext>[b]New:[/b] Pridané akordy k piesňam</changelogtext>
         <changelogtext>[u]Fix:[/u] Oprava zhasínania obrazovky po otočení</changelogtext>
+        <changelogtext>[u]Fix:[/u] Oprava svetlých pruhov na okraji v tmavej téme</changelogtext>
     </changelogversion>
 
     <changelogversion
