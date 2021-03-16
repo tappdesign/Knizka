@@ -143,6 +143,11 @@ color: #ff6e12;
 
 
 /* class .respons for responsories */
+.LitResp
+{
+    color: #969696;
+}
+
 .respons p.respR:before 
 {
 	color: #D2BB26;

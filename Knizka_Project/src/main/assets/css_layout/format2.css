@@ -268,7 +268,11 @@
 
 
 /* class .respons for responsories */
-
+.LitResp
+{
+    font-weight: bold;
+    font-style: italic;
+}
 
 .respons  {
 	margin-bottom: 15px;
