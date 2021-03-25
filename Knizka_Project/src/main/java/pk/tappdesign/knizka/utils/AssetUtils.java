@@ -69,7 +69,7 @@ public class AssetUtils {
 			result = new String(buffer);
 
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			//throw new RuntimeException(e); // if file not exist, but we don't need exception here
 		}
 
 		return  result;

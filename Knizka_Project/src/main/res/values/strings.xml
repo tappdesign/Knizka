@@ -390,6 +390,9 @@
     <string name="settings_attachments_on_bottom_summary_off">Shows attachments above note content</string>
     <string name="settings_jks_format_summary">Display format of JKS songs</string>
     <string name="settings_jks_format_set">Format for JKS song saved</string>
+    <string name="settings_jks_show_music_score_summary_off">Music sheet for JKS songs is not displayed</string>
+    <string name="settings_jks_show_music_score_summary_on">Music sheet for JKS songs is displayed</string>
+    <string name="settings_jks_show_music_score_title">Show JKS notes</string>
     <string name="settings_keep_screen_on">Keep screen on</string>
     <string name="settings_keep_screen_on_summary_on">Screen will be always ON</string>
     <string name="settings_keep_screen_on_summary_off">Screen will switch off as it is configured in system settings</string>

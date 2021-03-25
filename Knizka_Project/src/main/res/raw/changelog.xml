@@ -19,6 +19,14 @@
 
     <changelogversion
         changeDate="Mar 16, 2021"
+        versionName="1.4.0">
+        <changelogtext>[b]New:[/b] Pridané noty pre piesne (194-215)</changelogtext>
+        <changelogtext>[b]New:[/b] Aktualizácia databázy</changelogtext>
+        <changelogtext>[b]Chg:[/b] Zoradenie kategórií v hlavnom menu</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Mar 16, 2021"
         versionName="1.3.1">
         <changelogtext>[b]New:[/b] Aktualizácia databázy</changelogtext>
     </changelogversion>

@@ -627,7 +627,7 @@ public class DbHelper extends SQLiteOpenHelper {
             " ON (" + COL_HANDLE_ID + " = " + COL_LS_HANDLE_ID + ") " +
 
             whereCondition +
-            " order by " + orderBy + COL_TITLE + " ASC " + limit;
+            " order by " + orderBy + COL_TITLE + " COLLATE LOCALIZED ASC " + limit;
 
     LogDelegate.v("Query: " + query);
 
@@ -1095,7 +1095,8 @@ public class DbHelper extends SQLiteOpenHelper {
             " ) foo " +
             " LEFT JOIN " + TBL_CATEGORIES_FLAG +
             " ON (" + DB_COL_CF_CATEGORY_ID_REF + " = " + COL_CATEGORY_ID + ") " +
-            " WHERE " + DB_COL_CF_DELETED + " IS NOT 1 ";
+            " WHERE " + DB_COL_CF_DELETED + " IS NOT 1 "+
+            " ORDER BY " + COL_CATEGORY_NAME + " ASC ";
 
     try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
       // Looping through all rows and adding to list

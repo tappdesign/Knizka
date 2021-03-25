@@ -29,10 +29,14 @@ public class ReadFileAssetsHelper {
 
    private static String tdJSUtils;
    private static String loremIpsumJKS;
+   private static String openSheetMusicDisplay;
+   private static String abcjsLib;
 
    public static synchronized ReadFileAssetsHelper doGetInstance()
    {
       tdJSUtils = "<script>" + AssetUtils.readFileFromAssetsAsString(Knizka.getAppContext(), "js/tdUtils.js") + "</script>";
+      openSheetMusicDisplay = "";   //  "<script>" + AssetUtils.readFileFromAssetsAsString(Knizka.getAppContext(), "js/opensheetmusicdisplay.min.js") + "</script>";
+      abcjsLib = "<script>" + AssetUtils.readFileFromAssetsAsString(Knizka.getAppContext(), "js/abcjs_basic-min.js") + "</script>";
       loremIpsumJKS =  AssetUtils.readFileFromAssetsAsString(Knizka.getAppContext(), "html/LoremIpsumJKS.html") ;
 
       return new ReadFileAssetsHelper();
@@ -55,9 +59,26 @@ public class ReadFileAssetsHelper {
       return tdJSUtils;
    }
 
+   public static String getOpenSheetMusicDisplay()
+   {
+      return openSheetMusicDisplay;
+   }
+
+   public static String getABCJSLib()
+   {
+      return abcjsLib;
+   }
+
+   public static String getMusicNotes(String AFilePath)
+   {
+
+      return  "<script>" + AssetUtils.readFileFromAssetsAsString(Knizka.getAppContext(), AFilePath) + "</script>";
+   }
 
    public static String getLoremIpsumJKS()
    {
       return loremIpsumJKS;
    }
+
+
 }

@@ -42,6 +42,14 @@
       android:title="@string/settings_jks_format_title"
       app:iconSpaceReserved="false" />
 
+  <SwitchPreference
+      android:defaultValue="true"
+      android:key="settings_jks_show_music_score"
+      android:summaryOff="@string/settings_jks_show_music_score_summary_off"
+      android:summaryOn="@string/settings_jks_show_music_score_summary_on"
+      android:title="@string/settings_jks_show_music_score_title"
+      app:iconSpaceReserved="false" />
+
   <ListPreference
     android:defaultValue="strip"
     android:entries="@array/colors_app"
