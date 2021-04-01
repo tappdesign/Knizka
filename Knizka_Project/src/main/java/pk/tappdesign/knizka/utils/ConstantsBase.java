@@ -41,6 +41,10 @@ public interface ConstantsBase {
 	int PRAYER_SET_NO = 0;
 	int PRAYER_SET_YES = 1;
 
+	String INTENT_EXTRA_MAX_PAGES_IN_BROWSER = "maxPagesInViewPager";
+	String INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER = "NoteIDsForViewPager";
+	String INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER = "CategoryTitleForViewPager";
+
 	String MUSIC_LIBRARY_OSMD = "osmd";
 	String MUSIC_LIBRARY_ABCJS = "abcjs";
 
@@ -96,6 +100,7 @@ public interface ConstantsBase {
 	String ACTION_NOTIFICATION_CLICK = "action_notification_click";
 	String ACTION_MERGE = "action_merge";
 	String ACTION_FAB_TAKE_PHOTO = "action_fab_take_photo";
+	String ACTION_PICKED_FROM_BROWSE_TEXTS = "action_picked_from_browse_texts";
 	/**
 	 * Used to quickly add a note, save, and perform backPress (eg. Tasker+Pushbullet) *
 	 */

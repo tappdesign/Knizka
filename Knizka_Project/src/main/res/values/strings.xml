@@ -154,6 +154,7 @@
     <string name="unlock">Unlock</string>
     <string name="title_activity_password">Edit security password</string>
     <string name="title_activity_jks_song_format">Choose format of JKS songs</string>
+    <string name="title_activity_browse_texts">Browse through texts</string>
     <string name="title_activity_about">Info</string>
     <string name="deleted">deleted</string>
     <string name="no_items_in_list">Nothing here!</string>
@@ -186,6 +187,7 @@
     <string name="proceed">Proceed</string>
     <string name="contracted_view">Reduced view</string>
     <string name="expanded_view">Expanded view</string>
+    <string name="browse_through_texts">browse through</string>
     <string name="grid_view">Grid view</string>
     <string name="pin_note">Pin note</string>
     <string name="pined_note">Pinned note as notification</string>

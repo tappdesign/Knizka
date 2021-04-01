@@ -179,6 +179,12 @@
         android:title="@string/contracted_view"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_browse_through_texts"
+        android:orderInCategory="825"
+        app:showAsAction="never"
+        android:title="@string/browse_through_texts"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_synchronize"
         android:orderInCategory="850"
         app:showAsAction="never"

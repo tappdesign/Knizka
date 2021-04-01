@@ -22,6 +22,7 @@
 package pk.tappdesign.knizka;
 
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PICKED_FROM_BROWSE_TEXTS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_RESTART_APP;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT;
@@ -395,6 +396,10 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
       if (note == null) {
         note = DbHelper.getInstance().getNote(i.getIntExtra(INTENT_KEY, 0));
       }
+       if (ACTION_PICKED_FROM_BROWSE_TEXTS.equals(i.getAction())) {
+          note = DbHelper.getInstance().getNote(i.getLongExtra(INTENT_KEY, 0));
+       }
+
       // Checks if the same note is already opened to avoid to open again
       if (note != null && noteAlreadyOpened(note)) {
         return;
@@ -462,7 +467,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
         || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
         || INTENT_GOOGLE_NOW.equals(i.getAction()))
         && i.getType() != null)
-        || i.getAction().contains(ACTION_NOTIFICATION_CLICK);
+        || i.getAction().contains(ACTION_NOTIFICATION_CLICK)
+        ||  ACTION_PICKED_FROM_BROWSE_TEXTS.equals(i.getAction());
   }
 
 

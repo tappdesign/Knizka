@@ -31,6 +31,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_DISMISS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_MERGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PICKED_FROM_BROWSE_TEXTS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PINNED;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
@@ -597,6 +598,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Action called from home shortcut
       if (IntentChecker.checkAction(i, ACTION_SHORTCUT, ACTION_NOTIFICATION_CLICK)) {
          afterSavedReturnsToList = false;
+
          noteOriginal = DbHelper.getInstance().getNote(i.getLongExtra(INTENT_KEY, 0));
          // Checks if the note pointed from the shortcut has been deleted
          try {

@@ -133,6 +133,7 @@
   <string name="unlock">Odomknúť</string>
   <string name="title_activity_password">Upraviť bezpečnostné heslo</string>
   <string name="title_activity_jks_song_format">Vyberte formát piesní</string>
+  <string name="title_activity_browse_texts">Listovanie v knižke</string>
   <string name="title_activity_about">Informácie</string>
   <string name="deleted">vymazané</string>
   <string name="no_items_in_list">Nič tu nie je!</string>
@@ -164,6 +165,7 @@
   <string name="proceed">Pokračovať</string>
   <string name="contracted_view">Zjednodušené zobrazenie</string>
   <string name="expanded_view">Rozšírené zobrazenie</string>
+  <string name="browse_through_texts">Listovať</string>
   <string name="grid_view">Grid view</string>
   <string name="pin_note">Pripnúť</string>
   <string name="remove_pinned">Zrušiť</string>

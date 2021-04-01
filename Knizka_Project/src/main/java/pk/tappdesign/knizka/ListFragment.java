@@ -30,6 +30,9 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SEARCH_UNCOMPLETE_
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_CATEGORY;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MENU_SORT_GROUP_ID;
@@ -889,6 +892,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     menu.findItem(R.id.menu_search_jks_number).setVisible(!drawerOpen && navigationJKS && !searchViewHasFocus);
     menu.findItem(R.id.menu_jks_categories).setVisible(!drawerOpen && navigationJKS && !searchViewHasFocus);
 
+
+    menu.findItem(R.id.menu_browse_through_texts).setVisible(false); // disabled for now, needs to be finished
+
     setJKSCategoriesTextVisibility(navigationJKS);
   }
 
@@ -953,6 +959,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           break;
         case R.id.menu_contracted_view:
           switchNotesView();
+          break;
+        case R.id.menu_browse_through_texts:
+          showBrowseTextsDialog();
           break;
         case R.id.menu_empty_trash:
           emptyTrash();
@@ -1132,6 +1141,25 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     mainActivity.supportInvalidateOptionsMenu();
   }
 
+  private void showBrowseTextsDialog()
+  {
+    String actTitle = "";
+    ArrayList<String> notesIds = new ArrayList<>();
+    for (int i = 0; i < listAdapter.getItemCount(); i++) {
+      notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID()));
+    }
+
+    Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
+    browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, listAdapter.getItemCount());
+    browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
+
+    if (mainActivity.getSupportActionBar() != null) {
+      actTitle = mainActivity.getSupportActionBar().getTitle().toString();
+    }
+    browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
+
+    startActivity(browseTextsFormatIntent);
+  }
 
   void editNote(final Note note, final View view) {
     if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {

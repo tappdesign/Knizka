@@ -166,6 +166,12 @@
             android:theme="@style/AppTheme.Bright.ApiSpec.Dialog"
             android:windowSoftInputMode="stateHidden|adjustResize" />
 
+        <!-- browse_texts -->
+        <activity
+            android:name="pk.tappdesign.knizka.BrowseTextsActivity"
+            android:theme="@style/AppTheme.Bright.ApiSpec.Dialog"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+
         <!-- Info -->
         <activity
             android:name="pk.tappdesign.knizka.AboutActivity"

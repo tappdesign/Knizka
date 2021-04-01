@@ -64,8 +64,8 @@ public class ViewPagerFragment extends Fragment {
 
       viewPager.setAdapter(jksStylePageAdapter);
 
-      confirmButton = view.findViewById(R.id.jks_button_layout_confirm);
-      confirmButton.setOnClickListener(v -> saveJKSLayout());
+    //  confirmButton = view.findViewById(R.id.jks_button_layout_confirm);
+     // confirmButton.setOnClickListener(v -> saveJKSLayout());
 
       confirmButton = view.findViewById(R.id.jks_button_layout_confirm);
       confirmButton.setOnClickListener(v -> saveJKSLayout());
