@@ -19,6 +19,14 @@
 
     <changelogversion
         changeDate="Apr 1, 2021"
+        versionName="1.5.0">
+        <changelogtext>[b]New:[/b] Pridané noty pre piesne (192-215)</changelogtext>
+        <changelogtext>[b]New:[/b] Aktualizácia databázy</changelogtext>
+        <changelogtext>[b]New:[/b] Zoradenie JKS piesní podľa čísla</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Apr 1, 2021"
         versionName="1.4.0">
         <changelogtext>[b]New:[/b] Pridané noty pre piesne (192-215)</changelogtext>
         <changelogtext>[b]New:[/b] Aktualizácia databázy</changelogtext>

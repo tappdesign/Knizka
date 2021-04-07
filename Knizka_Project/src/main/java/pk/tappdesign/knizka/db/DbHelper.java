@@ -492,7 +492,7 @@ public class DbHelper extends SQLiteOpenHelper {
         case Navigation.INTENTIONS:
           return getIntentions();
         case Navigation.CATEGORY:
-          return getNotesByCategory(Navigation.getCategory());
+          return getNotesByCategory(Navigation.getCategory(), "");
         default:
           return getNotes(whereCondition, "", "",true);
       }
@@ -555,14 +555,16 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getJKS() {
     String whereCondition = " WHERE "
             +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 ";
-    return getNotes(whereCondition, "", "", true);
+    String orderBy = COL_TEXT_NUMBER + " ASC, ";
+    return getNotes(whereCondition, orderBy, "", true);
   }
 
 
   public List<Note> getJKSByCategories(String jksCategoryID) {
     String whereCondition = " WHERE "
             +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 AND " + COL_MERGED_CATEGORY + " = " + jksCategoryID ;
-    return getNotes(whereCondition, "", "", true);
+    String orderBy = COL_TEXT_NUMBER + " ASC, ";
+    return getNotes(whereCondition, orderBy, "", true);
   }
 
   public List<Note> getIntentions() {
@@ -926,7 +928,7 @@ public class DbHelper extends SQLiteOpenHelper {
    * @param categoryId Category integer identifier
    * @return List of notes with requested category
    */
-  public List<Note> getNotesByCategory(Long categoryId) {
+  public List<Note> getNotesByCategory(Long categoryId, String orderBy) {
     List<Note> notes;
     boolean filterArchived = prefs.getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
     try {
@@ -934,7 +936,7 @@ public class DbHelper extends SQLiteOpenHelper {
               + COL_MERGED_CATEGORY + " = " + categoryId
               + " AND " + COL_UF_IS_TRASHED + " IS NOT 1"
               + (filterArchived ? " AND " + COL_UF_IS_ARCHIVED + " IS NOT 1" : "");
-      notes = getNotes(whereCondition, "",  "", true);
+      notes = getNotes(whereCondition, orderBy,  "", true);
     } catch (NumberFormatException e) {
       notes = getAllNotes(true);
     }
@@ -946,7 +948,8 @@ public class DbHelper extends SQLiteOpenHelper {
     int categoryID = prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
     if (categoryID > 0)
     {
-      return getNotesByCategory(new Long(categoryID));
+      String orderBy = COL_TEXT_NUMBER + " ASC, ";
+      return getNotesByCategory(new Long(categoryID), orderBy);
     } else {
       return getJKS();
     }

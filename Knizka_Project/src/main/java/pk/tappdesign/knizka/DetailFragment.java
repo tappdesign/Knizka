@@ -147,10 +147,12 @@ import pk.tappdesign.knizka.async.notes.NoteProcessorDelete;
 import pk.tappdesign.knizka.async.notes.SaveNoteTask;
 import pk.tappdesign.knizka.databinding.FragmentDetailBinding;
 import pk.tappdesign.knizka.db.DbHelper;
+import pk.tappdesign.knizka.exceptions.checked.UnhandledIntentException;
 import pk.tappdesign.knizka.helpers.AttachmentsHelper;
 import pk.tappdesign.knizka.helpers.IntentHelper;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.helpers.PermissionsHelper;
+import pk.tappdesign.knizka.helpers.TagOpenerHelper;
 import pk.tappdesign.knizka.helpers.date.DateHelper;
 import pk.tappdesign.knizka.helpers.date.RecurrenceHelper;
 import pk.tappdesign.knizka.helpers.notifications.NotificationChannels.NotificationChannelNames;
@@ -272,28 +274,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                  .positiveText(R.string.open)
                  .negativeText(R.string.copy)
                  .onPositive((dialog, which) -> {
-                    boolean error = false;
-                    Intent intent = null;
-                    try {
-                       intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                       intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    } catch (NullPointerException e) {
-                       error = true;
-                    }
-
-                    if (intent == null
-                            || error
-                            || !IntentChecker
-                            .isAvailable(
-                                    mainActivity,
-                                    intent,
-                                    new String[]{PackageManager.FEATURE_CAMERA})) {
-                       mainActivity.showMessage(R.string.no_application_can_perform_this_action,
-                               ONStyle.ALERT);
-
-                    } else {
-                       mainActivity.initNotesList(intent);
+            try {
+              Intent intent = TagOpenerHelper.openOrGetIntent(getContext(), url);
+              if (intent != null) {
+                mainActivity.initNotesList(intent);
+              }
+            } catch (UnhandledIntentException e) {
+              mainActivity.showMessage(R.string.no_application_can_perform_this_action,
+                  ONStyle.ALERT);
                     }
                  })
                  .onNegative((dialog, which) -> {

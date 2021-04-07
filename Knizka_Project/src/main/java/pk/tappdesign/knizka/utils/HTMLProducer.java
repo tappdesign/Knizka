@@ -207,6 +207,8 @@ public class HTMLProducer {
         String retVal;
 
         retVal = "<html><head> " +
+
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + getJKSLayoutFromSetting(prefs, noteHandleID) +"\" /> " +
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
                 ReadFileAssetsHelper.getInstance().getTDJSUtils() +

@@ -893,7 +893,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     menu.findItem(R.id.menu_jks_categories).setVisible(!drawerOpen && navigationJKS && !searchViewHasFocus);
 
 
-    menu.findItem(R.id.menu_browse_through_texts).setVisible(false); // disabled for now, needs to be finished
+    menu.findItem(R.id.menu_browse_through_texts).setVisible(true);
 
     setJKSCategoriesTextVisibility(navigationJKS);
   }

@@ -88,6 +88,8 @@ public class BrowseTextsFragment  extends Fragment {
       vw.getSettings().setLoadsImagesAutomatically(true);
       vw.getSettings().setJavaScriptEnabled(true);
       vw.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
+      vw.getSettings().setUseWideViewPort(true);
+      vw.setInitialScale(93); // need to be zoomed out a little bit, otherwise is page width wider then device screen width
 
       vw.setOnTouchListener(new View.OnTouchListener() {
           public boolean onTouch(View v, MotionEvent event) {
