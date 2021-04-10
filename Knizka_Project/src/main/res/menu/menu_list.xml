@@ -179,6 +179,18 @@
         android:title="@string/contracted_view"
         android:visible="false"/>
     <item
+        android:id="@+id/menu_sort_jks_by_name"
+        android:orderInCategory="815"
+        app:showAsAction="never"
+        android:title="@string/menu_caption_sort_song_by_name"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_sort_jks_by_number"
+        android:orderInCategory="815"
+        app:showAsAction="never"
+        android:title="@string/menu_caption_sort_song_by_number"
+        android:visible="false"/>
+    <item
         android:id="@+id/menu_browse_through_texts"
         android:orderInCategory="825"
         app:showAsAction="never"

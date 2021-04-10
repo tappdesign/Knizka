@@ -15,9 +15,9 @@ w: me, *po |tme ~svet~-lo na
 w: ~stú~-pi~--lo, ra | dost~-ne ~spie~-vaj~-
    G2 z4 G2 | c2 c2 c2 _B2 |
 w: me: Náš |~z~mŕt~-vych pov~-stal
-   A2 G2 F2 F2| A2 G2 F2 F2 |  
+   A2 G2 F2 F2| A2 A2 A2 G2 |  
 w: ~Spa~-si~-teľ, dra~- | ~hý sve~-ta ~Vy~-
-   A2 A2 A2 G2| A2 B2 c2 G2 |
+   F2 E2 D2 G2| A2 B2 c2 G2 |
 w: ~ku~-pi~-teľ, on~ slá-vne ~z~mŕt~-vych 
     A2 z4 A2| d2 c2 c2 B2 | c6 |]   
 w: ~vstal, náš |~Pán Boh, ~ne~-bies Kráľ!`   

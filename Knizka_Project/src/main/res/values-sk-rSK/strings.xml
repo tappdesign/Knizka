@@ -126,6 +126,7 @@
   <string name="jks_category_all">(všetky piesne)</string>
   <string name="jks_category_prefix">Kategória:</string>
   <string name="jks_layout_number">Číslo formátu:</string>
+  <string name="jks_list_is_empty">Zoznam je prázdny</string>
   <string name="insert_security_password">Vložte bezpečnostné heslo</string>
   <string name="lock">Zamknúť</string>
   <string name="save_note_to_lock_it">Uložiť poznámku pre jej uzamknutie</string>
@@ -166,6 +167,8 @@
   <string name="contracted_view">Zjednodušené zobrazenie</string>
   <string name="expanded_view">Rozšírené zobrazenie</string>
   <string name="browse_through_texts">Listovať</string>
+  <string name="menu_caption_sort_song_by_name">Zoradiť podľa mena</string>
+  <string name="menu_caption_sort_song_by_number">Zoradiť podľa čísla</string>
   <string name="grid_view">Grid view</string>
   <string name="pin_note">Pripnúť</string>
   <string name="remove_pinned">Zrušiť</string>

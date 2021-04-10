@@ -48,6 +48,9 @@ public interface ConstantsBase {
 	String MUSIC_LIBRARY_OSMD = "osmd";
 	String MUSIC_LIBRARY_ABCJS = "abcjs";
 
+	String JKS_SORTING_TYPE_NUMBER = "by_number";
+	String JKS_SORTING_TYPE_NAME = "by_name";
+
 
 	String HTML_TEXT_BODY_CLASS = "<div class=\"TextBody\">";
 	String HTML_DIV_END_TAG = "</div>";
@@ -130,6 +133,8 @@ public interface ConstantsBase {
 	boolean PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT = false;
 	String PREF_NAVIGATION_JKS_CATEGORY_ID = "jks_category_id";
 	int PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT = 0;
+	String PREF_JKS_SORTING_TYPE = "jks_sorting_type";
+	String PREF_JKS_SORTING_TYPE_DEFAULT = JKS_SORTING_TYPE_NUMBER;
 	String PREF_CURRENT_APP_VERSION = "settings_current_app_version";
 	String PREF_FAB_EXPANSION_BEHAVIOR = "settings_fab_expansion_behavior";
 	String PREF_ATTACHMENTS_ON_BOTTOM = "settings_attachments_on_bottom";

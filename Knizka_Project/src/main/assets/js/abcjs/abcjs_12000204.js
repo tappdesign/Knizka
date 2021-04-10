@@ -6,7 +6,7 @@ L: 1/4
 R: J. Po. (1790-1813)
 C: *D. R. D. C. (1787)
 K: F
-   F A G | D E z | A c B |
+   F A G | F E z | A c B |
 w: ~Tre-tie-ho |~dňa ~vstal | Stvo-ri-teľ
    A G z |: d d c | B A G |
 w: ~z~mŕt-vych, | náš ~mi~-lý | Spa-si-teľ,

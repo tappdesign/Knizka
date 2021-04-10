@@ -147,6 +147,7 @@
     <string name="jks_category_all">(all songs)</string>
     <string name="jks_category_prefix">Category:</string>
     <string name="jks_layout_number">Format number:</string>
+    <string name="jks_list_is_empty">Song list is empty</string>
     <string name="insert_security_password">Insert password</string>
     <string name="lock">Lock</string>
     <string name="save_note_to_lock_it">Save note to lock it</string>
@@ -188,6 +189,8 @@
     <string name="contracted_view">Reduced view</string>
     <string name="expanded_view">Expanded view</string>
     <string name="browse_through_texts">browse through</string>
+    <string name="menu_caption_sort_song_by_name">sort by name</string>
+    <string name="menu_caption_sort_song_by_number">sort by number</string>
     <string name="grid_view">Grid view</string>
     <string name="pin_note">Pin note</string>
     <string name="pined_note">Pinned note as notification</string>

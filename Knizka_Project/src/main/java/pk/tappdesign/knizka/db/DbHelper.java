@@ -21,9 +21,13 @@
 package pk.tappdesign.knizka.db;
 
 import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_INTENT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD;
@@ -499,9 +503,26 @@ public class DbHelper extends SQLiteOpenHelper {
     } else {
       return getNotes(whereCondition, "", "", true);
     }
-
   }
 
+  private String getJKSSortingType()
+  {
+    String result;
+
+    String jksSortingType = prefs.getString(PREF_JKS_SORTING_TYPE, PREF_JKS_SORTING_TYPE_DEFAULT);
+
+    switch (jksSortingType)
+    {
+      default:
+      case JKS_SORTING_TYPE_NUMBER:
+        result =  COL_TEXT_NUMBER + " ASC, ";
+        break;
+      case JKS_SORTING_TYPE_NAME:
+        result =  COL_TITLE + " ASC, ";
+        break;
+    }
+    return result;
+  }
 
   public List<Note> getNotesActive() {
     String whereCondition = " WHERE " + COL_UF_IS_ARCHIVED + " IS NOT 1 AND " + COL_UF_IS_TRASHED + " IS NOT 1 ";
@@ -555,16 +576,14 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getJKS() {
     String whereCondition = " WHERE "
             +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 ";
-    String orderBy = COL_TEXT_NUMBER + " ASC, ";
-    return getNotes(whereCondition, orderBy, "", true);
+    return getNotes(whereCondition,  getJKSSortingType(), "", true);
   }
 
 
   public List<Note> getJKSByCategories(String jksCategoryID) {
     String whereCondition = " WHERE "
             +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 AND " + COL_MERGED_CATEGORY + " = " + jksCategoryID ;
-    String orderBy = COL_TEXT_NUMBER + " ASC, ";
-    return getNotes(whereCondition, orderBy, "", true);
+    return getNotes(whereCondition,  getJKSSortingType(), "", true);
   }
 
   public List<Note> getIntentions() {
@@ -948,8 +967,7 @@ public class DbHelper extends SQLiteOpenHelper {
     int categoryID = prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
     if (categoryID > 0)
     {
-      String orderBy = COL_TEXT_NUMBER + " ASC, ";
-      return getNotesByCategory(new Long(categoryID), orderBy);
+      return getNotesByCategory(new Long(categoryID), getJKSSortingType());
     } else {
       return getJKS();
     }

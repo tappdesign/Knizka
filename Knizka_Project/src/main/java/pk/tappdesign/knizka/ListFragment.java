@@ -21,7 +21,6 @@
 package pk.tappdesign.knizka;
 
 import static androidx.core.view.ViewCompat.animate;
-import static androidx.core.view.ViewCompat.isKeyboardNavigationCluster;
 import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_MERGE;
@@ -35,6 +34,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_WIDGET;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MENU_SORT_GROUP_ID;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE_DEFAULT;
@@ -42,15 +43,13 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_EXPANDED_VIEW;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FAB_EXPANSION_BEHAVIOR;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_DEFAULT;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_ADDED;
@@ -100,7 +99,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
@@ -828,6 +826,29 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     });
   }
 
+  private void setJKSSortingMenuVisibility(Menu menu, boolean isJKSNavigation)
+  {
+
+    menu.findItem(R.id.menu_sort_jks_by_number).setVisible(false);
+    menu.findItem(R.id.menu_sort_jks_by_name).setVisible(false);
+
+    if (isJKSNavigation)
+    {
+      String jksSortingType = prefs.getString(PREF_JKS_SORTING_TYPE, PREF_JKS_SORTING_TYPE_DEFAULT);
+
+      switch (jksSortingType)
+      {
+        default:
+        case JKS_SORTING_TYPE_NUMBER:
+          menu.findItem(R.id.menu_sort_jks_by_name).setVisible(true);
+          break;
+        case JKS_SORTING_TYPE_NAME:
+          menu.findItem(R.id.menu_sort_jks_by_number).setVisible(true);
+          break;
+      }
+    }
+
+  }
    private void setJKSCategoriesTextVisibility(boolean isJKSNavigation)
    {
       if (isJKSNavigation)
@@ -895,6 +916,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     menu.findItem(R.id.menu_browse_through_texts).setVisible(true);
 
+
+    setJKSSortingMenuVisibility(menu, navigationJKS);
     setJKSCategoriesTextVisibility(navigationJKS);
   }
 
@@ -959,6 +982,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           break;
         case R.id.menu_contracted_view:
           switchNotesView();
+          break;
+        case R.id.menu_sort_jks_by_name:
+          setJKSSortingType(JKS_SORTING_TYPE_NAME);
+          break;
+        case R.id.menu_sort_jks_by_number:
+          setJKSSortingType(JKS_SORTING_TYPE_NUMBER);
           break;
         case R.id.menu_browse_through_texts:
           showBrowseTextsDialog();
@@ -1141,6 +1170,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     mainActivity.supportInvalidateOptionsMenu();
   }
 
+  private void setJKSSortingType(String jksSortingType)
+  {
+    prefs.edit().putString(PREF_JKS_SORTING_TYPE, jksSortingType).apply();
+    // Change list view
+    initNotesList(mainActivity.getIntent());
+    // Called to switch menu voices
+    mainActivity.supportInvalidateOptionsMenu();
+  }
+
   private void showBrowseTextsDialog()
   {
     String actTitle = "";
@@ -1149,16 +1187,22 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID()));
     }
 
-    Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
-    browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, listAdapter.getItemCount());
-    browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
+    if (notesIds.isEmpty())
+    {
+      mainActivity.showMessage(R.string.jks_list_is_empty, ONStyle.ALERT);
+    } else {
+      Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, listAdapter.getItemCount());
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
 
-    if (mainActivity.getSupportActionBar() != null) {
-      actTitle = mainActivity.getSupportActionBar().getTitle().toString();
+      if (mainActivity.getSupportActionBar() != null) {
+        actTitle = mainActivity.getSupportActionBar().getTitle().toString();
+      }
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
+
+      startActivity(browseTextsFormatIntent);
     }
-    browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
 
-    startActivity(browseTextsFormatIntent);
   }
 
   void editNote(final Note note, final View view) {

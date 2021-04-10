@@ -14,7 +14,7 @@ w: ~na krí~-ži u~-|mu~--če~--ný,
 w: od ~sko~-na~-nia |dňa~ tre~-~tie~--ho |
    A2 E2 c2 A2 | (dB) (A^G) A2 z2| 
 w: slá~-vne ~vstá~-va |z~hro-bu ~svoj~--ho 
-  A2 (GF) (EF) G2 | (FA) (BG) (E F) | 
+  A2 (GF) (EF) G2 | (FA) (BG) (F2 E2) | 
 w: a~-le~--lu~--ja, | a~--le~--lu~--
   D8 |]  
 w: ja\n`
