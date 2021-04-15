@@ -26,8 +26,8 @@
     <!-- StatusBar -->
     <color name="colorDarkPrimaryDark">#000000</color>
 
-    <color name="colorDarkAccent">#CD3813</color>
-    <color name="colorDarkAccentPressed">#F69999</color>
+    <color name="colorDarkAccent">#FBAF16</color>
+    <color name="colorDarkAccentPressed">#FFEB3B</color>
 
     <!-- Floating action button (FAB) colors -->
     <color name="colorDarkFABColor">#51017C</color>
@@ -88,6 +88,9 @@
 
     <!-- General text color-->
     <color name="colorDarkTextColorNormal">#E6E2E2</color>
+
+    <!-- General highlight text color-->
+    <color name="colorDarkTextColorHighlight">#6996F4</color>
 
     <!-- Background of changelog  -->
     <color name="colorDarkChangelogBackground">#FFFFAA</color>

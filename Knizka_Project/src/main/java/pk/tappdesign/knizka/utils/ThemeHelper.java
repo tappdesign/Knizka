@@ -23,8 +23,10 @@ package pk.tappdesign.knizka.utils;
 
 import android.app.Activity;
 
+import pk.tappdesign.knizka.BrowseTextsActivity;
 import pk.tappdesign.knizka.CategoryActivity;
 import pk.tappdesign.knizka.GalleryActivity;
+import pk.tappdesign.knizka.JKSFormatActivity;
 import pk.tappdesign.knizka.NoteInfosActivity;
 import pk.tappdesign.knizka.PasswordActivity;
 import pk.tappdesign.knizka.R;
@@ -59,7 +61,7 @@ public class ThemeHelper {
       {
          activity.setTheme(R.style.AppThemeDialogActivity_Bright);
       } else {
-         if (activity instanceof PasswordActivity)
+         if ((activity instanceof PasswordActivity) || (activity instanceof JKSFormatActivity) || (activity instanceof BrowseTextsActivity))
          {
             activity.setTheme(R.style.AppTheme_Bright_ApiSpec_Dialog);
          } else {
@@ -74,8 +76,7 @@ public class ThemeHelper {
       {
          activity.setTheme(R.style.AppThemeDialogActivity_Dark);
       } else {
-
-         if (activity instanceof PasswordActivity)
+         if ((activity instanceof PasswordActivity) || (activity instanceof JKSFormatActivity) || (activity instanceof BrowseTextsActivity))
          {
             activity.setTheme(R.style.AppTheme_Dark_ApiSpec_Dialog);
          } else {

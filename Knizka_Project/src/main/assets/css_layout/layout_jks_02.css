@@ -1,0 +1,292 @@
+body
+{
+	    /* browser defaults */
+    	margin-left: 8px;
+    	margin-right: 8px;
+}
+
+/* akordy */
+div.chordline {
+
+}
+
+.akord {
+   display: none; 
+}
+
+.pomlcka {
+   display: none; 
+}
+
+.stup {
+   display: none; 
+}
+
+
+.TextTitle
+{
+    font-weight: bold;
+    font-size: 140%;
+	
+    border-style:double;
+    border-width: 5px;
+	
+    padding-top: 25px;
+    padding-right: 1px;
+    padding-bottom: 25px;
+    padding-left: 15px;
+	
+    margin-bottom: 15px;
+}
+
+
+.SongWrapper
+{
+     margin-left: 0px;
+     margin-right: 0px;
+     font-family: sans-serif;
+}
+
+.SongWrapper p.BigFirstLetter
+{
+    margin: 0;
+    -webkit-margin-after: 0em;
+    -webkit-margin-before: 0em;
+}
+
+.SongWrapper p.BigFirstLetter:first-letter
+{
+	font-size:xx-large;
+}
+
+
+div.KStrophe {    
+    padding:0px;
+	margin-bottom: 5px;
+}
+
+div.KSong {    
+    margin-left: 2px;
+    margin-right: 2px;
+    padding:0px;
+}
+
+.KSVers
+{
+    font-weight: bold;
+    font-size: 120%;
+	
+    margin-bottom: 3px;
+    margin-top: 12px;
+	
+    padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+    padding-left: 0px;
+}
+
+div.KDialog
+{
+    margin-top:10px;	
+}
+
+.KK::before
+{
+    content: "Kňaz: ";
+    font-style: italic;
+}
+ 
+.KL::before
+{
+    content: "Ľud: ";
+    font-style: italic;
+}
+
+.KSplit::before{
+	content: " - ";
+}
+
+.KNum 
+{
+	font-weight: bold;
+}
+.KNum.n1::before{
+	content: "1. ";
+}
+.KNum.n2::before{
+	content: "2. ";
+}
+.KNum.n3::before{
+	content: "3. ";
+}
+.KNum.n4::before{
+	content: "4. ";
+}
+.KNum.n5::before{
+	content: "5. ";
+}
+.KNum.n6::before{
+	content: "6. ";
+}
+.KNum.n7::before{
+	content: "7. ";
+}
+.KNum.n8::before{
+	content: "8. ";
+}
+.KNum.n9::before{
+	content: "9. ";
+}
+.KNum.n10::before{
+	content: "10. ";
+}
+.KNum.n11::before{
+	content: "11. ";
+}
+.KNum.n12::before{
+	content: "12. ";
+}
+.KNum.n13::before{
+	content: "13. ";
+}
+.KNum.n14::before{
+	content: "14. ";
+}
+.KNum.n15::before{
+	content: "15. ";
+}
+.KNum.n16::before{
+	content: "16. ";
+}
+.KNum.n17::before{
+	content: "17. ";
+}
+.KNum.n18::before{
+	content: "18. ";
+}
+.KNum.n19::before{
+	content: "19. ";
+}
+.KNum.n20::before{
+	content: "20. ";
+}
+.KNum.n21::before{
+	content: "21. ";
+}
+
+/* part "ofertorium or similar" After numbering*/
+.KP
+{
+	font-weight: bold;
+}
+.KP.gl::before{
+	content: "Glória: ";
+}
+.KP.ep::before{
+	content: "Epištola: ";
+}
+.KP.ev::before{
+	content: "Evanjelium: ";
+}
+
+.KP.of::before{
+	content: "Ofertórium: ";
+}
+.KP.sa::before{
+	content: "Sanktus: ";
+}
+.KP.kr::before{
+	content: "Krédo: ";
+}
+.KP.zv::before{
+	content: "Po pozdvihovaní: ";
+}
+.KP.ag::before{
+	content: "Agnus: ";
+}
+.KP.pr::before{
+	content: "Prijímanie: ";
+}
+.KP.po::before{
+	content: "Požehnanie: ";
+}
+.KP.ze::before{
+	content: "Kyrie: ";
+}
+.KP.di::before{
+	content: "Dies irae: ";
+}
+.KP.gr::before{
+	content: "Graduále: ";
+}
+.KP.be::before{
+	content: "Benediktus: ";
+}
+  
+.KM
+{
+	margin-top:5px;
+	margin-bottom:5px;
+	font-style: italic;
+}  
+ 
+.KB
+{
+ 	font-weight: bold;
+}  
+ 
+.KN
+{
+
+}
+
+.KV
+{
+
+}
+
+.KV.bl{
+    display: block; 
+    margin-bottom: 10px;		
+}
+
+.KD
+{
+
+}
+
+.KO
+{
+    display: block;
+    font-style: italic;
+    margin-top: 10px; 
+}
+
+.KO::before
+{
+ content: "Modlime sa: \A";
+ white-space: pre-wrap;
+ 
+}
+ 
+/* first row in song*/
+.KF
+{
+     font-weight: bold; 
+}
+
+
+/* refrain */
+.KRef
+{
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.KSpc
+{
+	display: block;
+	margin-top: 20px;	
+}
+
+

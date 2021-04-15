@@ -63,7 +63,12 @@
         <item name="themeColorControlActivated">@color/colorDarkControlActivated</item>
         <item name="themeTextColorPrimaryDisableOnly">@color/colorDarkTextColorPrimaryDisableOnly</item>
 
+        <item name="themeTextColorCategory">@color/colorDarkTextColorHighlight</item>
+
         <item name="themeTextColorStandard">@color/colorDarkTextColorNormal</item>
+
+        <item name="themeButtonTextColorAccent">@color/colorDarkAccent</item>
+
         <!-- note title -->
         <item name="themeTextColorNoteTitle">@color/colorDarkNoteTitle</item>
         <!-- note preview -->
@@ -126,7 +131,11 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:backgroundDimEnabled">true</item>
         <item name="themeDialogTextNormal">@color/colorDarkDialogNormalTextColor</item>
+        <item name="themeDialogNormalButtonColor">@color/colorDarkDialogNormalTextColor</item>
+
     </style>
+
+
 
     <!-- styling popup menu - overflow menu -->
     <style name="PopupMenuThemeDark" parent="@style/Widget.MaterialComponents.PopupMenu.Overflow">
@@ -171,10 +180,25 @@
     <style name="AlertDialogStyle.Dark">
         <!-- Background Color-->
         <item name="android:background">#272727</item>
-        <!-- Text Color for title and message -->
+        <!-- Text Color for message -->
         <item name="colorOnSurface">#F3DCDC</item>
         <!-- Text Color for buttons -->
         <item name="colorPrimary">@color/white</item>
+        <!-- Title -->
+        <item name="materialAlertDialogTitleTextStyle">@style/MyTitle_MaterialAlertDialog.MaterialComponents.Title.Text.Dark</item>
+        <!-- Items, text -->
+        <item name="materialAlertDialogBodyTextStyle">@style/BodyTextAppearance.MaterialComponents.BodyItemsText.Dark</item>
+    </style>
+
+    <style name="MyTitle_MaterialAlertDialog.MaterialComponents.Title.Text.Dark" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">#F3DCDC</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="BodyTextAppearance.MaterialComponents.BodyItemsText.Dark" parent="@style/MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">#F3DCDC</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
 
@@ -194,6 +218,10 @@
         <!-- circle color of not selected items -->
         <item name="android:textColorSecondary">#E1E6EA</item>
 
+    </style>
+
+    <style name="Button.Dialog.Accent.Dark" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">@color/alert</item>
     </style>
 
     <style name="SPStyleDark" parent="SublimePickerStyleLight">

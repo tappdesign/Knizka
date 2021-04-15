@@ -31,6 +31,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_DISMISS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_MERGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PICKED_FROM_BROWSE_TEXTS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PINNED;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
@@ -40,6 +41,9 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_CLICKED_IMAGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_IMAGES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_TITLE;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_GOOGLE_NOW;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_KEY;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
@@ -118,6 +122,7 @@ import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Animation.AnimationListener;
 import android.view.animation.AnimationUtils;
+import android.webkit.WebChromeClient;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -145,10 +150,12 @@ import pk.tappdesign.knizka.async.notes.NoteProcessorDelete;
 import pk.tappdesign.knizka.async.notes.SaveNoteTask;
 import pk.tappdesign.knizka.databinding.FragmentDetailBinding;
 import pk.tappdesign.knizka.db.DbHelper;
+import pk.tappdesign.knizka.exceptions.checked.UnhandledIntentException;
 import pk.tappdesign.knizka.helpers.AttachmentsHelper;
 import pk.tappdesign.knizka.helpers.IntentHelper;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.helpers.PermissionsHelper;
+import pk.tappdesign.knizka.helpers.TagOpenerHelper;
 import pk.tappdesign.knizka.helpers.date.DateHelper;
 import pk.tappdesign.knizka.helpers.date.RecurrenceHelper;
 import pk.tappdesign.knizka.helpers.notifications.NotificationChannels.NotificationChannelNames;
@@ -270,28 +277,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                  .positiveText(R.string.open)
                  .negativeText(R.string.copy)
                  .onPositive((dialog, which) -> {
-                    boolean error = false;
-                    Intent intent = null;
-                    try {
-                       intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-                       intent.addCategory(Intent.CATEGORY_BROWSABLE);
-                       intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    } catch (NullPointerException e) {
-                       error = true;
-                    }
-
-                    if (intent == null
-                            || error
-                            || !IntentChecker
-                            .isAvailable(
-                                    mainActivity,
-                                    intent,
-                                    new String[]{PackageManager.FEATURE_CAMERA})) {
-                       mainActivity.showMessage(R.string.no_application_can_perform_this_action,
-                               ONStyle.ALERT);
-
-                    } else {
-                       mainActivity.initNotesList(intent);
+            try {
+              Intent intent = TagOpenerHelper.openOrGetIntent(getContext(), url);
+              if (intent != null) {
+                mainActivity.initNotesList(intent);
+              }
+            } catch (UnhandledIntentException e) {
+              mainActivity.showMessage(R.string.no_application_can_perform_this_action,
+                  ONStyle.ALERT);
                     }
                  })
                  .onNegative((dialog, which) -> {
@@ -391,6 +384,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     // Ensures that Detail Fragment always have the back Arrow when it's created
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     init();
+
+    Display.setKeepScreenOn(mainActivity, prefs);
 
     setHasOptionsMenu(true);
     setRetainInstance(false);
@@ -594,6 +589,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Action called from home shortcut
       if (IntentChecker.checkAction(i, ACTION_SHORTCUT, ACTION_NOTIFICATION_CLICK)) {
          afterSavedReturnsToList = false;
+
          noteOriginal = DbHelper.getInstance().getNote(i.getLongExtra(INTENT_KEY, 0));
          // Checks if the note pointed from the shortcut has been deleted
          try {
@@ -1000,9 +996,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    }
 
    private void initViewWebView() {
-
+      binding.fragmentDetailContent.myweb.setWebChromeClient(new WebChromeClient());
       binding.fragmentDetailContent.myweb.getSettings().setLoadsImagesAutomatically(true);
       binding.fragmentDetailContent.myweb.getSettings().setJavaScriptEnabled(true);
+      binding.fragmentDetailContent.myweb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
       binding.fragmentDetailContent.myweb.setWebViewClient(new ourBrowser());
       binding.fragmentDetailContent.myweb.getSettings().setTextZoom(prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT));
@@ -1316,7 +1313,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
    private void loadNoteToWebView() {
-      binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(prefs, noteTmp.getTitle(), noteTmp.getHTMLContent()), null, null, null);
+       binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(prefs, noteTmp.getHandleID(), noteTmp.getTitle(), noteTmp.getHTMLContent()), null, null, null);
    }
 
    private void changeHtmlColorScheme(int i) {
@@ -1882,7 +1879,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    @Override
    public void onNoteSaved(Note noteSaved) {
-      MainActivity.notifyAppWidgets(Knizka.getAppContext());
       if (!activityPausing) {
          EventBus.getDefault().post(new NotesUpdatedEvent(Collections.singletonList(noteSaved)));
          deleteMergedNotes(mergedNotesIds);
@@ -1900,16 +1896,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       ArrayList<Note> notesToDelete = new ArrayList<>();
       if (mergedNotesIds != null) {
          for (String mergedNoteId : mergedNotesIds) {
-            Note note = new Note();
-            note.set_id(Long.valueOf(mergedNoteId));
-            notesToDelete.add(note);
+            Note noteToDelete = new Note();
+            noteToDelete.set_id(Long.valueOf(mergedNoteId));
+            notesToDelete.add(noteToDelete);
          }
          new NoteProcessorDelete(notesToDelete).process();
       }
    }
 
    private String getNoteTitle() {
-      if (binding.detailTitle != null && !TextUtils.isEmpty(binding.detailTitle.getText())) {
+    if (!TextUtils.isEmpty(binding.detailTitle.getText())) {
          return binding.detailTitle.getText().toString();
       } else {
          return "";
@@ -2216,6 +2212,50 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_DETAIL_TAG).commit();
    }
 
+   private void activateBrowsingTexts(int direction) {
+
+
+
+      String actTitle = "";
+      ArrayList<String> notesIds = new ArrayList<>();
+     // for (int i = 0; i < listAdapter.getItemCount(); i++) {
+     //    notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID()));
+    //  }
+      notesIds.add("11000005");
+      notesIds.add("11000006");
+      notesIds.add("11000007");
+
+
+      if (notesIds.isEmpty())
+      {
+         mainActivity.showMessage(R.string.jks_list_is_empty, ONStyle.ALERT);
+      } else {
+         Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
+         browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, notesIds.size());
+         browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
+
+         if (mainActivity.getSupportActionBar() != null) {
+            actTitle = "br";//mainActivity.getSupportActionBar().getTitle().toString();
+         }
+         browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
+
+         startActivity(browseTextsFormatIntent);
+         navigateUp();
+      }
+
+
+
+      //  navigateUp();
+   /*   Note newNote;
+      if (direction < 0) {
+         newNote = DbHelper.getInstance().getNote(note.getHandleID() + 1);
+      } else {
+         newNote = DbHelper.getInstance().getNote(note.getHandleID() - 1);
+      }
+*/
+
+   }
+
    @SuppressLint("NewApi")
    @Override
    public boolean onTouch(View v, MotionEvent event) {
@@ -2250,7 +2290,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
                if (Math.abs(x - startSwipeX) > SWIPE_OFFSET) {
                   swiping = false;
-                  showNextNote(x - startSwipeX);  //todo: @pk: not implemented yet, switch note by swipping
+                  //showNextNote(x - startSwipeX);  //todo: @pk: not implemented yet, switch note by swipping
+                  activateBrowsingTexts(x - startSwipeX);
             /*  // original code, creates new note
             FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
             mainActivity.animateTransition(transaction, TRANSITION_VERTICAL);

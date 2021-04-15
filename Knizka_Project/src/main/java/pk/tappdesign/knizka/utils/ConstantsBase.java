@@ -41,11 +41,23 @@ public interface ConstantsBase {
 	int PRAYER_SET_NO = 0;
 	int PRAYER_SET_YES = 1;
 
+	String INTENT_EXTRA_MAX_PAGES_IN_BROWSER = "maxPagesInViewPager";
+	String INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER = "NoteIDsForViewPager";
+	String INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER = "CategoryTitleForViewPager";
+	String INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER = "ListViewPositionOffsetForViewPager";
+
+	String MUSIC_LIBRARY_OSMD = "osmd";
+	String MUSIC_LIBRARY_ABCJS = "abcjs";
+
+	String JKS_SORTING_TYPE_NUMBER = "by_number";
+	String JKS_SORTING_TYPE_NAME = "by_name";
+
+
 	String HTML_TEXT_BODY_CLASS = "<div class=\"TextBody\">";
 	String HTML_DIV_END_TAG = "</div>";
 	String HTML_TEXT_TITLE_CLASS = "<div class=\"TextTitle\">";
 	String HTML_TEXT_SUB_TITLE_CLASS = "<div class=\"TextSubTitle\">";
-
+	String HTML_DIV_MUSIC_SCORE_CONTAINER = "<div id=\"MusicScoreContainer\"></div>";
 
 	// Used for updates retrieval
 	long UPDATE_MIN_FREQUENCY = 24L * 60L * 60L * 1000L; // 1 day
@@ -92,11 +104,14 @@ public interface ConstantsBase {
 	String ACTION_NOTIFICATION_CLICK = "action_notification_click";
 	String ACTION_MERGE = "action_merge";
 	String ACTION_FAB_TAKE_PHOTO = "action_fab_take_photo";
+	String ACTION_PICKED_FROM_BROWSE_TEXTS = "action_picked_from_browse_texts";
 	/**
 	 * Used to quickly add a note, save, and perform backPress (eg. Tasker+Pushbullet) *
 	 */
 	String ACTION_SEND_AND_EXIT = "action_send_and_exit";
 	String ACTION_SEARCH_UNCOMPLETE_CHECKLISTS = "action_search_uncomplete_checklists";
+
+	String LAYOUT_JKS_PREFIX = "layout_jks_";
 
 	String PREF_LANG = "settings_language";
 	String PREF_LAST_UPDATE_CHECK = "last_update_check";
@@ -115,9 +130,17 @@ public interface ConstantsBase {
 	String PREF_FILTER_PAST_REMINDERS = "settings_filter_past_reminders";
 	String PREF_FILTER_ARCHIVED_IN_CATEGORIES = "settings_filter_archived_in_categories";
 	String PREF_DYNAMIC_MENU = "settings_dynamic_menu";
+	String PREF_NAVIGATION_SHOW_JKS_CATEGORIES = "settings_navdrawer_show_jks_categories";
+	boolean PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT = false;
+	String PREF_NAVIGATION_JKS_CATEGORY_ID = "jks_category_id";
+	int PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT = 0;
+	String PREF_JKS_SORTING_TYPE = "jks_sorting_type";
+	String PREF_JKS_SORTING_TYPE_DEFAULT = JKS_SORTING_TYPE_NUMBER;
 	String PREF_CURRENT_APP_VERSION = "settings_current_app_version";
 	String PREF_FAB_EXPANSION_BEHAVIOR = "settings_fab_expansion_behavior";
 	String PREF_ATTACHMENTS_ON_BOTTOM = "settings_attachments_on_bottom";
+	String PREF_JKS_SHOW_MUSIC_SCORE = "settings_jks_show_music_score";
+	boolean PREF_JKS_SHOW_MUSIC_SCORE_DEFAULT = true;
 	String PREF_KEEP_SCREEN_ON = "settings_keep_screen_on";
 	boolean PREF_KEEP_SCREEN_ON_DEFAULT = false;
 	String PREF_SHOW_FULLSCREEN = "settings_show_full_screen";
@@ -138,7 +161,11 @@ public interface ConstantsBase {
 
 	String PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT = "bright";
 	String PREF_HTML_COLOR_SCHEME_VALUE_DARK = "dark";
+	String PREF_LAYOUT_JKS_CSS = "layout_jks_css";
+	String PREF_LAYOUT_JKS_CSS_DEFAULT = LAYOUT_JKS_PREFIX + "01.css";
 
+	String PREF_MUSIC_SCORE_LIBRARY = "music_score_library";
+	String PREF_MUSIC_SCORE_LIBRARY_DEFAULT = MUSIC_LIBRARY_ABCJS;
 
 
 	String MIME_TYPE_IMAGE = "image/jpeg";

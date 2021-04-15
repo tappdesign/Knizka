@@ -23,12 +23,23 @@ package pk.tappdesign.knizka.utils;
 
 import android.content.SharedPreferences;
 
+import pk.tappdesign.knizka.helpers.ReadFileAssetsHelper;
+
 import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_DIV_END_TAG;
+import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_DIV_MUSIC_SCORE_CONTAINER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_TEXT_TITLE_CLASS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.MUSIC_LIBRARY_ABCJS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.MUSIC_LIBRARY_OSMD;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_DARK;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SHOW_MUSIC_SCORE;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SHOW_MUSIC_SCORE_DEFAULT;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_LAYOUT_JKS_CSS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_LAYOUT_JKS_CSS_DEFAULT;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_MUSIC_SCORE_LIBRARY;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_MUSIC_SCORE_LIBRARY_DEFAULT;
 
 public class HTMLProducer {
 
@@ -50,14 +61,180 @@ public class HTMLProducer {
     }
 
 
-    public static String getHTML(SharedPreferences prefs, String caption, String htmlText)
+    private static String getJKSLayoutFromSetting(SharedPreferences prefs, long noteHandleID)
+    {
+        String result;
+
+        if (isJKSSong(noteHandleID))
+        {
+            result = prefs.getString(PREF_LAYOUT_JKS_CSS, PREF_LAYOUT_JKS_CSS_DEFAULT);
+
+        } else {
+            result = "format1.css";
+        }
+
+        return result;
+    }
+
+    private static boolean isJKSSong(long noteHandleID)
+    {
+        return (noteHandleID >= 12000000) && (noteHandleID <= 12999999);
+    }
+
+
+    private static boolean isJKSSongAndMusicScoreIsOn(SharedPreferences prefs, long noteHandleID)
+    {
+        boolean result = false;
+
+        if (isJKSSong(noteHandleID))
+        {
+            if (prefs.getBoolean(PREF_JKS_SHOW_MUSIC_SCORE, PREF_JKS_SHOW_MUSIC_SCORE_DEFAULT))
+            {
+                result = true;
+            }
+        }
+
+        return (result);
+    }
+
+
+    private static String getMusicScoreLibrary(SharedPreferences prefs, long noteHandleID)
+    {
+        String result = "";
+        if (isJKSSongAndMusicScoreIsOn(prefs, noteHandleID))
+        {
+            switch (prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
+            {
+                case MUSIC_LIBRARY_OSMD:
+                    result = ReadFileAssetsHelper.getInstance().getOpenSheetMusicDisplay();
+                    break;
+
+                case MUSIC_LIBRARY_ABCJS:
+                    result = ReadFileAssetsHelper.getInstance().getABCJSLib();
+                    break;
+
+                default:
+                    result = ReadFileAssetsHelper.getInstance().getOpenSheetMusicDisplay();
+                    break;
+            }
+        }
+
+        return result;
+    }
+
+
+    private static String getMusicSheetAsJS(SharedPreferences prefs, long noteHandleID)
+    {
+        String result = "";
+        if (isJKSSongAndMusicScoreIsOn(prefs, noteHandleID))
+        {
+            switch (prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
+            {
+                case MUSIC_LIBRARY_OSMD:
+                    result = ReadFileAssetsHelper.getInstance().getMusicNotes("js/osmd/osmd_" + noteHandleID + ".js");
+                    break;
+
+                case MUSIC_LIBRARY_ABCJS:
+                    result = ReadFileAssetsHelper.getInstance().getMusicNotes("js/abcjs/abcjs_" + noteHandleID + ".js");
+                    break;
+
+                default:
+                    result = ReadFileAssetsHelper.getInstance().getMusicNotes("js/osmd/osmd_" + noteHandleID + ".js");
+                    break;
+            }
+        }
+        return result;
+    }
+
+
+    private static String getMusicScoreScriptRendererForOSMD(long noteHandleID)
+    {
+        String result =
+                "<script> var osmd = new opensheetmusicdisplay.OpenSheetMusicDisplay(\"MusicScoreContainer\"); " +
+                        "osmd.setOptions({ " +
+                        "backend: \"svg\", " +
+                        //"drawTitle: true, " +
+                        "drawingParameters: \"compacttight\" " +
+                        "});" +
+                        "osmd" +
+                        ".load(MusicScoreData)" +
+                        ".then( " +
+                        "function() { " +
+                        "osmd.zoom = 0.50; " +
+                        "osmd.render(); " +
+                        "} "+
+                        "); </script>";
+        return result;
+    }
+
+
+    private static String getMusicScoreScriptRendererForABCJS(long noteHandleID)
+    {
+        String result =
+                "<script>  " +
+                        "var visualOptions = { staffwidth: 300, scale: 0.75 };" +
+                       // "var visualOptions = {responsive: 'resize' , scale: 2.00 };"+
+                        " var visualObj = ABCJS.renderAbc(\"MusicScoreContainer\", MusicScoreData, visualOptions); " +
+                "</script>";
+        return result;
+    }
+
+
+    private static String getMusicScoreScriptRenderer(SharedPreferences prefs, long noteHandleID)
+    {
+        String result = "";
+        if (isJKSSongAndMusicScoreIsOn(prefs, noteHandleID))
+        {
+            switch (prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
+            {
+                case MUSIC_LIBRARY_OSMD:
+                    result =  getMusicScoreScriptRendererForOSMD(noteHandleID);
+                    break;
+                case MUSIC_LIBRARY_ABCJS:
+                    result =  getMusicScoreScriptRendererForABCJS(noteHandleID);
+                    break;
+                default:
+                    result = getMusicScoreScriptRendererForOSMD(noteHandleID);
+                    break;
+            }
+         }
+
+        return result;
+    }
+
+    public static String getHTML(SharedPreferences prefs, long noteHandleID, String caption, String htmlText)
     {
         String retVal;
 
-        retVal = "<html><head> <link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/format1.css\" /> " + //todo: @pk: make format configurable
+        retVal = "<html><head> " +
+
+                "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + getJKSLayoutFromSetting(prefs, noteHandleID) +"\" /> " +
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
-                "</head><body>"+
-                HTML_TEXT_TITLE_CLASS + caption + HTML_DIV_END_TAG + htmlText +"</body>";
+                ReadFileAssetsHelper.getInstance().getTDJSUtils() +
+                getMusicScoreLibrary(prefs, noteHandleID) +
+                "</head><body onload=\"assignAccordions()\">"+
+                HTML_TEXT_TITLE_CLASS + caption + HTML_DIV_END_TAG +
+                HTML_DIV_MUSIC_SCORE_CONTAINER +
+                htmlText +
+                getMusicSheetAsJS(prefs, noteHandleID) +
+                getMusicScoreScriptRenderer(prefs, noteHandleID)+
+                "</body></html>";
+
+        return retVal;
+    }
+
+    public static String getLoremIpsumHTML(SharedPreferences prefs, String layoutCSS)
+    {
+        String retVal;
+
+        retVal = "<html><head> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + layoutCSS +  "\" /> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
+                ReadFileAssetsHelper.getInstance().getTDJSUtils() +
+                "</head><body onload=\"assignAccordions()\">"+
+                ReadFileAssetsHelper.getInstance().getLoremIpsumJKS() +
+                "</body></html>";
 
         return retVal;
     }

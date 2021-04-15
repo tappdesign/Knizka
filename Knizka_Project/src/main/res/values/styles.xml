@@ -159,7 +159,7 @@
     </style>
 
     <style name="Button.Themed.Dialog.Accent" >
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">?attr/themeButtonTextColorAccent</item>
     </style>
 
     <style name="Button.Dialog" parent="Widget.MaterialComponents.Button.TextButton"/>
@@ -192,6 +192,11 @@
 -->
     <style name="ThemeText">
         <item name="android:textColor">@color/alert</item>
+    </style>
+
+    <style name="Text.BigBold" parent="ThemeText">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
     </style>
 
     <style name="Text.Big" parent="ThemeText">

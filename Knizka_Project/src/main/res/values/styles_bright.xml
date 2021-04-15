@@ -64,7 +64,11 @@
         <item name="themeColorControlActivated">@color/colorBrightControlActivated</item>
         <item name="themeTextColorPrimaryDisableOnly">@color/colorBrightTextColorPrimaryDisableOnly</item>
 
+        <item name="themeTextColorCategory">@color/colorBrightTextColorHighlight</item>
+
         <item name="themeTextColorStandard">@color/colorBrightTextColorNormal</item>
+
+        <item name="themeButtonTextColorAccent">@color/colorBrightAccent</item>
         <!-- note title -->
         <item name="themeTextColorNoteTitle">@color/colorBrightNoteTitle</item>
         <!-- note preview -->
@@ -169,13 +173,27 @@
 
     <style name="AlertDialogStyle.Bright">
         <!-- Background Color-->
-        <item name="android:background">#272727</item>
-        <!-- Text Color for title and message -->
-        <item name="colorOnSurface">#F3DCDC</item>
+        <item name="android:background">@color/colorBrightBGCard</item>
+        <!-- Text Color for message -->
+        <item name="colorOnSurface">#2D3040</item>
         <!-- Text Color for buttons -->
-        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimary">#423E3E</item>
+
+        <!-- Title -->
+        <item name="materialAlertDialogTitleTextStyle">@style/MyTitle_MaterialAlertDialog.MaterialComponents.Title.Text.Bright</item>
+        <!-- Items, text -->
+        <item name="materialAlertDialogBodyTextStyle">@style/BodyTextAppearance.MaterialComponents.BodyItemsText.Bright</item>
     </style>
 
+    <style name="MyTitle_MaterialAlertDialog.MaterialComponents.Title.Text.Bright" parent="@style/MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="BodyTextAppearance.MaterialComponents.BodyItemsText.Bright" parent="@style/MaterialAlertDialog.MaterialComponents.Body.Text">
+        <item name="android:textColor">#2D3040</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <!--dialog for settings -->
     <style name="AppTheme.Bright.Dialog" parent="Theme.MaterialComponents.DayNight.Dialog">

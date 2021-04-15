@@ -6,6 +6,38 @@ body
 	color: #772B35; 
 }
 
+
+
+/********************************************/
+/*  Akordy							 		*/
+/********************************************/
+.akord {
+
+color: #ff6e12; 
+}
+
+.pomlcka {
+
+color: #ff6e12; 
+}
+
+/********************************************/
+/*  Accordion						 		*/
+/********************************************/
+
+
+.tdAccordion
+{
+	color: #772B35; 
+	background-color:#F4C0A4;
+	border-color: #5E5E40;	
+}
+
+.active, .tdAccordion:hover {
+  background-color: #F4C0A4;
+}
+
+
 /********************************************/
 /*  Titles 							 		*/
 /********************************************/
@@ -117,6 +149,11 @@ body
 
 
 /* class .respons for responsories */
+.LitResp
+{
+    color: #772B35;
+}
+
 .respons p.respR:before 
 {
 	color: #E16E7D;

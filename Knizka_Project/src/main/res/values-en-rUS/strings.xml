@@ -200,7 +200,7 @@
   <string name="permission_coarse_location">Permission to access to location is needed to add position informations to your notes</string>
   <string name="permission_not_granted">Permission not granted</string>
   <string name="checklist">Checklist</string>
-  <string name="text_note">Text note</string>
+  <string name="text_note">Prayer</string>
   <string name="photo">Photo</string>
   <string name="uncompleted_checklists">Incompleted checklists</string>
   <string name="info">Info</string>

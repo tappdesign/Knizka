@@ -25,7 +25,7 @@
   <string name="title">Názov</string>
   <string name="title_activity_list">Knižka</string>
   <string name="search">Hľadať</string>
-  <string name="search_hint">Hľadať v modlitbách</string>
+  <string name="search_hint">Vyhľadávanie</string>
   <string name="content">Obsah</string>
   <string name="save">Uložiť</string>
   <string name="share">Zdieľať</string>
@@ -118,17 +118,23 @@
   <string name="delete_category_confirmation">Táto kategória je použitá v niektorých položkách.\nChcete napriek tomu vymazať kategóriu?</string>
   <string name="discard">Zahodiť</string>
   <string name="remove_category">Odstrániť kategóriu</string>
-  <string name="no_tags_created">No tags available yet\nCreate them by writing hashtags into your notes</string>
+  <string name="no_tags_created">Zatiaľ neboli vytvorené žiadne značky</string>
   <string name="no_categories_created">Zatiaľ nebola vytvorená žiadna kategória</string>
   <string name="notes_category_removed">Kategória bola odstránená z poznámok</string>
   <string name="notes_categorized_as">Poznámky boli kategorizované ako</string>
   <string name="insert_jks_number">Vložte číslo piesne</string>
+  <string name="jks_category_all">(všetky piesne)</string>
+  <string name="jks_category_prefix">Kategória:</string>
+  <string name="jks_layout_number">Číslo formátu:</string>
+  <string name="jks_list_is_empty">Zoznam je prázdny</string>
   <string name="insert_security_password">Vložte bezpečnostné heslo</string>
   <string name="lock">Zamknúť</string>
   <string name="save_note_to_lock_it">Uložiť poznámku pre jej uzamknutie</string>
   <string name="save_note_to_unlock_it">Uložiť poznámku pre jej odomknutie</string>
   <string name="unlock">Odomknúť</string>
   <string name="title_activity_password">Upraviť bezpečnostné heslo</string>
+  <string name="title_activity_jks_song_format">Vyberte formát piesní</string>
+  <string name="title_activity_browse_texts">Listovanie v knižke</string>
   <string name="title_activity_about">Informácie</string>
   <string name="deleted">vymazané</string>
   <string name="no_items_in_list">Nič tu nie je!</string>
@@ -160,6 +166,9 @@
   <string name="proceed">Pokračovať</string>
   <string name="contracted_view">Zjednodušené zobrazenie</string>
   <string name="expanded_view">Rozšírené zobrazenie</string>
+  <string name="browse_through_texts">Listovať</string>
+  <string name="menu_caption_sort_song_by_name">Zoradiť podľa mena</string>
+  <string name="menu_caption_sort_song_by_number">Zoradiť podľa čísla</string>
   <string name="grid_view">Grid view</string>
   <string name="pin_note">Pripnúť</string>
   <string name="remove_pinned">Zrušiť</string>
@@ -221,10 +230,12 @@
   <string name="uncompleted_checklists">Incompleted checklists</string>
   <string name="info">Informácie</string>
   <string name="completed">Completed</string>
+  <string name="undo_changes_note_confirmation">Potvrdiť zahodenie zmien?</string>
   <string name="added_to_favorites">Pridané do obľúbených</string>
   <string name="removed_from_favorites">Odstránené z obľúbených</string>
   <string name="choose_html_color_scheme">Vybrať</string>
   <string name="dialog_html_color_scheme_caption">Vybrať farebnú schému pre texty</string>
+  <string name="dialog_JKS_categories_caption">Kategórie piesní</string>
   <string name="dialog_button_cancel">Zrušiť</string>
 
   <!-- Settings -->
@@ -280,6 +291,7 @@
   <string name="wrong_password">Nesprávne heslo</string>
   <string name="empty_password">Heslo je prázdne</string>
   <string name="agree_unlocking_all_notes">Odstrániť heslo\na odomknúť všetky zamknuté poznámky?</string>
+  <string name="settings_jks_instructions">Vyberte formát piesní</string>
   <string name="settings_enable_tag_marker">Značky kategórií</string>
   <string name="settings_backup_summary">Importovať alebo exportovať údaje aplikácie</string>
   <string name="settings_max_video_size_summary">Maximálna povolená veľkosť v MB</string>
@@ -331,7 +343,13 @@
   <string name="settings_always_show_JKS_number_search">Vždy zobrazuj vyhľadanie podľa čísla v JKS</string>
   <string name="settings_navdrawer_on_exit">Navigačná ponuka po ukončení</string>
   <string name="settings_navdrawer_on_exit_summary">Po stlačení tlačidla \"Späť\" v zozname modlitieb sa otvorí navigačná ponuka namiesto ukončenia aplikácie</string>
+  <string name="settings_navdrawer_show_jks_categories">Zobraz JKS kategórie</string>
+  <string name="settings_navdrawer_show_jks_categories_summary">Zobrazí položku JKS kategórie v navigačnom menu</string>
   <string name="settings_text_size">Veľkosť textu</string>
+  <string name="settings_jks_format_title">Formát JKS piesní</string>
+  <string name="settings_jks_format_set">Formát JKS piesní úspešne nastavený</string>
+  <string name="settings_jks_format_set_button_caption">Nastaviť</string>
+  <string name="settings_jks_format_set_button_cancel">Zrušiť</string>
   <string name="settings_screen_behaviors">Správania</string>
   <string name="settings_enable_swipe">Potiahnutie položiek</string>
   <string name="settings_enable_swipe_summary">Potiahnutím položky vykonať akcie</string>
@@ -339,7 +357,7 @@
   <string name="settings_swipe_to_trash_summary_1">Potiahnutím archivovať položku</string>
   <string name="settings_swipe_to_trash_summary_2">Potiahnutím položku odstrániť</string>
   <string name="settings_show_uncategorized">Skupina Nekategorizované</string>
-  <string name="settings_show_uncategorized_summary">Pridať novú položku do navigačnej ponuky pre nekategorizované poznámky</string>
+  <string name="settings_show_uncategorized_summary">Pridať novú skupinu do navigačnej ponuky pre nekategorizované položky</string>
   <string name="settings_show_category_count">Počet modlitieb</string>
   <string name="settings_show_category_count_summary">Zobraziť počet priradených modlitieb vedľa kategórie</string>
   <string name="settings_auto_location">Automatická poloha</string>
@@ -352,6 +370,10 @@
   <string name="settings_attachments_on_bottom">Prílohy na spodku</string>
   <string name="settings_attachments_on_bottom_summary_on">Zobraziť prílohy pod obsahom modlitby</string>
   <string name="settings_attachments_on_bottom_summary_off">Zobraziť prílohy nad obsahom modlitby</string>
+  <string name="settings_jks_format_summary">Nastaviť formát zobrazenia JKS piesní</string>
+  <string name="settings_jks_show_music_score_summary_off">Notový zápis v JKS piesňach je vypnutý</string>
+  <string name="settings_jks_show_music_score_summary_on">Notový zápis v JKS piesňach je zapnutý</string>
+  <string name="settings_jks_show_music_score_title">Zobraziť noty v piesňach</string>
   <string name="settings_keep_screen_on">Nezhasínať obrazovku</string>
   <string name="settings_keep_screen_on_summary_on">Obrazovka zariadenia bude stále zapnutá</string>
   <string name="settings_keep_screen_on_summary_off">Obrazovka zariadenia sa po čase vypne, ako je nastavené v systémových nastaveniach</string>

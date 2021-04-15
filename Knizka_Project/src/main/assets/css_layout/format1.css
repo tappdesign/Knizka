@@ -1,6 +1,56 @@
 body
 {
+	/* browser defaults*/
+	margin-left: 8px;
+	margin-right: 8px;
+}
 
+/* akordy */
+div.chordline {
+
+}
+
+.akord {
+   display: none; 
+}
+
+.pomlcka {
+   display: none; 
+}
+
+.stup {
+   display: none; 
+}
+
+/* accordion */
+.tdAccordion {
+ 
+	cursor: pointer;
+  
+	width: 100%;  
+	text-align: left;
+	outline: none;
+  
+	transition: 0.4s;
+  
+	font-weight: bold;
+	font-size: 120%;
+		
+	padding-top: 7px;
+	padding-right: 1px;
+	padding-bottom: 7px;
+	padding-left: 10px;
+		
+	margin-bottom: 6px;
+	margin-top: 15px;
+
+	border-style:solid;
+	border-width: 1px;  
+}
+
+.tdAccPanel {  
+  display: none;
+  overflow: hidden;
 }
 
 .TextTitle
@@ -181,8 +231,8 @@ body
 
 .NoteWrapper
 {
-	margin-left: 2px;
-	margin-right: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
 	font-family: sans-serif;
 }
 
@@ -283,7 +333,11 @@ body
 
 
 /* class .respons for responsories */
-
+.LitResp
+{
+    font-weight: bold;
+    font-style: italic;
+}
 
 .respons  {
 	margin-bottom: 15px;

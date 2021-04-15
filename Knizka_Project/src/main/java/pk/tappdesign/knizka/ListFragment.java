@@ -29,8 +29,14 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SEARCH_UNCOMPLETE_
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_CATEGORY;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_WIDGET;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MENU_SORT_GROUP_ID;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE_DEFAULT;
@@ -38,9 +44,13 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_EXPANDED_VIEW;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FAB_EXPANSION_BEHAVIOR;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SORTING_COLUMN;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WIDGET_PREFIX;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_ADDED;
@@ -49,6 +59,7 @@ import static pk.tappdesign.knizka.utils.Navigation.CATEGORY;
 import static pk.tappdesign.knizka.utils.Navigation.FAVORITES;
 import static pk.tappdesign.knizka.utils.Navigation.INTENTIONS;
 import static pk.tappdesign.knizka.utils.Navigation.JKS;
+import static pk.tappdesign.knizka.utils.Navigation.JKS_CATEGORIES;
 import static pk.tappdesign.knizka.utils.Navigation.JKS_NUMBER_SEARCH;
 import static pk.tappdesign.knizka.utils.Navigation.LAST_SHOWN;
 import static pk.tappdesign.knizka.utils.Navigation.NOTES;
@@ -101,6 +112,8 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -132,6 +145,7 @@ import pk.tappdesign.knizka.models.listeners.OnViewTouchedListener;
 import pk.tappdesign.knizka.models.listeners.RecyclerViewItemClickSupport;
 import pk.tappdesign.knizka.models.views.Fab;
 import pk.tappdesign.knizka.utils.AnimationsHelper;
+import pk.tappdesign.knizka.utils.Display;
 import pk.tappdesign.knizka.utils.IntentChecker;
 import pk.tappdesign.knizka.utils.KeyboardUtils;
 import pk.tappdesign.knizka.utils.Navigation;
@@ -279,7 +293,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     // Restores again DefaultSharedPreferences too reload in case of data erased from Settings
     prefs = mainActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
-    SetKeepScreenOn();
+    Display.setKeepScreenOn(mainActivity, prefs);
+    //SetKeepScreenOn();
   }
 
   private void SetKeepScreenOn()
@@ -342,7 +357,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
    * Activity title initialization based on navigation
    */
   private void initTitle () {
-    String[] navigationList = getResources().getStringArray(R.array.navigation_list);
+    String[] navigationListActivityCaptions = getResources().getStringArray(R.array.navigation_list_activity_caption);
+  //  String[] navigationList = getResources().getStringArray(R.array.navigation_list);
     String[] navigationListCodes = getResources().getStringArray(R.array.navigation_list_codes);
     String navigation = mainActivity.navigationTmp != null ? mainActivity.navigationTmp : prefs.getString
         (PREF_NAVIGATION, navigationListCodes[0]);
@@ -350,7 +366,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     String title;
     // If is a traditional navigation item
     if (index >= 0 && index < navigationListCodes.length) {
-      title = navigationList[index];
+      title = navigationListActivityCaptions[index];
     } else {
       Category category = DbHelper.getInstance().getCategory(Long.parseLong(navigation));
       title = category != null ? category.getName() : "";
@@ -665,6 +681,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       case PRAYER_SETS:
       case JKS:
       case JKS_NUMBER_SEARCH:
+      case JKS_CATEGORIES:
       case INTENTIONS:
         result = true;
         break;
@@ -710,7 +727,6 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       menu.findItem(R.id.menu_duplicate).setVisible(true);
     }
     menu.findItem(R.id.menu_select_all).setVisible(true);
-
     setCabTitle();
   }
 
@@ -811,6 +827,47 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     });
   }
 
+  private void setJKSSortingMenuVisibility(Menu menu, boolean isJKSNavigation)
+  {
+
+    menu.findItem(R.id.menu_sort_jks_by_number).setVisible(false);
+    menu.findItem(R.id.menu_sort_jks_by_name).setVisible(false);
+
+    if (isJKSNavigation)
+    {
+      String jksSortingType = prefs.getString(PREF_JKS_SORTING_TYPE, PREF_JKS_SORTING_TYPE_DEFAULT);
+
+      switch (jksSortingType)
+      {
+        default:
+        case JKS_SORTING_TYPE_NUMBER:
+          menu.findItem(R.id.menu_sort_jks_by_name).setVisible(true);
+          break;
+        case JKS_SORTING_TYPE_NAME:
+          menu.findItem(R.id.menu_sort_jks_by_number).setVisible(true);
+          break;
+      }
+    }
+
+  }
+   private void setJKSCategoriesTextVisibility(boolean isJKSNavigation)
+   {
+      if (isJKSNavigation)
+      {
+         int jksCatId = prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
+         if (jksCatId <= PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT)
+         {
+            binding.categoryLayout.setVisibility(View.GONE);
+         } else {
+            binding.categoryLayout.setVisibility(View.VISIBLE);
+            binding.categoryCancel.setOnClickListener(v -> clearCategories(false));
+         }
+         setCategoryIdText(jksCatId);
+
+      } else {
+         binding.categoryLayout.setVisibility(View.GONE);
+      }
+   }
 
   private void setActionItemsVisibility (Menu menu, boolean searchViewHasFocus) {
 
@@ -823,7 +880,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     boolean navigationArchive = navigation == Navigation.ARCHIVE;
     boolean navigationTrash = navigation == Navigation.TRASH;
     boolean navigationCategory = navigation == CATEGORY;
-    boolean navigationJKS = (navigation == Navigation.JKS) || navigation == Navigation.JKS_NUMBER_SEARCH ;
+    boolean navigationJKS = (navigation == Navigation.JKS) || (navigation == Navigation.JKS_NUMBER_SEARCH) || (navigation == JKS_CATEGORIES);
 
     boolean filterPastReminders = prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, true);
     boolean filterArchivedInCategory = navigationCategory && prefs.getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + Navigation.getCategory(), false);
@@ -855,7 +912,14 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     menu.findItem(R.id.menu_tags).setVisible(searchViewHasFocus);
     menu.findItem(R.id.menu_search_jks_number).setVisible(!drawerOpen && navigationJKS && !searchViewHasFocus);
+    menu.findItem(R.id.menu_jks_categories).setVisible(!drawerOpen && navigationJKS && !searchViewHasFocus);
 
+
+    menu.findItem(R.id.menu_browse_through_texts).setVisible(true);
+
+
+    setJKSSortingMenuVisibility(menu, navigationJKS);
+    setJKSCategoriesTextVisibility(navigationJKS);
   }
 
 
@@ -920,11 +984,23 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         case R.id.menu_contracted_view:
           switchNotesView();
           break;
+        case R.id.menu_sort_jks_by_name:
+          setJKSSortingType(JKS_SORTING_TYPE_NAME);
+          break;
+        case R.id.menu_sort_jks_by_number:
+          setJKSSortingType(JKS_SORTING_TYPE_NUMBER);
+          break;
+        case R.id.menu_browse_through_texts:
+          showBrowseTextsDialog();
+          break;
         case R.id.menu_empty_trash:
           emptyTrash();
           break;
         case R.id.menu_search_jks_number:
           showDialogForNumbers();
+          break;
+        case R.id.menu_jks_categories:
+          showDialogForCategories();
           break;
         default:
           LogDelegate.e("Wrong element choosen: " + item.getItemId());
@@ -968,7 +1044,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           duplicateNotes();
           break;
         case R.id.menu_search_jks_number:
-          showDialogForNumbers(); //todo: @pk: when is this called? is it necessary?
+          showDialogForNumbers();
           break;
 //                case R.ID.menu_synchronize:
 //                    synchronizeSelectedNotes();
@@ -1017,6 +1093,24 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       mainActivity.showMessage(R.string.song_not_found, ONStyle.ALERT);
     }
     return result;
+  }
+
+
+  private void showDialogForCategories () {
+    
+    MaterialAlertDialogBuilder importDialog = new MaterialAlertDialogBuilder(getActivity())
+            .setTitle(R.string.dialog_JKS_categories_caption)
+            .setItems(getResources().getStringArray(R.array.jks_songs_category), (dialog, position) -> {
+
+              int[] categoryValues = getResources().getIntArray(R.array.jks_songs_category_values);
+              NoteLoaderTask.getInstance().executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, "getJKSByCategories",
+                      String.valueOf(categoryValues[position]));
+              prefs.edit().putInt(PREF_NAVIGATION_JKS_CATEGORY_ID, categoryValues[position]).commit();
+              setJKSCategoriesTextVisibility(true);
+            });
+
+    importDialog.show();
+
   }
 
   private void showDialogForNumbers () {
@@ -1077,6 +1171,43 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     mainActivity.supportInvalidateOptionsMenu();
   }
 
+  private void setJKSSortingType(String jksSortingType)
+  {
+    prefs.edit().putString(PREF_JKS_SORTING_TYPE, jksSortingType).apply();
+    // Change list view
+    initNotesList(mainActivity.getIntent());
+    // Called to switch menu voices
+    mainActivity.supportInvalidateOptionsMenu();
+  }
+
+  private void showBrowseTextsDialog()
+  {
+    String actTitle = "";
+    ArrayList<String> notesIds = new ArrayList<>();
+    for (int i = 0; i < listAdapter.getItemCount(); i++) {
+      notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID()));
+    }
+
+    if (notesIds.isEmpty())
+    {
+      mainActivity.showMessage(R.string.jks_list_is_empty, ONStyle.ALERT);
+    } else {
+     // int CurrListViewPos = ((LinearLayoutManager)binding.list.getLayoutManager()).findFirstVisibleItemPosition();
+      listViewPosition = ((LinearLayoutManager)binding.list.getLayoutManager()).findFirstVisibleItemPosition();;
+      Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, listAdapter.getItemCount());
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER, listViewPosition);
+
+      if (mainActivity.getSupportActionBar() != null) {
+        actTitle = mainActivity.getSupportActionBar().getTitle().toString();
+      }
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
+
+      startActivity(browseTextsFormatIntent);
+    }
+
+  }
 
   void editNote(final Note note, final View view) {
     if (note.isLocked() && !prefs.getBoolean("settings_password_access", false)) {
@@ -1100,9 +1231,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       // if navigation is a category it will be set into note
       try {
         if (Navigation.checkNavigation(CATEGORY) || !TextUtils.isEmpty(mainActivity.navigationTmp)) {
-          String categoryId = ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
-              Navigation.getCategory().toString());
-          note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
+          if (note.getPackageID() != PACKAGE_USER_INTENT) // do not set category to intent directly, could be assigned later
+          {
+            String categoryId = ObjectUtils.defaultIfNull(mainActivity.navigationTmp,
+                    Navigation.getCategory().toString());
+            note.setCategory(DbHelper.getInstance().getCategory(Long.parseLong(categoryId)));
+          }
         }
       } catch (NumberFormatException e) {
         LogDelegate.v("Maybe was not a category!");
@@ -1205,6 +1339,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         }).build().show();
   }
 
+  private void setCategoryIdText(int jksCatId)
+  {
+    if (jksCatId <= PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT)
+    {
+      binding.categoryText.setText(getResources().getString(R.string.jks_category_all));
+    } else {
+      binding.categoryText.setText( Html.fromHtml(getResources().getString(R.string.jks_category_prefix) + " <B>" + getResources().getStringArray(R.array.jks_songs_category)[jksCatId-1000-1] + "</B>"));
+    }
+  }
 
   /**
    * Notes list adapter initialization and association to view
@@ -1233,6 +1376,15 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       mainActivity.switchToDetail(DbHelper.getInstance().getRandom());
       //change navigation from random to "all notes"
       mainActivity.updateNavigation(mainActivity.getResources().getStringArray(R.array.navigation_list_codes)[NOTES]);
+    }
+
+    if (Navigation.getNavigation() == JKS_CATEGORIES) {
+      int jksCatId = prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
+      if (jksCatId <= PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT)
+      {
+        showDialogForCategories();
+      }
+      setCategoryIdText(jksCatId);
     }
 
     // Searching
@@ -1289,6 +1441,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
   }
 
+   public void clearCategories (boolean activate) {
+      prefs.edit().putInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT).commit();
+      initNotesList(mainActivity.getIntent());
+      setJKSCategoriesTextVisibility(false);
+   }
 
   public void toggleSearchLabel (boolean activate) {
     if (activate) {
@@ -1296,6 +1453,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       binding.searchLayout.setVisibility(View.VISIBLE);
       binding.searchCancel.setOnClickListener(v -> toggleSearchLabel(false));
       searchLabelActive = true;
+      binding.categoryLayout.setVisibility(View.GONE);
     } else {
       if (searchLabelActive) {
         searchLabelActive = false;
@@ -1320,6 +1478,13 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     }
   }
 
+  private void resetJKSCategoriesIfNeeded()
+  {
+    if (Navigation.getNavigation() == JKS_CATEGORIES) {
+      // user clicked JKS categories on navigation drawer menu, reset it to show JKS categories dialog
+      prefs.edit().putInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT).commit();
+    }
+  }
 
   public void onEvent(NavigationUpdatedNavDrawerClosedEvent navigationUpdatedNavDrawerClosedEvent) {
     listViewPosition = 0;

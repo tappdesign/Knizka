@@ -21,9 +21,15 @@
 package pk.tappdesign.knizka.db;
 
 import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
+import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_INTENT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE_DEFAULT;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_AUDIO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_FILES;
@@ -485,20 +491,38 @@ public class DbHelper extends SQLiteOpenHelper {
           return getPrayerSet();
         case Navigation.JKS:
         case Navigation.JKS_NUMBER_SEARCH:
-          return getJKS();
+        case Navigation.JKS_CATEGORIES:
+            return getNotesByCategory();
         case Navigation.INTENTIONS:
           return getIntentions();
         case Navigation.CATEGORY:
-          return getNotesByCategory(Navigation.getCategory());
+          return getNotesByCategory(Navigation.getCategory(), "");
         default:
           return getNotes(whereCondition, "", "",true);
       }
     } else {
       return getNotes(whereCondition, "", "", true);
     }
-
   }
 
+  private String getJKSSortingType()
+  {
+    String result;
+
+    String jksSortingType = prefs.getString(PREF_JKS_SORTING_TYPE, PREF_JKS_SORTING_TYPE_DEFAULT);
+
+    switch (jksSortingType)
+    {
+      default:
+      case JKS_SORTING_TYPE_NUMBER:
+        result =  COL_TEXT_NUMBER + " ASC, ";
+        break;
+      case JKS_SORTING_TYPE_NAME:
+        result =  COL_TITLE + " ASC, ";
+        break;
+    }
+    return result;
+  }
 
   public List<Note> getNotesActive() {
     String whereCondition = " WHERE " + COL_UF_IS_ARCHIVED + " IS NOT 1 AND " + COL_UF_IS_TRASHED + " IS NOT 1 ";
@@ -552,7 +576,14 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getJKS() {
     String whereCondition = " WHERE "
             +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 ";
-    return getNotes(whereCondition, "", "", true);
+    return getNotes(whereCondition,  getJKSSortingType(), "", true);
+  }
+
+
+  public List<Note> getJKSByCategories(String jksCategoryID) {
+    String whereCondition = " WHERE "
+            +  COL_HANDLE_ID +" > 12000000 AND " + COL_HANDLE_ID + " < 13000000 AND " + COL_MERGED_CATEGORY + " = " + jksCategoryID ;
+    return getNotes(whereCondition,  getJKSSortingType(), "", true);
   }
 
   public List<Note> getIntentions() {
@@ -617,7 +648,7 @@ public class DbHelper extends SQLiteOpenHelper {
             " ON (" + COL_HANDLE_ID + " = " + COL_LS_HANDLE_ID + ") " +
 
             whereCondition +
-            " order by " + orderBy + COL_TITLE + " ASC " + limit;
+            " order by " + orderBy + COL_TITLE + " COLLATE LOCALIZED ASC " + limit;
 
     LogDelegate.v("Query: " + query);
 
@@ -916,7 +947,7 @@ public class DbHelper extends SQLiteOpenHelper {
    * @param categoryId Category integer identifier
    * @return List of notes with requested category
    */
-  public List<Note> getNotesByCategory(Long categoryId) {
+  public List<Note> getNotesByCategory(Long categoryId, String orderBy) {
     List<Note> notes;
     boolean filterArchived = prefs.getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
     try {
@@ -924,14 +955,23 @@ public class DbHelper extends SQLiteOpenHelper {
               + COL_MERGED_CATEGORY + " = " + categoryId
               + " AND " + COL_UF_IS_TRASHED + " IS NOT 1"
               + (filterArchived ? " AND " + COL_UF_IS_ARCHIVED + " IS NOT 1" : "");
-      notes = getNotes(whereCondition, "",  "", true);
+      notes = getNotes(whereCondition, orderBy,  "", true);
     } catch (NumberFormatException e) {
       notes = getAllNotes(true);
     }
     return notes;
   }
 
+  public List<Note> getNotesByCategory() {
 
+    int categoryID = prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
+    if (categoryID > 0)
+    {
+      return getNotesByCategory(new Long(categoryID), getJKSSortingType());
+    } else {
+      return getJKS();
+    }
+  }
 
   /**
    * Retrieves all tags
@@ -1076,7 +1116,8 @@ public class DbHelper extends SQLiteOpenHelper {
             " ) foo " +
             " LEFT JOIN " + TBL_CATEGORIES_FLAG +
             " ON (" + DB_COL_CF_CATEGORY_ID_REF + " = " + COL_CATEGORY_ID + ") " +
-            " WHERE " + DB_COL_CF_DELETED + " IS NOT 1 ";
+            " WHERE " + DB_COL_CF_DELETED + " IS NOT 1 "+
+            " ORDER BY " + COL_CATEGORY_NAME + " ASC ";
 
     try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
       // Looping through all rows and adding to list

@@ -22,6 +22,7 @@
 package pk.tappdesign.knizka;
 
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
+import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PICKED_FROM_BROWSE_TEXTS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_RESTART_APP;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SEND_AND_EXIT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT;
@@ -58,6 +59,7 @@ import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
 import pk.tappdesign.knizka.async.UpdateWidgetsTask;
+import pk.tappdesign.knizka.async.UpdaterTask;
 import pk.tappdesign.knizka.async.bus.PasswordRemovedEvent;
 import pk.tappdesign.knizka.async.bus.SwitchFragmentEvent;
 import pk.tappdesign.knizka.async.notes.NoteProcessorDelete;
@@ -120,7 +122,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     }
 
     // check for an apk update
-//		new UpdaterTask(this).execute(); Removed due to missing backend
+	 new UpdaterTask(this).execute();
   }
 
   @Override
@@ -243,12 +245,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
 
   public void initNotesList(Intent intent) {
-    //Fragment f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (intent != null) {
-      Fragment searchTagFragment = startSearchView();
-      new Handler(getMainLooper()).post(() -> {
-        ((ListFragment) searchTagFragment).initNotesList(intent);
-      });
+      new Handler(getMainLooper()).post(() -> ((ListFragment) startSearchView()).initNotesList(intent));
     }
   }
 
@@ -394,6 +392,10 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
       if (note == null) {
         note = DbHelper.getInstance().getNote(i.getIntExtra(INTENT_KEY, 0));
       }
+       if (ACTION_PICKED_FROM_BROWSE_TEXTS.equals(i.getAction())) {
+          note = DbHelper.getInstance().getNote(i.getLongExtra(INTENT_KEY, 0));
+       }
+
       // Checks if the same note is already opened to avoid to open again
       if (note != null && noteAlreadyOpened(note)) {
         return;
@@ -461,7 +463,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
         || Intent.ACTION_SEND_MULTIPLE.equals(i.getAction())
         || INTENT_GOOGLE_NOW.equals(i.getAction()))
         && i.getType() != null)
-        || i.getAction().contains(ACTION_NOTIFICATION_CLICK);
+        || i.getAction().contains(ACTION_NOTIFICATION_CLICK)
+        ||  ACTION_PICKED_FROM_BROWSE_TEXTS.equals(i.getAction());
   }
 
 

@@ -28,8 +28,15 @@
         app:showAsAction="collapseActionView|always"/>
     <item
         android:id="@+id/menu_search_jks_number"
-        android:icon="@drawable/ic_search_jks_white_48dp"
+        android:icon="@drawable/ic_numbers_white_24dp"
         android:orderInCategory="125"
+        android:title="@string/search"
+        android:visible="false"
+        app:showAsAction="collapseActionView|always"/>
+    <item
+        android:id="@+id/menu_jks_categories"
+        android:icon="@drawable/ic_jks_categories_white_24dp"
+        android:orderInCategory="130"
         android:title="@string/search"
         android:visible="false"
         app:showAsAction="collapseActionView|always"/>
@@ -170,6 +177,24 @@
         android:orderInCategory="800"
         app:showAsAction="never"
         android:title="@string/contracted_view"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_sort_jks_by_name"
+        android:orderInCategory="815"
+        app:showAsAction="never"
+        android:title="@string/menu_caption_sort_song_by_name"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_sort_jks_by_number"
+        android:orderInCategory="815"
+        app:showAsAction="never"
+        android:title="@string/menu_caption_sort_song_by_number"
+        android:visible="false"/>
+    <item
+        android:id="@+id/menu_browse_through_texts"
+        android:orderInCategory="825"
+        app:showAsAction="never"
+        android:title="@string/browse_through_texts"
         android:visible="false"/>
     <item
         android:id="@+id/menu_synchronize"

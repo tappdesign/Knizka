@@ -26,10 +26,10 @@
         <item>Last shown</item>
         <item>Random</item>
         <item>Prayers Set</item>
-        <item>JKS</item>
+        <item>JKS - Songs</item>
         <item>JKS - Search</item>
         <item>Intentions</item>
-
+        <item>JKS Categories</item>
     </string-array>
 
     <string-array name="navigation_list_codes">
@@ -45,6 +45,23 @@
         <item>JKS</item>
         <item>JKS_Search</item>
         <item>Intentions</item>
+        <item>JKS_Categories</item>
+    </string-array>
+
+    <string-array name="navigation_list_activity_caption">
+        <item>Prayers</item>
+        <item>Archive</item>
+        <item>Reminders</item>
+        <item>Trash</item>
+        <item>Uncategorized</item>
+        <item>Favorites</item>
+        <item>Last shown</item>
+        <item>Random</item>
+        <item>Prayers Set</item>
+        <item>JKS - Songs</item>
+        <item>JKS - Search</item>
+        <item>Intentions</item>
+        <item>JKS Categories</item>
     </string-array>
 
     <integer-array name="navigation_list_icons">
@@ -58,9 +75,9 @@
         <item>@drawable/ic_prayer_random_black_48dp</item>
         <item>@drawable/ic_prayers_set_black_48dp</item>
         <item>@drawable/ic_prayer_jks_black_48dp</item>
-        <item>@drawable/ic_prayers_jks_search_black_48dp</item>
+        <item>@drawable/ic_numbers_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
-
+        <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
     </integer-array>
 
     <integer-array name="navigation_list_icons_selected">
@@ -74,10 +91,89 @@
         <item>@drawable/ic_prayer_random_black_48dp</item>
         <item>@drawable/ic_prayers_set_black_48dp</item>
         <item>@drawable/ic_prayer_jks_black_48dp</item>
-        <item>@drawable/ic_prayers_jks_search_black_48dp</item>
+        <item>@drawable/ic_numbers_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
-
+        <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
     </integer-array>
+
+
+    <integer-array name="main_menu_items_order">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>12</item>
+        <item>11</item>
+    </integer-array>
+
+    <!-- should be translated to english -->
+    <string-array name="jks_songs_category">
+        <item>Advent  [1-33]</item>
+        <item>Vianoce  [34 - 120]</item>
+        <item>V pôste  [121 - 191]</item>
+        <item>Popolcová streda</item>
+        <item>Ku krížovej ceste</item>
+        <item>Po krížovej ceste</item>
+        <item>Na Zelený štvrtok</item>
+        <item>Na Kvetnú nedeľu</item>
+        <item>Na Veľký piatok</item>
+        <item>Na Bielu sobotu</item>
+        <item>Na Veľkú noc  [192 - 212]</item>
+        <item>Na Nanebovstúpenie Pána   [213 - 215]</item>
+        <item>Na Svätého Ducha  [216 - 226]</item>
+        <item>Na Svätú Trojicu</item>
+        <item>Na Božie telo</item>
+        <item>K Božskému Srdcu Ježišovmu  [227 - 235]</item>
+        <item>Ku sv. omši  [236 - 259]</item>
+        <item>K Najsvätejšej oltárnej sviatosti  [260 - 327]</item>
+        <item>Ku sv. prijímaniu</item>
+        <item>K prvému sv. prijímaniu</item>
+        <item>Mariánske antifóny</item>
+        <item>Pred požehnaním</item>
+        <item>Po požehnaní</item>
+        <item>K Panne Márii [328 - 416]</item>
+        <item>K svätým  [417 - 459]</item>
+        <item>Zádušné  [460 - 478]</item>
+        <item>Rozličné  [479 - 544]</item>
+    </string-array>
+
+    <integer-array name="jks_songs_category_values">
+        <item>1001</item>
+        <item>1002</item>
+        <item>1003</item>
+        <item>1004</item>
+        <item>1005</item>
+        <item>1006</item>
+        <item>1007</item>
+        <item>1008</item>
+        <item>1009</item>
+        <item>1010</item>
+        <item>1011</item>
+        <item>1012</item>
+        <item>1013</item>
+        <item>1014</item>
+        <item>1015</item>
+        <item>1016</item>
+        <item>1017</item>
+        <item>1018</item>
+        <item>1019</item>
+        <item>1020</item>
+        <item>1021</item>
+        <item>1022</item>
+        <item>1023</item>
+        <item>1024</item>
+        <item>1025</item>
+        <item>1026</item>
+        <item>1027</item>
+    </integer-array>
+
 
     <string-array name="sortable_columns">
         <item>title</item>
