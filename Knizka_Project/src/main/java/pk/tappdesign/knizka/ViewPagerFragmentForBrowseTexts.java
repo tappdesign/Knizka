@@ -34,10 +34,10 @@ import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 
-import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.models.adapters.BrowseTextsPageAdapter;
 
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 
@@ -49,6 +49,7 @@ public class ViewPagerFragmentForBrowseTexts extends Fragment {
    private int maxPages;
    private ArrayList<String> notesIds;
    private String categoryTitle;
+   private int listViewPositionOffset;
 
    public ViewPagerFragmentForBrowseTexts()
    {
@@ -56,11 +57,21 @@ public class ViewPagerFragmentForBrowseTexts extends Fragment {
    }
 
 
-   public ViewPagerFragmentForBrowseTexts(int maxPages, ArrayList<String> noteIds, String categoryTitle)
+   public ViewPagerFragmentForBrowseTexts(int maxPages, ArrayList<String> noteIds, String categoryTitle, int listViewPositionOffset)
    {
       this.maxPages = maxPages;
       this.notesIds = noteIds;
       this.categoryTitle = categoryTitle;
+      this.listViewPositionOffset = listViewPositionOffset;
+
+      if (this.listViewPositionOffset >= this.maxPages)
+      {
+         this.listViewPositionOffset = this.maxPages-1;
+      }
+      if (this.listViewPositionOffset < 0)
+      {
+         this.listViewPositionOffset = 0;
+      }
    }
 
    @Nullable
@@ -72,6 +83,7 @@ public class ViewPagerFragmentForBrowseTexts extends Fragment {
          maxPages = savedInstanceState.getInt(INTENT_EXTRA_MAX_PAGES_IN_BROWSER);
          notesIds = savedInstanceState.getStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER);
          categoryTitle = savedInstanceState.getString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER);
+         listViewPositionOffset = savedInstanceState.getInt(INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER);
       }
 
       return inflater.inflate(R.layout.fragment_viewpager_for_browse_texts, container, false);
@@ -88,7 +100,7 @@ public class ViewPagerFragmentForBrowseTexts extends Fragment {
       viewPager.setPageMargin(12);
 
       viewPager.setAdapter(browseTextPageAdapt);
-      viewPager.setCurrentItem(0);
+      viewPager.setCurrentItem(listViewPositionOffset);
 
       confirmButton = view.findViewById(R.id.browse_texts_button_layout_confirm);
       confirmButton.setOnClickListener(v -> saveJKSLayout());
@@ -103,7 +115,7 @@ public class ViewPagerFragmentForBrowseTexts extends Fragment {
       outState.putInt(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, maxPages);
       outState.putStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
       outState.putString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, categoryTitle);
-
+      outState.putInt(INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER, listViewPositionOffset);
       super.onSaveInstanceState(outState);
    }
 

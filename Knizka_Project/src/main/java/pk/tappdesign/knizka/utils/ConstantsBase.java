@@ -44,6 +44,7 @@ public interface ConstantsBase {
 	String INTENT_EXTRA_MAX_PAGES_IN_BROWSER = "maxPagesInViewPager";
 	String INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER = "NoteIDsForViewPager";
 	String INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER = "CategoryTitleForViewPager";
+	String INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER = "ListViewPositionOffsetForViewPager";
 
 	String MUSIC_LIBRARY_OSMD = "osmd";
 	String MUSIC_LIBRARY_ABCJS = "abcjs";

@@ -41,6 +41,9 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_CLICKED_IMAGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_IMAGES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_TITLE;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_GOOGLE_NOW;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_KEY;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
@@ -2209,6 +2212,50 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       transaction.replace(R.id.fragment_container, mDetailFragment, FRAGMENT_DETAIL_TAG).addToBackStack(FRAGMENT_DETAIL_TAG).commit();
    }
 
+   private void activateBrowsingTexts(int direction) {
+
+
+
+      String actTitle = "";
+      ArrayList<String> notesIds = new ArrayList<>();
+     // for (int i = 0; i < listAdapter.getItemCount(); i++) {
+     //    notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID()));
+    //  }
+      notesIds.add("11000005");
+      notesIds.add("11000006");
+      notesIds.add("11000007");
+
+
+      if (notesIds.isEmpty())
+      {
+         mainActivity.showMessage(R.string.jks_list_is_empty, ONStyle.ALERT);
+      } else {
+         Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
+         browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, notesIds.size());
+         browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
+
+         if (mainActivity.getSupportActionBar() != null) {
+            actTitle = "br";//mainActivity.getSupportActionBar().getTitle().toString();
+         }
+         browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
+
+         startActivity(browseTextsFormatIntent);
+         navigateUp();
+      }
+
+
+
+      //  navigateUp();
+   /*   Note newNote;
+      if (direction < 0) {
+         newNote = DbHelper.getInstance().getNote(note.getHandleID() + 1);
+      } else {
+         newNote = DbHelper.getInstance().getNote(note.getHandleID() - 1);
+      }
+*/
+
+   }
+
    @SuppressLint("NewApi")
    @Override
    public boolean onTouch(View v, MotionEvent event) {
@@ -2243,7 +2290,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
                if (Math.abs(x - startSwipeX) > SWIPE_OFFSET) {
                   swiping = false;
-                  showNextNote(x - startSwipeX);  //todo: @pk: not implemented yet, switch note by swipping
+                  //showNextNote(x - startSwipeX);  //todo: @pk: not implemented yet, switch note by swipping
+                  activateBrowsingTexts(x - startSwipeX);
             /*  // original code, creates new note
             FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
             mainActivity.animateTransition(transaction, TRANSITION_VERTICAL);

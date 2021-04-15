@@ -1,6 +1,8 @@
 body
 {
-
+	/* browser defaults*/
+	margin-left: 8px;
+	margin-right: 8px;
 }
 
 /* akordy */
@@ -229,8 +231,8 @@ div.chordline {
 
 .NoteWrapper
 {
-	margin-left: 2px;
-	margin-right: 2px;
+	margin-left: 0px;
+	margin-right: 0px;
 	font-family: sans-serif;
 }
 

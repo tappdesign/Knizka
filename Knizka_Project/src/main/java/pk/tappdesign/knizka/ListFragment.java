@@ -30,6 +30,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_CATEGORY;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
@@ -1191,9 +1192,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     {
       mainActivity.showMessage(R.string.jks_list_is_empty, ONStyle.ALERT);
     } else {
+     // int CurrListViewPos = ((LinearLayoutManager)binding.list.getLayoutManager()).findFirstVisibleItemPosition();
+      listViewPosition = ((LinearLayoutManager)binding.list.getLayoutManager()).findFirstVisibleItemPosition();;
       Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
       browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, listAdapter.getItemCount());
       browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
+      browseTextsFormatIntent.putExtra(INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER, listViewPosition);
 
       if (mainActivity.getSupportActionBar() != null) {
         actTitle = mainActivity.getSupportActionBar().getTitle().toString();

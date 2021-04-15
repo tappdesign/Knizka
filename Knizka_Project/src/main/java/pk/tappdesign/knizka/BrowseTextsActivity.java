@@ -37,6 +37,7 @@ import de.keyboardsurfer.android.widget.crouton.Style;
 import pk.tappdesign.knizka.utils.ThemeHelper;
 
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 
@@ -50,6 +51,7 @@ public class BrowseTextsActivity extends BaseActivity {
    private int maxPages = 0;
    private ArrayList<String> notesIds;
    private String categoryTitleForBrowser;
+   private int listViewPositionOffset;
 
    @Override
    protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class BrowseTextsActivity extends BaseActivity {
          maxPages = i.getExtras().getInt(INTENT_EXTRA_MAX_PAGES_IN_BROWSER);
          notesIds = i.getExtras().getStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER);
          categoryTitleForBrowser = i.getExtras().getString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER);
+         listViewPositionOffset = i.getExtras().getInt(INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER);
       }
    }
 
@@ -94,7 +97,7 @@ public class BrowseTextsActivity extends BaseActivity {
 
       if (mFragmentManager.findFragmentByTag(FRAGMENT_PAGER_BROWSE_TEXTS) == null) {
          FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
-         fragmentTransaction.add(R.id.frame_layout_for_browse_texts, new ViewPagerFragmentForBrowseTexts(maxPages, notesIds, categoryTitleForBrowser), FRAGMENT_PAGER_BROWSE_TEXTS)
+         fragmentTransaction.add(R.id.frame_layout_for_browse_texts, new ViewPagerFragmentForBrowseTexts(maxPages, notesIds, categoryTitleForBrowser, listViewPositionOffset), FRAGMENT_PAGER_BROWSE_TEXTS)
                  .commit();
       }
 

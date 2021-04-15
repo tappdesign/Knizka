@@ -29,16 +29,18 @@
             android:layout_marginLeft="@dimen/activity_additional_margin"
             android:layout_marginRight="@dimen/activity_additional_margin">
 
+        <!-- change the color to see strip on ledft and right of detail note -->
+        <!-- android:background="?attr/themeDetailColorBackgroundNewNote" -->
         <LinearLayout
                 android:id="@+id/detail_wrapper"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 android:animateLayoutChanges="true"
-                android:background="?attr/themeDetailColorBackgroundNewNote"
+                android:background="?attr/themeDetailColorBackground"
                 android:orientation="vertical"
-                android:paddingLeft="@dimen/padding_detail_pk"
-                android:paddingRight="@dimen/padding_detail_pk"
+                android:paddingLeft="@dimen/padding_detail_pk_for_browse"
+                android:paddingRight="@dimen/padding_detail_pk_for_browse"
                 android:paddingTop="@dimen/padding_detail_pk">
 
             <!-- space under note title android:layout_marginBottom="3dp" -->
