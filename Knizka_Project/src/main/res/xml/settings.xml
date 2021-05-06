@@ -96,6 +96,16 @@
           android:title="@string/settings_tour_show_again"
           app:iconSpaceReserved="false" />
 
+       <Preference
+           android:key="settings_show_jks_directorium"
+           android:summary="@string/settings_show_jks_directorium_summary"
+           android:title="@string/settings_show_jks_directorium_title"
+           app:iconSpaceReserved="false">
+           <intent
+              android:targetClass="pk.tappdesign.knizka.JKSDirectoriumActivity"
+              android:targetPackage="@string/app_package" />
+       </Preference>
+
       </PreferenceCategory>
 
 

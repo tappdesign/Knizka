@@ -178,6 +178,12 @@
             android:label="@string/title_activity_about"
             android:launchMode="singleTop" />
 
+        <!-- JKS Directorium -->
+        <activity
+            android:name="pk.tappdesign.knizka.JKSDirectoriumActivity"
+            android:label="@string/title_activity_directorium"
+            android:launchMode="singleTop" />
+
         <!-- Intro -->
         <activity
             android:name="pk.tappdesign.knizka.intro.IntroActivity"

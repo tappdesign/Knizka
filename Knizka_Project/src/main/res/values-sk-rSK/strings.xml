@@ -136,6 +136,7 @@
   <string name="title_activity_jks_song_format">Vyberte formát piesní</string>
   <string name="title_activity_browse_texts">Listovanie v knižke</string>
   <string name="title_activity_about">Informácie</string>
+  <string name="title_activity_directorium">JKS Direktórium</string>
   <string name="deleted">vymazané</string>
   <string name="no_items_in_list">Nič tu nie je!</string>
   <string name="checklist_on">Povoliť zaškrtávací zoznam</string>
@@ -325,6 +326,8 @@
   <string name="settings_first_day_of_week">First day of week</string>
   <string name="settings_tour_show_again">Prehliadka aplikácie</string>
   <string name="settings_tour_show_again_summary">Zobraziť znovu prehliadku aplikácie s pokynmi</string>
+  <string name="settings_show_jks_directorium_title">Zobraz JKS direktórium</string>
+  <string name="settings_show_jks_directorium_summary">Zobrazí návrh vhodných piesní z JKS podľa lit. obdobia</string>
   <string name="backup_include_settings">Zahrnúť nastavenia (s heslom)</string>
   <string name="settings_included">nastavenia zahrnuté</string>
   <string name="settings_password_question_instructions">Vložte otázku a tajnú odpoveď na obnovenie hesla v prípade zabudnutia.</string>

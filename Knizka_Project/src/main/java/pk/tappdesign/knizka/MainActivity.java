@@ -246,7 +246,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
   public void initNotesList(Intent intent) {
     if (intent != null) {
-      new Handler(getMainLooper()).post(() -> ((ListFragment) startSearchView()).initNotesList(intent));
+       Fragment searchTagFragment = startSearchView();
+       new Handler(getMainLooper()).post(() -> ((ListFragment) searchTagFragment).initNotesList(intent));
     }
   }
 

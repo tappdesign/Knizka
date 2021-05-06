@@ -1,0 +1,63 @@
+﻿body {
+}
+/* ------  DIREKTORIUM tabulka CSS formatD2------------------ */
+.TableDirekt {
+	width: 100%;
+	/*margin: 10px auto 10px auto;*/
+	border-collapse: collapse;
+	background-color: whitesmoke;
+	color: black;
+	font-weight: bold;
+	Font-family: Verdana;
+	font-size: small;
+	/* small;	15px;*/
+}
+td, th {
+	border: 1px solid #999;
+	padding: 0.5rem;
+	text-align: center;
+}
+th {
+	background: whitesmoke;
+	/* spolocna hlavicka vsetkych období; #000033; #cc3300; purple;*/
+	color: black;
+	border-color: white;
+}
+.freeline {
+	height: 30px;
+	/* display: none;*/
+}
+.obdobie {
+	height: 60px;
+	/* 60px;*/
+}
+.advent-step tr:nth-child(odd) td, .advent-step tr:nth-child(odd) th {
+	background-color: purple;
+	/* purple;*/
+	color: white;
+}
+.vianoce-step tr:nth-child(odd) td, .vianoce-step tr:nth-child(odd) th {
+	background-color: gold;
+	/* yellow; gold;*/
+	color: brown;
+	/* white; brown;*/
+}
+.post-step tr:nth-child(odd) td, .post-step tr:nth-child(odd) th {
+	background-color: purple;
+	color: white;
+}
+.velkanoc-step tr:nth-child(odd) td, .velkanoc-step tr:nth-child(odd) th {
+	background-color: gold;
+	/* yellow;	gold;*/
+	color: brown;
+}
+.cezrok-step tr:nth-child(odd) td, .cezrok-step tr:nth-child(odd) th {
+	background-color: green;
+/*  green,	#00FF33;*/
+	color: white;
+}
+.sviatkycezrok-step tr:nth-child(odd) td, .sviatkycezrok-step tr:nth-child(odd) th {
+	background-color: #3399FF;
+	/* #4da6ff;	whitesmoke;*/
+	color: black;
+}
