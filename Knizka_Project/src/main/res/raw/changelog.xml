@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Máj 21, 2021"
+        versionName="1.5.2">
+        <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
+        <changelogtext>[b]New:[/b] Noty pre piesne JKS (1-192)</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Máj 06, 2021"
         versionName="1.5.1">
         <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
