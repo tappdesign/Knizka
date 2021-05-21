@@ -18,33 +18,28 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package pk.tappdesign.knizka.utils
 
-package pk.tappdesign.knizka.utils;
+import android.content.Context
+import android.content.pm.PackageManager
 
-import android.content.Context;
-import android.content.pm.PackageManager;
+class MiscUtils private constructor() {
 
-
-public class MiscUtils {
-
-  private MiscUtils() {
-    // hides public constructor
-  }
-
-
-  /**
-   * Checks Google Play Store availability
-   *
-   * @param context Application context
-   * @return True if Play Store is installed on the device
-   */
-  public static boolean isGooglePlayAvailable (Context context) {
-    try {
-      context.getPackageManager().getPackageInfo("com.android.vending", 0);
-      return true;
-    } catch (PackageManager.NameNotFoundException e) {
-      return false;
+    companion object {
+        /**
+         * Checks Google Play Store availability
+         *
+         * @param context Application context
+         * @return True if Play Store is installed on the device
+         */
+        @JvmStatic
+        fun isGooglePlayAvailable(context: Context): Boolean {
+            return try {
+                context.packageManager.getPackageInfo("com.android.vending", 0)
+                true
+            } catch (e: PackageManager.NameNotFoundException) {
+                false
+            }
+        }
     }
-  }
-
 }
