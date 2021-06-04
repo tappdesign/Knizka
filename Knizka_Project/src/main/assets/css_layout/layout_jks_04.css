@@ -199,6 +199,19 @@ div.KDialog
 .KNumA.n21::before{
 	content: "21. ";
 }
+.KNumA.n22::before{
+	content: "22. ";
+}
+.KNumA.n23::before{
+	content: "23. ";
+}
+.KNumA.n24::before{
+	content: "24. ";
+}
+.KNumA.n25::before{
+	content: "25. ";
+}
+
 
 /* part "ofertorium or similar" After numbering*/
 .KP

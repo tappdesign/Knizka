@@ -36,6 +36,7 @@ import androidx.preference.PreferenceFragmentCompat;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -52,7 +53,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.ViewGroup;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_DARK;
@@ -83,7 +83,7 @@ public class SettingsActivity extends AppCompatActivity implements
    protected void onResume() {
       super.onResume();
 
-      String themeFromPref = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT);
+      String themeFromPref = Prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT);
 
       if (!(themeFromPref.equals(currentTheme))) {
          recreate();

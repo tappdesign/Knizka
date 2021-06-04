@@ -11,7 +11,7 @@ I:linebreak $
 K:Bb
  (F>G)F D2 z | (F>G)F D2 z | %2
 w: ~Ti~- * ~chá~ ~noc,|svä~- * ~tá~ ~noc!|
- c2 c A2 z |$ d2 d F2 z | %4
+ c2 c A2 z |$ B2 B F2 z | %4
 w: ~Všet~- ~ko~ ~spí,|všet~- ~ko~ ~sní,|
  G2 G BAG | F>GF D2 z |$ %6
 w: sám~ len~ svä- tý~ bdie|dô- ver- ný~ pár,|

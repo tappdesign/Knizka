@@ -35,6 +35,7 @@ import pk.tappdesign.knizka.exceptions.GenericException;
 import pk.tappdesign.knizka.utils.StorageHelper;
 import java.io.File;
 import lombok.experimental.UtilityClass;
+import com.pixplicity.easyprefs.library.Prefs;
 
 @UtilityClass
 public class LogDelegate {
@@ -95,8 +96,7 @@ public class LogDelegate {
 
   private static boolean isFileLoggingEnabled() {
     if (fileLoggingEnabled == null) {
-      fileLoggingEnabled = Knizka.getSharedPreferences()
-          .getBoolean(PREF_ENABLE_FILE_LOGGING, false);
+      fileLoggingEnabled = Prefs.getBoolean(PREF_ENABLE_FILE_LOGGING, false);
       if (Boolean.TRUE.equals(fileLoggingEnabled)) {
         Context context = Knizka.getAppContext();
         FL.init(new FLConfig.Builder(context)

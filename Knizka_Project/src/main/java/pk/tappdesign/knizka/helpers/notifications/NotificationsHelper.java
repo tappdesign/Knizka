@@ -21,8 +21,6 @@
 
 package pk.tappdesign.knizka.helpers.notifications;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import android.annotation.TargetApi;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -41,6 +39,8 @@ import android.os.Build;
 import android.provider.Settings;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationCompat.Builder;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import pk.tappdesign.knizka.R;
 import lombok.NonNull;
@@ -66,8 +66,8 @@ public class NotificationsHelper {
     @TargetApi(Build.VERSION_CODES.O)
     public void initNotificationChannels() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-      SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
-      String soundFromPrefs = prefs.getString("settings_notification_ringtone", null);
+
+      String soundFromPrefs = Prefs.getString("settings_notification_ringtone", null);
       Uri sound = soundFromPrefs != null ? Uri.parse(soundFromPrefs) : RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             NotificationChannels.channels.forEach(
                     (notificationChannelNames, notificationChannel) -> {

@@ -10,7 +10,7 @@ K: G
 w: ~Bo~-že, pl~-ný lás~-ka~-vo~--sti,
    B2 B2 (AB) (cA) | G2 F2 G4 |
 w: ~zhliad~-ni na-- nás | ne~-hod~-ných,
-   G G2 G2 B2 | B3 d (dc) B2 |
+   G2 G2 G2 B2 | B3 d (dc) B2 |
 w: ~z~ná~-le~-ži~-tej | po~-bož~-no~--sti
    B2 B2 (AB) (cA) | G2 F2 G4 |
 w: ~k~om~-ši ~svä~--tej | zí~-de~-ných.

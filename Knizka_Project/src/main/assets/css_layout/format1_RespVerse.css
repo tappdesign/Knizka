@@ -1,0 +1,47 @@
+﻿body
+{
+}
+.PRTitlePart /*--- Tento styl je uz vytvoreny iba prebraty z Knižky (format1.css) - komplet skopirovany ---*/
+{
+	font-weight: bold;
+	font-size: 120%;
+		
+	padding-top: 5px;
+    padding-right: 1px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+		
+	margin-bottom: 6px;
+	margin-top: 15px;
+
+	border-style:solid;
+	border-width: 1px;
+}
+
+
+
+/*---RESPONZÓRIOVÉ VERŠE NA NEDELE A SVIATKY---*/
+
+.RespVersPKT {
+color: #ff6e12; 
+font-weight: bold;
+}
+.RespVersA {
+font-weight: bold;
+}
+ol.d {
+margin-top: 5px;
+margin-bottom: 20px;
+list-style-type: none; /*upper-alpha; none;*/
+padding-left: 15px;  
+}
+.RespVersOr {
+color: grey;
+}
+.RespVersX {
+font-weight: bold;
+}
+.RespVersNbr {
+color: #ff6e12;
+}
+

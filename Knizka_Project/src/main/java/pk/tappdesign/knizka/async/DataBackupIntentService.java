@@ -22,7 +22,6 @@
 package pk.tappdesign.knizka.async;
 
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_RESTART_APP;
 
 import android.app.IntentService;
@@ -74,8 +73,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     @Override
     protected void onHandleIntent(Intent intent) {
-
-        prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
         mNotificationsHelper = new NotificationsHelper(this).start(NotificationChannelNames.BACKUPS,
                 R.drawable.ic_content_save_white_24dp, getString(R.string.working));

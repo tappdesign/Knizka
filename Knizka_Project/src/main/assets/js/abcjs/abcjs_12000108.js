@@ -15,7 +15,7 @@ w: ~Hľa,~ ~a~- ~ká~ ~to|hviez~- ~da~ ~krá~- ~sna|
 w: ~z ne~- ~ba~ ~sa~ ~na|nás~ ~sme~- ~je:|
  E A c A | A F A !fermata!E |$ %6
 w: ~a~ ~to~ ~je~ ~tá|hviez~- ~da~ ~šťast~- ~ná,|
- A c B G | F G E2 | %8
+ A c B G | G F E2 | %8
 w: ~hviez~- ~da~ ~na~- ~šej|ná~- ~de~- ~je.|
  E F G A |$ B A A !fermata!G | %10
 w: ~Daj~- ~me~- ~že~ ~sa|my~ ~na~ ~ces~- ~tu,|

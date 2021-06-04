@@ -25,7 +25,6 @@ import static it.feio.android.checklistview.interfaces.Constants.CHECKED_ENTITY;
 import static it.feio.android.checklistview.interfaces.Constants.CHECKED_SYM;
 import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_ENTITY;
 import static it.feio.android.checklistview.interfaces.Constants.UNCHECKED_SYM;
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PRETTIFIED_DATES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SORTING_COLUMN;
 
@@ -35,6 +34,9 @@ import android.text.Html;
 import android.text.Spanned;
 import android.text.SpannedString;
 import android.text.TextUtils;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.helpers.date.DateHelper;
@@ -59,7 +61,7 @@ public class TextHelper {
 
     // Masking title and content string if note is locked
     if (note.isLocked()
-        && !mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean(
+        && !Prefs.getBoolean(
         "settings_password_access", false)) {
       // This checks if a part of content is used as title and should be partially masked
       if (!note.getTitle().equals(titleText) && titleText.length() > 3) {
@@ -128,19 +130,18 @@ public class TextHelper {
   public static String getDateText (Context mContext, Note note, int navigation) {
     String dateText;
     String sort_column;
-    SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
 
     // Reminder screen forces sorting
     if (Navigation.REMINDERS == navigation) {
       sort_column = DbHelper.KEY_REMINDER;
     } else {
-      sort_column = prefs.getString(PREF_SORTING_COLUMN, "");
+      sort_column = Prefs.getString(PREF_SORTING_COLUMN, "");
     }
 
     switch (sort_column) {
       case DbHelper.COL_HANDLE_ID:
         dateText = mContext.getString(R.string.creation) + " " + DateHelper.getFormattedDate(note.getCreation
-            (), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
+            (), Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
         break;
       case DbHelper.KEY_REMINDER:
         if (note.getAlarm() == null) {
@@ -152,7 +153,7 @@ public class TextHelper {
         break;
       default:
         dateText = mContext.getString(R.string.last_update) + " " + DateHelper.getFormattedDate(note
-            .getLastModification(), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
+            .getLastModification(), Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
         break;
     }
     return dateText;

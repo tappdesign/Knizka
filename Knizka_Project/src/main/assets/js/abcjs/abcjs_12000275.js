@@ -20,6 +20,6 @@ w: že te~-ba|ctí~-me,
 w: ce~-lé~-ho|v~byt~-no~-sti,
    B2 A B | c2 B A |
 w: pl~-né~-ho|šte~-dro~-sti,
-   (G F) E D | Cc z2 |] 
+   (G F) E D | C2 z2 |] 
 w: tu * v~Svia~-to~-|sti.
 `;

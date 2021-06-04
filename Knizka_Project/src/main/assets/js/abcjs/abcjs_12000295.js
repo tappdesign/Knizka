@@ -14,8 +14,8 @@ w: Bo~-žie Te~-|lo,|
 w: kto~-ré |si na krí~-ži   
    c2 B A | G2 z2 ||
 w: pre nás pne~-|lo;
-   |: d2 c B | (G2F) E |
-w: v~spô~-so~-be|chle~- * ba|   
+   |: d2 c B | c2 c2 |
+w: v~spô~-so~-be|chle~- ~ba|   
    (B2A) G | A3 z | G2 D2 |
 w: sta~- * je~-|né, |pred na~-
    G A B d | c2 B A | G3 z :|

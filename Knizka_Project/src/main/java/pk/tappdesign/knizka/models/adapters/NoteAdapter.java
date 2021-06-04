@@ -22,7 +22,6 @@ package pk.tappdesign.knizka.models.adapters;
 
 import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.TIMESTAMP_UNIX_EPOCH_FAR;
 
@@ -40,6 +39,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.async.TextWorkerTask;
 import pk.tappdesign.knizka.helpers.LogDelegate;
@@ -92,8 +93,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
 
         if (expandedView && holder.attachmentThumbnail != null) {
             // If note is locked or without attachments nothing is shown
-            if ((note.isLocked() && !mActivity.getSharedPreferences(PREFS_NAME,
-                    Context.MODE_MULTI_PROCESS).getBoolean("settings_password_access", false))
+            if ((note.isLocked() && !Prefs.getBoolean("settings_password_access", false))
                     || note.getAttachmentsList().isEmpty()) {
                 holder.attachmentThumbnail.setVisibility(View.GONE);
             } else {
@@ -234,8 +234,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteViewHolder> {
      */
     private void colorNote(Note note, View v, NoteViewHolder holder) {
 
-        String colorsPref = mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                .getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
+        String colorsPref = Prefs.getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
 
         // Checking preference
         if (!colorsPref.equals("disabled")) {
@@ -331,8 +330,7 @@ public void remove (@NonNull Note note) {
 
     private NoteViewHolder buildHolder (View convertView, ViewGroup parent) {
         // Overrides font sizes with the one selected from user
-        Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
-                Context.MODE_MULTI_PROCESS), convertView);
+        Fonts.overrideTextSize(mActivity, convertView);
         return new NoteViewHolder(convertView, expandedView);
     }
 

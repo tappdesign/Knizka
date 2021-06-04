@@ -15,7 +15,7 @@ w: ~Kre~- ~sťa~- ~nia,~ ~na~-|rie~- * ~kaj~- ~te,|
 w: ~od~ ~žia~- ~ľu~ ~za~-|mdlie~- * ~vaj~- ~te;|
 |: c B (A/G/) F | d d c z |$ %6
 w: ~plač,~ ~kvíľ~ ~srd~- * ~ce|kaž~- ~dé~- ~ho,|
- B G A F | (G/F/) E D z |] %8
+ B G A F | (G/F/) E F z |] %8
 w: ~Je~- ~ži~- ~šo~- ~vi|ver~- * ~né~- ~ho.|
 
 `;

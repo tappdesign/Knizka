@@ -20,7 +20,6 @@
  */
 package pk.tappdesign.knizka.models.adapters;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 
 import android.app.Activity;
@@ -44,6 +43,8 @@ import java.util.List;
 import pk.tappdesign.knizka.utils.Constants;
 import pk.tappdesign.knizka.utils.Fonts;
 import com.google.android.material.color.MaterialColors;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import android.os.Build;
 
 public class CategoryBaseAdapter extends BaseAdapter {
@@ -95,8 +96,7 @@ public class CategoryBaseAdapter extends BaseAdapter {
     if (convertView == null) {
       convertView = inflater.inflate(layout, parent, false);
 
-      Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
-              Context.MODE_MULTI_PROCESS), convertView);
+      Fonts.overrideTextSize(mActivity, convertView);
 
       holder = new CategoryViewHolder(
           DrawerListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false));
@@ -133,8 +133,7 @@ public class CategoryBaseAdapter extends BaseAdapter {
     }
 
     // Sets category count if set in preferences
-    if (mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean
-        ("settings_show_category_count", true)) {
+    if (Prefs.getBoolean("settings_show_category_count", true)) {
       holder.count.setText(String.valueOf(category.getCount()));
       holder.count.setVisibility(View.VISIBLE);
     }
@@ -154,10 +153,7 @@ public class CategoryBaseAdapter extends BaseAdapter {
         mActivity).getNavigationTmp() : null;
     navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
-    String navigation = navigationTmp != null ? navigationTmpLocal
-        : mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                   .getString(PREF_NAVIGATION,
-                       navigationListCodes[0]);
+    String navigation = navigationTmp != null ? navigationTmpLocal : Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
 
     return navigation.equals(String.valueOf(categories.get(position).getId()));
   }

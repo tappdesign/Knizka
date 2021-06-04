@@ -9,7 +9,7 @@ L:1/4
 M:4/4
 I:linebreak $
 K:Eb
- c d f e | d d c G | %2
+ G C D F | E D D C | %2
 w: ~Svä~- ~tý~ ~pôst~ ~sa|za~- ~po~- ~čí~- ~na,|
  G G G B |$ A G F G | %4
 w: ~k po~- ~ká~- ~niu~ ~nás|na~- ~po~- ~mí~- ~na,|

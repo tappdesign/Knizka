@@ -17,7 +17,7 @@ w: ~pri~ ~be~- ~tlem~- ~skom|sa~- ~la~- ~ši;|
 w: ~an~- ~jel~ ~Pá~- ~na|spie~- ~val~ ~tam:|
  F G A G | F E D2 | %8
 w: ~Na~- ~ro~- ~dil~ ~sa|veľ~- ~ký~ ~Pán.|
- E F G D |$ F2 A z | %10
+ E G F D |$ F2 A z | %10
 w: ~O~- ~ni~ ~sa~ ~ho|zľa~- ~kli,|
  E G F E | F2 A z |$ %12
 w: ~na~ ~ko~- ~le~- ~ná|kľa~- ~kli|

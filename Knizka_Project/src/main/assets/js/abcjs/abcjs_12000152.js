@@ -9,7 +9,7 @@ L:1/4
 M:4/4
 I:linebreak $
 K:G
- G F G A | G/F/ E D2 |$ %2
+ G F G A | (G/F/) E D2 |$ %2
 w: ~Mú~- ~drosť~ ~Ot~- ~ca|več~- * ~né~- ~ho,|
  B A B c | B2 A2 |$ %4
 w: ~Bo~- ~ží~ ~Syn~ ~pre~-|mi~- ~lý,|

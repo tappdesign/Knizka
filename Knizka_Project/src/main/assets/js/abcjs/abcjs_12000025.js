@@ -9,7 +9,7 @@ L:1/4
 M:4/4
 I:linebreak $
 K:F
- F2 F F | G2 c2 | A2 A A | %3
+ F2 F F | G2 C2 | A2 A A | %3
 w: ~V spô~- ~so~- ~be|chle~- ~ba|ve~- ~rí~- ~me|
  B2 G2 |$ c c c c | d2 c2 | %6
 w: v te- ba,|vždy~ v Bo- ha~ pra-|vé- ho,|

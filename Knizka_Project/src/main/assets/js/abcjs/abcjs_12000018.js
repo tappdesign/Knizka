@@ -10,7 +10,7 @@ I:linebreak $
 K:G
  D | G G A F | %2
 w: ~Pán|Boh~ ~vše~- ~mo~- ~hú~-|
- G2 z A | d c B A | %4
+ G2 z A | B c B A | %4
 w: ~ci,~ ~Sud~-|ca~ ~náš~ ~bu~- ~dú~-|
  G2 z2 |$ d d c B | %6
 w: ~ci,|po~- ~slal~ ~po~- ~sla|

@@ -20,7 +20,6 @@
  */
 package pk.tappdesign.knizka;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_UPDATE_DASHCLOCK;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 
@@ -43,6 +42,8 @@ import android.view.MenuInflater;
 import android.view.ViewConfiguration;
 import android.widget.Toast;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -60,8 +61,6 @@ public class BaseActivity extends AppCompatActivity {
 
     protected static final int TRANSITION_VERTICAL = 0;
     protected static final int TRANSITION_HORIZONTAL = 1;
-
-    protected SharedPreferences prefs;
 
     protected String navigation;
     protected String navigationTmp; // used for widget navigation
@@ -82,7 +81,6 @@ public class BaseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
         // Forces menu overflow icon
         try {
             ViewConfiguration config = ViewConfiguration.get(this.getApplicationContext());
@@ -102,13 +100,13 @@ public class BaseActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-        navigation = prefs.getString(PREF_NAVIGATION, navNotes);
-        LogDelegate.d(prefs.getAll().toString());
+        navigation = Prefs.getString(PREF_NAVIGATION, navNotes);
+        LogDelegate.d(Prefs.getAll().toString());
     }
 
 
     protected void showToast(CharSequence text, int duration) {
-        if (prefs.getBoolean("settings_enable_info", true)) {
+        if (Prefs.getBoolean("settings_enable_info", true)) {
             Toast.makeText(getApplicationContext(), text, duration).show();
         }
     }
@@ -121,7 +119,7 @@ public class BaseActivity extends AppCompatActivity {
 	 */
 	public void requestPassword(final Activity mActivity, List<Note> notes,
 								final PasswordValidator mPasswordValidator) {
-		if (prefs.getBoolean("settings_password_access", false)) {
+		if (Prefs.getBoolean("settings_password_access", false)) {
 			mPasswordValidator.onPasswordValidated(PasswordValidator.Result.SUCCEED);
 			return;
 		}
@@ -145,7 +143,7 @@ public class BaseActivity extends AppCompatActivity {
 		if (nav.equals(navigationTmp) || (navigationTmp == null && Navigation.getNavigationText().equals(nav))) {
 			return false;
 		}
-		prefs.edit().putString(PREF_NAVIGATION, nav).apply();
+		Prefs.edit().putString(PREF_NAVIGATION, nav).apply();
 		navigation = nav;
 		navigationTmp = null;
 		return true;

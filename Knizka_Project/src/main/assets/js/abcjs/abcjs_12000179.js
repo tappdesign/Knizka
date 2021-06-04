@@ -11,7 +11,7 @@ I:linebreak $
 K:C
  E | A G F E | D2 !fermata!E B | %3
 w: ~Ó,|hla~- ~va~ ~u~- ~bo~-|le~- ~ná,~ ~ra~-|
- c c B B |$ A2 z E | A G F E | %6
+ c c B B |$ A2 z c | A G F E | %6
 w: na- mi~ po- kry-|tá,~ ó,|bož- ská~ hla- va,|
  D2 !fermata!E B |$ c c B B | A2 z E | %9
 w: tŕ- ním~ tak|stra- šne~ ob- vi-|tá,~ ó,|

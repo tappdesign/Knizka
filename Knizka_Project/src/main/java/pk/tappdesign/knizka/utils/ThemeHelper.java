@@ -23,6 +23,8 @@ package pk.tappdesign.knizka.utils;
 
 import android.app.Activity;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.BrowseTextsActivity;
 import pk.tappdesign.knizka.CategoryActivity;
 import pk.tappdesign.knizka.GalleryActivity;
@@ -33,8 +35,6 @@ import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.StatsActivity;
 import pk.tappdesign.knizka.widget.WidgetConfigurationActivity;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_DARK;
@@ -43,7 +43,7 @@ public class ThemeHelper {
 
    private static String getThemeFromPref(Activity activity)
    {
-      return activity.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT);
+      return Prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT);
    }
 
    private static boolean isDialogActivity(Activity activity)
@@ -136,9 +136,9 @@ public class ThemeHelper {
    {
       if (isDarkTheme(getThemeFromPref(activity)))
       {
-         activity.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).edit().putString (PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT).commit();
+         Prefs.edit().putString (PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT).commit();
       } else {
-         activity.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).edit().putString (PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_DARK).commit();
+         Prefs.edit().putString (PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_DARK).commit();
       }
    }
 

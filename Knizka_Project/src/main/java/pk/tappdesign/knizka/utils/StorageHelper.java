@@ -161,29 +161,15 @@ public class StorageHelper {
         return file;
     }
 
-    public static boolean copyFile(File source, File destination) {
-        FileInputStream is = null;
-        FileOutputStream os = null;
-        try {
-            is = new FileInputStream(source);
-            os = new FileOutputStream(destination);
-            return copyFile(is, os);
-        } catch (FileNotFoundException e) {
-            LogDelegate.e("Error copying file", e);
-            return false;
-        } finally {
-            try {
-                if (is != null) {
-                    is.close();
-                }
-                if (os != null) {
-                    os.close();
-                }
-            } catch (IOException e) {
-                LogDelegate.e("Error closing streams", e);
-            }
-        }
+  public static boolean copyFile(File source, File destination) {
+    try {
+      FileUtils.copyFile(source, destination);
+      return true;
+    } catch (IOException e) {
+      LogDelegate.e("Error copying file: " + e.getMessage(), e);
     }
+    return false;
+  }
 
 
     /**

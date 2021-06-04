@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteException;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -97,14 +99,12 @@ public class CopyDBFromAssets {
 
     public static synchronized int getEmbeddedDBVersionFromPrefs(Context context)
     {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        return prefs.getInt(Constants.PREF_DB_EMBEDDED_VERSION, 0);
+        return Prefs.getInt(Constants.PREF_DB_EMBEDDED_VERSION, 0);
     }
 
     public static synchronized void setEmbeddedDBVersion(Context context)
     {
-        SharedPreferences prefs = context.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
-        prefs.edit().putInt(Constants.PREF_DB_EMBEDDED_VERSION, DBConst.DB_VERSION_ATTACHED).commit();
+        Prefs.edit().putInt(Constants.PREF_DB_EMBEDDED_VERSION, DBConst.DB_VERSION_ATTACHED).commit();
     }
 
 

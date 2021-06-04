@@ -23,6 +23,7 @@ package pk.tappdesign.knizka.helpers;
 
 import static pk.tappdesign.knizka.db.DBConst.DB_ATTACHED;
 import static pk.tappdesign.knizka.db.DBConst.DB_USER_DATA;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD;
 
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 import pk.tappdesign.knizka.models.Attachment;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.utils.FileProviderHelper;
+import pk.tappdesign.knizka.utils.Security;
 import pk.tappdesign.knizka.utils.StorageHelper;
 import pk.tappdesign.knizka.utils.TextHelper;
 import java.io.File;
@@ -59,6 +61,8 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import android.os.Environment;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import rx.Observable;
 
@@ -96,6 +100,9 @@ public class BackupHelper {
   }
 
   public static void exportNote(File backupDir, Note note) {
+    if (Boolean.TRUE.equals(note.isLocked())) {
+      note.setContent(Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
+    }
     File noteFile = getBackupNoteFile(backupDir, note);
     try {
       FileUtils.write(noteFile, note.toJSON());
@@ -239,6 +246,9 @@ public class BackupHelper {
     Note note = getImportNote(file);
     if (note.getCategory() != null) {
       DbHelper.getInstance().updateCategory(note.getCategory());
+    }
+    if (Boolean.TRUE.equals(note.isLocked())) {
+      note.setContent(Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
     }
     DbHelper.getInstance().updateNote(note, false);
     return note;

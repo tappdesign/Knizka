@@ -21,7 +21,6 @@
 
 package pk.tappdesign.knizka;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_DISMISS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_POSTPONE;
@@ -40,6 +39,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.helpers.date.RecurrenceHelper;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -89,25 +91,25 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
 
     if (getIntent().getParcelableExtra(INTENT_NOTE) != null) {
       note = getIntent().getParcelableExtra(INTENT_NOTE);
-      manageNotification(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS));
+      manageNotification();
     } else {
       Object[] notesObjs = (Object[]) getIntent().getExtras().get(INTENT_NOTE);
       notes = Arrays.copyOf(notesObjs, notesObjs.length, Note[].class);
-      postpone(getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS), DateUtils.getNextMinute(), null);
+      postpone(DateUtils.getNextMinute(), null);
     }
   }
 
-  private void manageNotification(SharedPreferences prefs) {
+  private void manageNotification() {
     if (ACTION_DISMISS.equals(getIntent().getAction())) {
       setNextRecurrentReminder(note);
       finish();
     } else if (ACTION_SNOOZE.equals(getIntent().getAction())) {
-      String snoozeDelay = prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
+      String snoozeDelay = Prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
       long newReminder = Calendar.getInstance().getTimeInMillis() + Integer.parseInt(snoozeDelay) * 60 * 1000;
       updateNoteReminder(newReminder, note);
       finish();
     } else if (ACTION_POSTPONE.equals(getIntent().getAction())) {
-      postpone(prefs, Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
+      postpone(Long.parseLong(note.getAlarm()), note.getRecurrenceRule());
     } else {
       Intent intent = new Intent(this, MainActivity.class);
       intent.putExtra(INTENT_KEY, note.get_id());
@@ -120,7 +122,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
     }
   }
 
-  private void postpone(SharedPreferences prefs, Long alarm, String recurrenceRule) {
+  private void postpone(Long alarm, String recurrenceRule) {
     ReminderPickers reminderPicker = new ReminderPickers(this, this);
     reminderPicker.pick(alarm, recurrenceRule);
   }

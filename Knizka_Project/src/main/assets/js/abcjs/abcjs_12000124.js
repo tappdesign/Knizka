@@ -23,7 +23,7 @@ w: Prach~ si~ i- ba,|v prach~ sa~ * vrá- tiš,|
 w: keď~ ťa~ kru- tá|smrť~ za- * chvá- ti,|
  D G A B | c B c d | %14
 w: ~do~ ~ze~- ~me~ ~sa|zas~ ~na~- ~vrá~- ~tiš,|
- e d c G/A/ |$ B A G2 |] %16
+ e d c (G/A/) |$ B A G2 |] %16
 w: ~z kto~- ~rej~ ~si~ ~raz~ *|bol~ ~vza~- ~tý.|
 
 `;

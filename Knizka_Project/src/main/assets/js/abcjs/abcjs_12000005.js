@@ -12,13 +12,13 @@ K:Bb
 w: ~Buď,|Má~- ~ri~- ~a,~ ~po~-|
  (FD)E F2 B |$ c2 d (ed)(c/B/) | %4
 w: zdra- * ve- ná,~ ty|ne- bies~ krá- * sna- *|
- (BA)B !breath!c2 F | D2 F F2 G |$ %6
+ (BA)B !breath!c2 F | D2 E F2 G |$ %6
 w: ~ľa~- * ~li~- ~a!~ ~Ty's|Mať~ ~Bo~- ~žia,~ ~vy~-|
  (FD)E G2 d | c2 A A2 G | %8
 w: ~vo~- * ~le~- ~ná~ ~od|več~- ~né~- ~ho~ ~Bo~-|
  F3 z2 F |$ G2 G (GA)B | %10
 w: ~ha.~ ~Ar~-|chan~- ~jel~ ~ťa~ * ~po~-|
- F2 F D2 F | G2 G (GA)B |$ %12
+ F2 E D2 F | G2 G (GA)B |$ %12
 w: ~zdra~- ~vu~- ~je~ ~a|ve~- ~ci~ ~div~- * ~né|
  F2 E D2 F | A2 B c2 d | %14
 w: zve- stu- je:~ po-|ro- díš,~ Pre- mi-|

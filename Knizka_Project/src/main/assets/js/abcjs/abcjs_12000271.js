@@ -1,25 +1,29 @@
 var MusicScoreData =
-`%%composerfont Tahoma 9 italic
+`
+%%composerfont Tahoma 9 italic
 %%infofont Tahoma 9 italic
-M: 4/4
-L: 1/4
-R: A. K. (1838)
-C: M. Sch. T.  
-K: C
-   c B B A | A G G F |
-w: Lás~-ky pl~-ní|Se~-ra~-fí~-ni,   
-   A A G F | E D C2 |
-w: do~-lu z~ne~-ba|stu~-puj~-te,   
-   c B B A | A G G F |
-w: vy ste Bo~-hu|več~-ne mi~-lí,   
-   A A G F | E D C2 |
-w: s~na~-mi tu pre~-|spe~-vuj~-te!   
-   E ^F ^G E | A B c B 
-w: Je~-žiš v~chle~-ba|tu spô~-so~-be
-   A A d c | B A G2 |
-w: Ot~-cu sa pred~-|sta~-vu~-je,   
-   c B B A | A G G F |
-w: jak na krí~-ži|v~kaž~-dej do~-be
-   A A G F | E D C2 |] 
-w: za nás sa o~-|be~-tu~-je.
+X:1
+C:M. Sch. T.
+R:J. Ho. (1846)
+L:1/4
+M:4/4
+I:linebreak $
+K:C
+ G c/B/ A G | G F E z | %2
+w: ~Kri~- ~ste,~ ~zo~ ~srd~- ~ca|ce~- ~lé~- ~ho|
+ F A G E |$ (F/E/) D C z | %4
+w: ~po~- ~klo~- ~nu~ ~ti|skla~- * ~dá~- ~me,|
+ G c/B/ A G |$ G F E z | %6
+w: ~keď~ ~na~ ~ko~- ~le~- ~ná|pred~ ~te~- ~bou|
+ D A G E | (F/E/) D C z |$ %8
+w: ~pred~ ~ol~- ~tá~- ~rom|pa~- * ~dá~- ~me.|
+ E c B A | A ^G A E |$ %10
+w: ~Svo~- ~je~ ~te~- ~lo|a~ ~krv~ ~svä~- ~tú|
+ A A d (c/B/) | A A G z | %12
+w: ~daj~ ~nám~ ~zbož~- ~ne~ *|u~- ~ží~- ~vať|
+ G c/B/ A G |$ G F E z | %14
+w: ~a~ ~svo~- ~ju~ ~lás~- ~ku|ne~- ~smier~- ~nu|
+ D A G E | (F/E/) D C z |] %16
+w: ráč~ v nás~ vždy~ viac|roz- * ží- hať.|
+
 `;

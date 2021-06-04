@@ -21,9 +21,7 @@
 
 package pk.tappdesign.knizka;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
 
 import android.app.Activity;
 import android.os.Bundle;

@@ -34,6 +34,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.models.Category;
@@ -129,8 +131,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
         }
 
         // Sets category count if set in preferences
-        if (mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS).getBoolean
-                ("settings_show_category_count", true)) {
+        if (Prefs.getBoolean("settings_show_category_count", true)) {
             holder.count.setText(String.valueOf(category.getCount()));
             holder.count.setVisibility(View.VISIBLE);
         }
@@ -150,10 +151,7 @@ public class NavDrawerCategoryAdapter extends BaseAdapter {
                 mActivity).getNavigationTmp() : null;
         navigationTmpLocal = this.navigationTmp != null ? this.navigationTmp : navigationTmpLocal;
 
-        String navigation = navigationTmp != null ? navigationTmpLocal
-                : mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS)
-                .getString(Constants.PREF_NAVIGATION,
-                        navigationListCodes[0]);
+        String navigation = navigationTmp != null ? navigationTmpLocal : Prefs.getString(Constants.PREF_NAVIGATION, navigationListCodes[0]);
 
         return navigation.equals(String.valueOf(categories.get(position).getId()));
     }

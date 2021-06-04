@@ -21,12 +21,12 @@
 
 package pk.tappdesign.knizka.intro;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_TOUR_COMPLETE;
 
 import android.content.Context;
 import android.os.Bundle;
 import com.github.paolorotolo.appintro.AppIntro2;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import pk.tappdesign.knizka.Knizka;
 
@@ -50,15 +50,13 @@ public class IntroActivity extends AppIntro2 {
 
 	@Override
 	public void onDonePressed() {
-		Knizka.getAppContext().getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS).edit()
-				.putBoolean(PREF_TOUR_COMPLETE, true).apply();
+		Prefs.edit().putBoolean(PREF_TOUR_COMPLETE, true).apply();
 		finish();
 	}
 
 
 	public static boolean mustRun() {
-		return !Knizka.isDebugBuild() && !Knizka.getAppContext().getSharedPreferences(PREFS_NAME,
-				Context.MODE_MULTI_PROCESS).getBoolean(PREF_TOUR_COMPLETE, false);
+		return !Knizka.isDebugBuild() && !Prefs.getBoolean(PREF_TOUR_COMPLETE, false);
 	}
 
 

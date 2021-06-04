@@ -9,11 +9,11 @@ L:1/4
 M:4/4
 I:linebreak $
 K:F
- A D/E/ F E | D2 z2 | %2
+ A (D/E/) F E | D2 z2 | %2
 w: ~Ach,~ ~pre~- * ~čo~ ~si,|zlosť|
- A A F G |$ E2 D2 | %4
+ A A G F |$ E2 D2 | %4
 w: ~ta~- ~ká~ ~kru~- ~tá|bo~- ~la,|
- A D/E/ (F E) | D2 z2 | %6
+ A (D/E/) (F E) | D2 z2 | %6
 w: ~pre~- ~čo~ ~si~ ~Kris~- *|ta|
  A A G F |$ E2 D2 | %8
 w: ~tak~ ~hru~- ~bo~ ~zra~-|ni~- ~la?|

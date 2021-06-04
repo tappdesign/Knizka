@@ -21,7 +21,6 @@
 
 package pk.tappdesign.knizka.async;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_DYNAMIC_MENU;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT;
@@ -33,6 +32,9 @@ import android.content.SharedPreferences;
 import android.content.res.TypedArray;
 import android.os.AsyncTask;
 import androidx.fragment.app.Fragment;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import de.greenrobot.event.EventBus;
 import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.R;
@@ -140,8 +142,8 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
 
   private boolean checkSkippableItem (int i) {
     boolean skippable = false;
-    SharedPreferences prefs = mainActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
-    boolean dynamicMenu = prefs.getBoolean(PREF_DYNAMIC_MENU, true);
+
+    boolean dynamicMenu = Prefs.getBoolean(PREF_DYNAMIC_MENU, true);
     DynamicNavigationLookupTable dynamicNavigationLookupTable = null;
     if (dynamicMenu) {
       dynamicNavigationLookupTable = DynamicNavigationLookupTable.getInstance();
@@ -153,7 +155,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         }
         break;
       case Navigation.UNCATEGORIZED:
-        boolean showUncategorized = prefs.getBoolean(PREF_SHOW_UNCATEGORIZED, false);
+        boolean showUncategorized = Prefs.getBoolean(PREF_SHOW_UNCATEGORIZED, false);
         if (!showUncategorized || (dynamicMenu && dynamicNavigationLookupTable.getUncategorized() == 0)) {
           skippable = true;
         }
@@ -179,7 +181,7 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         }
         break;
       case Navigation.JKS_CATEGORIES:
-        if (dynamicMenu && prefs.getBoolean(PREF_NAVIGATION_SHOW_JKS_CATEGORIES, PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT) == false) {
+        if (dynamicMenu && Prefs.getBoolean(PREF_NAVIGATION_SHOW_JKS_CATEGORIES, PREF_NAVIGATION_SHOW_JKS_CATEGORIES_DEFAULT) == false) {
           skippable = true;
         }
         skippable = true; // always TRUE! never show JKS Category in Drawer menu, it is not necesary for now

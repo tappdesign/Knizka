@@ -92,8 +92,7 @@ public class AttachmentAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.gridview_item, parent, false);
 
             // Overrides font sizes with the one selected from user
-            Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME,
-                    Context.MODE_MULTI_PROCESS), convertView);
+            Fonts.overrideTextSize(mActivity, convertView);
 
             holder = new AttachmentHolder();
             holder.image = (SquareImageView) convertView.findViewById(R.id.gridview_item_picture);

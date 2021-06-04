@@ -13,7 +13,7 @@ K:Eb
 w: ~Ve~- ~se~- ~lo~ ~spie~-|vaj~- ~me,|
  c d e B |$ (G A) B2 | %4
 w: ~Bo~- ~ha~ ~Ot~- ~ca|chváľ~- * ~me,|
- A F G A | (G A) E2 |$ %6
+ A F G A | (G F) E2 |$ %6
 w: ~že~ ~nám~ ~Sy~- ~na|svoj~- * ~ho|
  D E F G | F2 B,2 | %8
 w: ~jed~- ~no~- ~ro~- ~de~-|né~- ~ho|

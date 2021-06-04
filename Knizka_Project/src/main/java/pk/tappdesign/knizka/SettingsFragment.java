@@ -23,7 +23,6 @@ import static android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI;
 import static android.provider.Settings.System.DEFAULT_NOTIFICATION_URI;
 import static pk.tappdesign.knizka.db.DBConst.DB_ATTACHED;
 import static pk.tappdesign.knizka.db.DBConst.DB_USER_DATA;
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.DATE_FORMAT_EXPORT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_AUTO_LOCATION;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
@@ -68,6 +67,8 @@ import androidx.preference.SwitchPreference;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.folderselector.FolderChooserDialog;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import it.feio.android.analitica.AnalyticsHelper;
 import pk.tappdesign.knizka.async.DataBackupIntentService;
 import pk.tappdesign.knizka.helpers.AppVersionHelper;
@@ -95,8 +96,6 @@ import org.apache.commons.lang3.ArrayUtils;
 
 public class SettingsFragment extends PreferenceFragmentCompat {
 
-  private SharedPreferences prefs;
-
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
   public static final String XML_NAME = "xmlName";
@@ -115,7 +114,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    prefs = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
     setTitle();
   }
 
@@ -312,7 +310,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Swiping action
     final SwitchPreference swipeToTrash = findPreference("settings_swipe_to_trash");
     if (swipeToTrash != null) {
-      if (prefs.getBoolean("settings_swipe_to_trash", false)) {
+      if (Prefs.getBoolean("settings_swipe_to_trash", false)) {
         swipeToTrash.setChecked(true);
         swipeToTrash
             .setSummary(getResources().getString(R.string.settings_swipe_to_trash_summary_2));
@@ -349,11 +347,11 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final EditTextPreference maxVideoSize = findPreference("settings_max_video_size");
     if (maxVideoSize != null) {
       maxVideoSize.setSummary(getString(R.string.settings_max_video_size_summary) + ": "
-          + prefs.getString("settings_max_video_size", getString(R.string.not_set)));
+          + Prefs.getString("settings_max_video_size", getString(R.string.not_set)));
       maxVideoSize.setOnPreferenceChangeListener((preference, newValue) -> {
         maxVideoSize
             .setSummary(getString(R.string.settings_max_video_size_summary) + ": " + newValue);
-        prefs.edit().putString("settings_max_video_size", newValue.toString()).apply();
+        Prefs.edit().putString("settings_max_video_size", newValue.toString()).apply();
         return false;
       });
     }
@@ -371,7 +369,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Use password to grant application access
     final SwitchPreference passwordAccess = findPreference("settings_password_access");
     if (passwordAccess != null) {
-      if (prefs.getString(PREF_PASSWORD, null) == null) {
+      if (Prefs.getString(PREF_PASSWORD, null) == null) {
         passwordAccess.setEnabled(false);
         passwordAccess.setChecked(false);
       } else {
@@ -403,14 +401,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Text size
     final ListPreference textSize = findPreference("settings_text_size");
     if (textSize != null) {
-      int textSizeIndex = textSize.findIndexOfValue(prefs.getString("settings_text_size", "default"));
+      int textSizeIndex = textSize.findIndexOfValue(Prefs.getString("settings_text_size", "default"));
       String textSizeString = getResources().getStringArray(R.array.text_size)[textSizeIndex];
       textSize.setSummary(textSizeString);
       textSize.setOnPreferenceChangeListener((preference, newValue) -> {
         int textSizeIndex1 = textSize.findIndexOfValue(newValue.toString());
         String checklistString = getResources().getStringArray(R.array.text_size)[textSizeIndex1];
         textSize.setSummary(checklistString);
-        prefs.edit().putString("settings_text_size", newValue.toString()).apply();
+        Prefs.edit().putString("settings_text_size", newValue.toString()).apply();
         textSize.setValueIndex(textSizeIndex1);
         return false;
       });
@@ -430,7 +428,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Application's colors
     final ListPreference colorsApp = findPreference("settings_colors_app");
     if (colorsApp != null) {
-      int colorsAppIndex = colorsApp.findIndexOfValue(prefs.getString("settings_colors_app",
+      int colorsAppIndex = colorsApp.findIndexOfValue(Prefs.getString("settings_colors_app",
           PREF_COLORS_APP_DEFAULT));
       String colorsAppString = getResources().getStringArray(R.array.colors_app)[colorsAppIndex];
       colorsApp.setSummary(colorsAppString);
@@ -439,7 +437,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         String colorsAppString1 = getResources()
             .getStringArray(R.array.colors_app)[colorsAppIndex1];
         colorsApp.setSummary(colorsAppString1);
-        prefs.edit().putString("settings_colors_app", newValue.toString()).apply();
+        Prefs.edit().putString("settings_colors_app", newValue.toString()).apply();
         colorsApp.setValueIndex(colorsAppIndex1);
         return false;
       });
@@ -448,14 +446,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Application's theme
     final ListPreference themeApp = findPreference("settings_theme_app");
     if (themeApp != null) {
-      int colorsAppIndex = themeApp.findIndexOfValue(prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT));
+      int colorsAppIndex = themeApp.findIndexOfValue(Prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT));
       String colorsAppString = getResources().getStringArray(R.array.html_color_schemes)[colorsAppIndex];
       themeApp.setSummary(colorsAppString);
       themeApp.setOnPreferenceChangeListener((preference, newValue) -> {
         int colorsAppIndex1 = themeApp.findIndexOfValue(newValue.toString());
         String colorsAppString1 = getResources().getStringArray(R.array.html_color_schemes)[colorsAppIndex1];
         themeApp.setSummary(colorsAppString1);
-        prefs.edit().putString(PREF_HTML_COLOR_SCHEME, newValue.toString()).apply();
+        Prefs.edit().putString(PREF_HTML_COLOR_SCHEME, newValue.toString()).apply();
         themeApp.setValueIndex(colorsAppIndex1);
         //getActivity().recreate(); small bug, after recreating activity we need tap two times on back arrow in action bar
         return false;
@@ -466,7 +464,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final ListPreference checklist = findPreference("settings_checked_items_behavior");
     if (checklist != null) {
       int checklistIndex = checklist
-          .findIndexOfValue(prefs.getString("settings_checked_items_behavior", "0"));
+          .findIndexOfValue(Prefs.getString("settings_checked_items_behavior", "0"));
       String checklistString = getResources()
           .getStringArray(R.array.checked_items_behavior)[checklistIndex];
       checklist.setSummary(checklistString);
@@ -475,7 +473,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         String checklistString1 = getResources().getStringArray(R.array.checked_items_behavior)
             [checklistIndex1];
         checklist.setSummary(checklistString1);
-        prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).apply();
+        Prefs.edit().putString("settings_checked_items_behavior", newValue.toString()).apply();
         checklist.setValueIndex(checklistIndex1);
         return false;
       });
@@ -485,7 +483,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     final ListPreference colorsWidget = findPreference("settings_colors_widget");
     if (colorsWidget != null) {
       int colorsWidgetIndex = colorsWidget
-          .findIndexOfValue(prefs.getString("settings_colors_widget",
+          .findIndexOfValue(Prefs.getString("settings_colors_widget",
               PREF_COLORS_APP_DEFAULT));
       String colorsWidgetString = getResources()
           .getStringArray(R.array.colors_widget)[colorsWidgetIndex];
@@ -495,7 +493,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         String colorsWidgetString1 = getResources()
             .getStringArray(R.array.colors_widget)[colorsWidgetIndex1];
         colorsWidget.setSummary(colorsWidgetString1);
-        prefs.edit().putString("settings_colors_widget", newValue.toString()).apply();
+        Prefs.edit().putString("settings_colors_widget", newValue.toString()).apply();
         colorsWidget.setValueIndex(colorsWidgetIndex1);
         return false;
       });
@@ -514,7 +512,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           intent.putExtra(RingtoneManager.EXTRA_RINGTONE_SHOW_SILENT, true);
           intent.putExtra(RingtoneManager.EXTRA_RINGTONE_DEFAULT_URI, DEFAULT_NOTIFICATION_URI);
 
-          String existingValue = prefs.getString("settings_notification_ringtone", null);
+          String existingValue = Prefs.getString("settings_notification_ringtone", null);
           if (existingValue != null) {
             if (existingValue.length() == 0) {
               // Select "Silent"
@@ -537,14 +535,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     // Notification snooze delay
     final EditTextPreference snoozeDelay = findPreference("settings_notification_snooze_delay");
     if (snoozeDelay != null) {
-      String snooze = prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
+      String snooze = Prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
       snooze = TextUtils.isEmpty(snooze) ? PREF_SNOOZE_DEFAULT : snooze;
       snoozeDelay.setSummary(snooze + " " + getString(R.string.minutes));
       snoozeDelay.setOnPreferenceChangeListener((preference, newValue) -> {
         String snoozeUpdated = TextUtils.isEmpty(String.valueOf(newValue)) ? PREF_SNOOZE_DEFAULT
             : String.valueOf(newValue);
         snoozeDelay.setSummary(snoozeUpdated + " " + getString(R.string.minutes));
-        prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
+        Prefs.edit().putString("settings_notification_snooze_delay", snoozeUpdated).apply();
         return false;
       });
     }
@@ -586,7 +584,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .content(R.string.reset_all_data_confirmation)
             .positiveText(R.string.confirm)
             .onPositive((dialog, which) -> {
-              prefs.edit().clear().commit();
+              Prefs.edit().clear().commit();
               DbHelper.closeDB();
               File db_user = getActivity().getDatabasePath(DB_USER_DATA);
               StorageHelper.delete(getActivity(), db_user.getAbsolutePath());
@@ -630,7 +628,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
             .onPositive((dialog, which) -> {
               ((Knizka) getActivity().getApplication()).getAnalyticsHelper().trackEvent(
                   AnalyticsHelper.CATEGORIES.SETTING, "settings_tour_show_again");
-              prefs.edit().putBoolean(PREF_TOUR_COMPLETE, false).commit();
+              Prefs.edit().putBoolean(PREF_TOUR_COMPLETE, false).commit();
               SystemHelper.restartApp(getActivity().getApplicationContext(), MainActivity.class);
             }).build().show();
         return false;
@@ -826,7 +824,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         case RINGTONE_REQUEST_CODE:
           Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
           String notificationSound = uri == null ? null : uri.toString();
-          prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
+          Prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
           break;
 
         default:

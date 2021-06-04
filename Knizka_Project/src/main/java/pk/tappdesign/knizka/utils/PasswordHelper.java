@@ -22,7 +22,6 @@
 package pk.tappdesign.knizka.utils;
 
 import static android.content.Context.MODE_MULTI_PROCESS;
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD_ANSWER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD_QUESTION;
@@ -37,6 +36,7 @@ import android.widget.EditText;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import de.greenrobot.event.EventBus;
 import pk.tappdesign.knizka.Knizka;
@@ -65,7 +65,7 @@ public class PasswordHelper {
                 .positiveColorRes(R.color.colorPrimary)
                 .onPositive((dialog12, which) -> {
                     // When positive button is pressed password correctness is checked
-                    String oldPassword = mActivity.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_PASSWORD, "");
+                    String oldPassword = Prefs.getString(PREF_PASSWORD, "");
                     String password = passwordEditText.getText().toString();
                     // The check is done on password's hash stored in preferences
                     boolean result = Security.md5(password).equals(oldPassword);
@@ -113,14 +113,14 @@ public class PasswordHelper {
         final EditText answerEditText = (EditText) layout.findViewById(R.id.reset_password_answer);
 
         MaterialDialog dialog = new MaterialDialog.Builder(mActivity)
-                .title(Knizka.getSharedPreferences().getString(PREF_PASSWORD_QUESTION, ""))
+                .title(Prefs.getString(PREF_PASSWORD_QUESTION, ""))
                 .customView(layout, false)
                 .autoDismiss(false)
                 .contentColorRes(R.color.text_color)
                 .positiveText(R.string.ok)
                 .onPositive((dialogElement, which) -> {
                     // When positive button is pressed answer correctness is checked
-                    String oldAnswer = Knizka.getSharedPreferences().getString(PREF_PASSWORD_ANSWER, "");
+                    String oldAnswer = Prefs.getString(PREF_PASSWORD_ANSWER, "");
                     String answer1 = answerEditText.getText().toString();
                     // The check is done on password's hash stored in preferences
                     boolean result = Security.md5(answer1).equals(oldAnswer);
@@ -155,7 +155,7 @@ public class PasswordHelper {
                     DbHelper.getInstance().updateNote(note, false);
                 })
                 .doOnCompleted(() -> {
-                    Knizka.getSharedPreferences().edit()
+                    Prefs.edit()
                             .remove(PREF_PASSWORD)
                             .remove(PREF_PASSWORD_QUESTION)
                             .remove(PREF_PASSWORD_ANSWER)

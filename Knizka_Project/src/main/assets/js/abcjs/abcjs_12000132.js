@@ -9,7 +9,7 @@ L:1/4
 M:4/4
 I:linebreak $
 K:Bb
- A A G ^F | G A B !fermata!A | %2
+ G A G ^F | G A B !fermata!A | %2
 w: ~Je~- ~zu~ ~Kris~- ~te,|Pa~- ~ne~ ~mi~- ~lý,|
  A B c d |$ c B A !fermata!G | %4
 w: ~Ba~- ~rán~- ~ku~ ~Bo~-|ží~ ~ne~- ~vin~- ~ný,|

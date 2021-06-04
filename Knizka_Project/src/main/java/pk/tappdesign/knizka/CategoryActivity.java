@@ -22,9 +22,7 @@
 package pk.tappdesign.knizka;
 
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_CATEGORY;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 
 import static java.lang.Integer.parseInt;
@@ -39,6 +37,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.afollestad.materialdialogs.Theme;
 import com.afollestad.materialdialogs.color.ColorChooserDialog;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import de.greenrobot.event.EventBus;
 import pk.tappdesign.knizka.async.bus.CategoriesUpdatedEvent;
 import pk.tappdesign.knizka.databinding.ActivityCategoryBinding;
@@ -171,11 +171,11 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
                 .positiveColorRes(R.color.colorAccent)
                 .onPositive((dialog, which) -> {
                     // Changes navigation if actually are shown notes associated with this category
-                    SharedPreferences prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
+
                     String navNotes = getResources().getStringArray(R.array.navigation_list_codes)[0];
-                    String navigation = prefs.getString(PREF_NAVIGATION, navNotes);
+                    String navigation = Prefs.getString(PREF_NAVIGATION, navNotes);
                     if (String.valueOf(category.getId()).equals(navigation)) {
-                        prefs.edit().putString(PREF_NAVIGATION, navNotes).apply();
+                        Prefs.edit().putString(PREF_NAVIGATION, navNotes).apply();
                     }
                     // Removes category and edit notes associated with it
                     DbHelper db = DbHelper.getInstance();

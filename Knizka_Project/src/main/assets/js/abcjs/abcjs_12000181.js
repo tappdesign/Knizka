@@ -31,7 +31,7 @@ w: Ho- sa- na~ Sy- no- vi|Dá- vi- da!|
 w: ~vo~- ~la~- ~jú,~ ~a~- ~ko~ ~ho|u~- ~vi~- ~dia.|
  F F/A/ c A/F/ | B c d z |$ %22
 w: Ho- sa- na!~ aj~ my~ dnes|spie- va- me,|
- g d/d/ c A/B/ | A F G z :| %24
+ G d/d/ c A/B/ | A F G z :| %24
 w: Ho- sa- na!~ Kris- to- vi|vo- lá- me.|
 
 `;

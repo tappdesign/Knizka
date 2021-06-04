@@ -9,7 +9,7 @@ L:1/4
 M:4/4
 I:linebreak $
 K:D
- d d f d | d e d !fermata!c |$ %2
+ D D F D | D E D !fermata!C |$ %2
 w: Je- žiš~ slad- ký,|du- šiam~ hosť~ si,|
  F F A G | F E E !fermata!F | %4
 w: da- rom~ pra- vých|si~ ra- do- stí,|

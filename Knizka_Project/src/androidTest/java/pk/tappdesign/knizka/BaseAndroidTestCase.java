@@ -38,6 +38,9 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import androidx.test.core.app.ApplicationProvider;
 import androidx.test.rule.GrantPermissionRule;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import de.greenrobot.event.EventBus;
 import pk.tappdesign.knizka.async.bus.CategoriesUpdatedEvent;
 import pk.tappdesign.knizka.async.bus.NotesDeletedEvent;
@@ -71,7 +74,6 @@ public class BaseAndroidTestCase {
   protected static final Locale PRESET_LOCALE = new Locale(ENGLISH.toString());
   protected static DbHelper dbHelper;
   protected static Context testContext;
-  protected static SharedPreferences prefs;
 
   @Rule
   public GrantPermissionRule permissionRule = GrantPermissionRule.grant(
@@ -82,7 +84,6 @@ public class BaseAndroidTestCase {
   @BeforeClass
   public static void setUpBeforeClass() {
     testContext = ApplicationProvider.getApplicationContext();
-    prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS);
     dbHelper = DbHelper.getInstance(testContext);
   }
 
@@ -94,7 +95,7 @@ public class BaseAndroidTestCase {
   }
 
   private void preparePreferences() {
-    prefs.edit().clear().commit();
+    Prefs.edit().clear().commit();
   }
 
   private static void prepareDatabase() {

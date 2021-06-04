@@ -23,8 +23,8 @@ package pk.tappdesign.knizka.utils;
 
 import android.content.Context;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 
 
@@ -100,7 +100,7 @@ public class Navigation {
     public static String getNavigationText() {
         Context mContext = Knizka.getAppContext();
         String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-        return mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_NAVIGATION, navigationListCodes[0]);
+        return Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
     }
 
 
@@ -111,7 +111,7 @@ public class Navigation {
      */
     public static Long getCategory() {
         if (getNavigation() == CATEGORY) {
-            return Long.valueOf(Knizka.getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_NAVIGATION, ""));
+            return Long.valueOf(Prefs.getString(PREF_NAVIGATION, ""));
 		} else {
             return null;
         }
@@ -145,7 +145,7 @@ public class Navigation {
     public static boolean checkNavigationCategory(Category categoryToCheck) {
         Context mContext = Knizka.getAppContext();
         String[] navigationListCodes = mContext.getResources().getStringArray(R.array.navigation_list_codes);
-        String navigation = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(PREF_NAVIGATION, navigationListCodes[0]);
+        String navigation = Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
         return (categoryToCheck != null && navigation.equals(String.valueOf(categoryToCheck.getId())));
     }
 

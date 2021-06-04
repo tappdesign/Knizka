@@ -13,7 +13,7 @@ K:G
 w: ~Ó,~ ~chýr|pre~- ~bla~- ~hý,|
  B G A F |$ G2 z2 :| %4
 w: ~ó,~ ~čas~ ~pre~- ~dra~-|hý!|
- d d c d | B B A A |$ %6
+ d d c c | B B A A |$ %6
 w: ~Za~- ~sľú~- ~be~- ~ný|dáv~- ~no~ ~sve~- ~tu|
  d d c c | B B A A | %8
 w: ~Vy~- ~ku~- ~pi~- ~teľ,|hľa,~ ~už~ ~je~ ~tu.|

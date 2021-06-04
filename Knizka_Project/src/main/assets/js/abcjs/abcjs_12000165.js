@@ -17,9 +17,9 @@ w: ~pre~- ~svä~- ~tý|kríž;|
 w: ~s vie~- ~rou~ ~a|ná~- ~de~- ~jou|
  A A G | F2 z |$ %8
 w: ~k ne~- ~mu~ ~sa|blíž;|
- F B c | d c B | %10
+ F B c | d d c | %10
 w: ~lás~- ~ky~ ~Boh|ne~- ~vin~- ~ný|
- A A G | F2 z |$ %12
+ B c B | A2 z |$ %12
 w: ~na~ ~krí~- ~ži|pnel,|
  B B A | G A G | %14
 w: ~do~ ~ne~- ~bies,|ku~ ~se~- ~be|

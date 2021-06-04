@@ -55,6 +55,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -113,7 +116,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     setContentView(view);
 
     EventBus.getDefault().register(this);
-    prefs.registerOnSharedPreferenceChangeListener(this);
+    Prefs.getPreferences().registerOnSharedPreferenceChangeListener(this);
 
     initUI();
 
@@ -159,8 +162,8 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
    * This method starts the bootstrap chain.
    */
   private void checkPassword() {
-    if (prefs.getString(PREF_PASSWORD, null) != null
-        && prefs.getBoolean("settings_password_access", false)) {
+    if (Prefs.getString(PREF_PASSWORD, null) != null
+        && Prefs.getBoolean("settings_password_access", false)) {
       PasswordHelper.requestPassword(this, passwordConfirmed -> {
         switch (passwordConfirmed) {
           case SUCCEED:
@@ -312,10 +315,10 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
     f = checkFragmentInstance(R.id.fragment_container, ListFragment.class);
     if (f != null) {
       // Before exiting from app the navigation drawer is opened
-      if (prefs.getBoolean("settings_navdrawer_on_exit", true) && getDrawerLayout() != null &&
+      if (Prefs.getBoolean("settings_navdrawer_on_exit", true) && getDrawerLayout() != null &&
           !getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
         getDrawerLayout().openDrawer(GravityCompat.START);
-      } else if (!prefs.getBoolean("settings_navdrawer_on_exit", true) && getDrawerLayout() != null
+      } else if (!Prefs.getBoolean("settings_navdrawer_on_exit", true) && getDrawerLayout() != null
           &&
           getDrawerLayout().isDrawerOpen(GravityCompat.START)) {
         getDrawerLayout().closeDrawer(GravityCompat.START);

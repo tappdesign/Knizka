@@ -8,7 +8,7 @@ C: M. Sch. T.
 K: Gm
    D D F F | B B A G | 
 w: ~Pred ~ol~-tá~-rom | tu kľa-ká-me,
-   F D C G | F C E2 |
+   F D C G | F C D2 |
 w: vše~-mo~-hú~-ci | Bo~-že náš,
    D D F F | B B A G | 
 w: ~k~te~-be zrak svoj | o~-bra~-cia~-me,

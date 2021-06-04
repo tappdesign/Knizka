@@ -23,6 +23,8 @@ package pk.tappdesign.knizka.utils;
 
 import android.content.SharedPreferences;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.helpers.ReadFileAssetsHelper;
 
 import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_DIV_END_TAG;
@@ -41,13 +43,15 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_LAYOUT_JKS_CSS_DEFAU
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_MUSIC_SCORE_LIBRARY;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_MUSIC_SCORE_LIBRARY_DEFAULT;
 
+
+
 public class HTMLProducer {
 
-    private static String getColorFromSetting(SharedPreferences prefs)
+    private static String getColorFromSetting()
     {
         String result = "bright";
 
-        switch (prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_DEFAULT)) {
+        switch (Prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_DEFAULT)) {
             case PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT:
                 result = "bright";
                 break;
@@ -61,13 +65,13 @@ public class HTMLProducer {
     }
 
 
-    private static String getJKSLayoutFromSetting(SharedPreferences prefs, long noteHandleID)
+    private static String getJKSLayoutFromSetting(long noteHandleID)
     {
         String result;
 
         if (isJKSSong(noteHandleID))
         {
-            result = prefs.getString(PREF_LAYOUT_JKS_CSS, PREF_LAYOUT_JKS_CSS_DEFAULT);
+            result = Prefs.getString(PREF_LAYOUT_JKS_CSS, PREF_LAYOUT_JKS_CSS_DEFAULT);
 
         } else {
             result = "format1.css";
@@ -82,13 +86,13 @@ public class HTMLProducer {
     }
 
 
-    private static boolean isJKSSongAndMusicScoreIsOn(SharedPreferences prefs, long noteHandleID)
+    private static boolean isJKSSongAndMusicScoreIsOn(long noteHandleID)
     {
         boolean result = false;
 
         if (isJKSSong(noteHandleID))
         {
-            if (prefs.getBoolean(PREF_JKS_SHOW_MUSIC_SCORE, PREF_JKS_SHOW_MUSIC_SCORE_DEFAULT))
+            if (Prefs.getBoolean(PREF_JKS_SHOW_MUSIC_SCORE, PREF_JKS_SHOW_MUSIC_SCORE_DEFAULT))
             {
                 result = true;
             }
@@ -98,12 +102,12 @@ public class HTMLProducer {
     }
 
 
-    private static String getMusicScoreLibrary(SharedPreferences prefs, long noteHandleID)
+    private static String getMusicScoreLibrary(long noteHandleID)
     {
         String result = "";
-        if (isJKSSongAndMusicScoreIsOn(prefs, noteHandleID))
+        if (isJKSSongAndMusicScoreIsOn(noteHandleID))
         {
-            switch (prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
+            switch (Prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
             {
                 case MUSIC_LIBRARY_OSMD:
                     result = ReadFileAssetsHelper.getInstance().getOpenSheetMusicDisplay();
@@ -123,12 +127,12 @@ public class HTMLProducer {
     }
 
 
-    private static String getMusicSheetAsJS(SharedPreferences prefs, long noteHandleID)
+    private static String getMusicSheetAsJS(long noteHandleID)
     {
         String result = "";
-        if (isJKSSongAndMusicScoreIsOn(prefs, noteHandleID))
+        if (isJKSSongAndMusicScoreIsOn(noteHandleID))
         {
-            switch (prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
+            switch (Prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
             {
                 case MUSIC_LIBRARY_OSMD:
                     result = ReadFileAssetsHelper.getInstance().getMusicNotes("js/osmd/osmd_" + noteHandleID + ".js");
@@ -180,12 +184,12 @@ public class HTMLProducer {
     }
 
 
-    private static String getMusicScoreScriptRenderer(SharedPreferences prefs, long noteHandleID)
+    private static String getMusicScoreScriptRenderer(long noteHandleID)
     {
         String result = "";
-        if (isJKSSongAndMusicScoreIsOn(prefs, noteHandleID))
+        if (isJKSSongAndMusicScoreIsOn(noteHandleID))
         {
-            switch (prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
+            switch (Prefs.getString(PREF_MUSIC_SCORE_LIBRARY, PREF_MUSIC_SCORE_LIBRARY_DEFAULT))
             {
                 case MUSIC_LIBRARY_OSMD:
                     result =  getMusicScoreScriptRendererForOSMD(noteHandleID);
@@ -202,35 +206,35 @@ public class HTMLProducer {
         return result;
     }
 
-    public static String getHTML(SharedPreferences prefs, long noteHandleID, String caption, String htmlText)
+    public static String getHTML(long noteHandleID, String caption, String htmlText)
     {
         String retVal;
 
         retVal = "<html><head> " +
 
                 "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">" +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + getJKSLayoutFromSetting(prefs, noteHandleID) +"\" /> " +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + getJKSLayoutFromSetting(noteHandleID) +"\" /> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting() + ".css\" /> " +
                 ReadFileAssetsHelper.getInstance().getTDJSUtils() +
-                getMusicScoreLibrary(prefs, noteHandleID) +
+                getMusicScoreLibrary(noteHandleID) +
                 "</head><body onload=\"assignAccordions()\">"+
                 HTML_TEXT_TITLE_CLASS + caption + HTML_DIV_END_TAG +
                 HTML_DIV_MUSIC_SCORE_CONTAINER +
                 htmlText +
-                getMusicSheetAsJS(prefs, noteHandleID) +
-                getMusicScoreScriptRenderer(prefs, noteHandleID)+
+                getMusicSheetAsJS(noteHandleID) +
+                getMusicScoreScriptRenderer(noteHandleID)+
                 "</body></html>";
 
         return retVal;
     }
 
-    public static String getLoremIpsumHTML(SharedPreferences prefs, String layoutCSS)
+    public static String getLoremIpsumHTML(String layoutCSS)
     {
         String retVal;
 
         retVal = "<html><head> " +
                 "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_layout/" + layoutCSS +  "\" /> " +
-                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting(prefs) + ".css\" /> " +
+                "<link rel=\"stylesheet\" type=\"text/css\" href=\"css_color/" + getColorFromSetting() + ".css\" /> " +
                 ReadFileAssetsHelper.getInstance().getTDJSUtils() +
                 "</head><body onload=\"assignAccordions()\">"+
                 ReadFileAssetsHelper.getInstance().getLoremIpsumJKS() +

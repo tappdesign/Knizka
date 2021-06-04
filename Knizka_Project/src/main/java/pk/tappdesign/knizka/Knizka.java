@@ -21,16 +21,16 @@
 
 package pk.tappdesign.knizka;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
+import static pk.tappdesign.knizka.utils.Constants.PACKAGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_LANG;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_SEND_ANALYTICS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PROPERTIES_PARAMS_SEPARATOR;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.StrictMode;
 import androidx.multidex.MultiDexApplication;
+import com.pixplicity.easyprefs.library.Prefs;
 import it.feio.android.analitica.AnalyticsHelper;
 import it.feio.android.analitica.AnalyticsHelperFactory;
 import it.feio.android.analitica.MockAnalyticsHelper;
@@ -51,7 +51,6 @@ import org.acra.sender.HttpSender;
 @AcraToast(resText = R.string.crash_toast)
 public class Knizka extends MultiDexApplication {
 
-	static SharedPreferences prefs;
 	private static Context mContext;
 	private AnalyticsHelper analyticsHelper;
 
@@ -61,16 +60,7 @@ public class Knizka extends MultiDexApplication {
 
 	public static Context getAppContext() {
 		return Knizka.mContext;
-	}
-
-	/**
-	 * Statically returns app's default SharedPreferences instance
-	 *
-	 * @return SharedPreferences object instance
-	 */
-	public static SharedPreferences getSharedPreferences() {
-		return getAppContext().getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
-	}
+  }
 
 	@Override
 	protected void attachBaseContext(Context base) {
@@ -84,13 +74,20 @@ public class Knizka extends MultiDexApplication {
 		super.onCreate();
 
 		mContext = getApplicationContext();
-		prefs = getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
-
+    	initSharedPreferences();
 		enableStrictMode();
 
 		new NotificationsHelper(this).initNotificationChannels();
 	}
 
+  private void initSharedPreferences() {
+    new Prefs.Builder()
+        .setContext(this)
+        .setMode(MODE_PRIVATE)
+        .setPrefsName(PACKAGE)
+        .setUseDefaultSharedPreference(true)
+        .build();
+  }
 	private void enableStrictMode() {
 		if (isDebugBuild()) {
 			StrictMode.enableDefaults();
@@ -101,13 +98,13 @@ public class Knizka extends MultiDexApplication {
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
-		String language = prefs.getString(PREF_LANG, "");
+    String language = Prefs.getString(PREF_LANG, "");
 		LanguageHelper.updateLanguage(this, language);
 	}
 
 	public AnalyticsHelper getAnalyticsHelper() {
 		if (analyticsHelper == null) {
-			boolean enableAnalytics = prefs.getBoolean(PREF_SEND_ANALYTICS, true);
+      boolean enableAnalytics = Prefs.getBoolean(PREF_SEND_ANALYTICS, true);
 			try {
 				String[] analyticsParams = BuildConfig.ANALYTICS_PARAMS.split(PROPERTIES_PARAMS_SEPARATOR);
 				analyticsHelper = new AnalyticsHelperFactory().getAnalyticsHelper(this, enableAnalytics,

@@ -20,9 +20,6 @@
  */
 package pk.tappdesign.knizka.receiver;
 
-import static android.content.Context.MODE_MULTI_PROCESS;
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
-import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_POSTPONE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SNOOZE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
@@ -36,6 +33,8 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Spanned;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import java.util.List;
 
@@ -82,7 +81,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 	}
 
   private void createNotification (Context mContext, Note note) {
-    SharedPreferences prefs = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS);
 
     PendingIntent piSnooze = IntentHelper.getNotePendingIntent(mContext, SnoozeActivity.class, ACTION_SNOOZE, note);
     PendingIntent piPostpone = IntentHelper.getNotePendingIntent(mContext, SnoozeActivity.class, ACTION_POSTPONE, note);
@@ -103,7 +101,7 @@ public class AlarmReceiver extends BroadcastReceiver {
       notificationsHelper.setLargeIcon(notificationIcon);
     }
 
-    String snoozeDelay = mContext.getSharedPreferences(PREFS_NAME, MODE_MULTI_PROCESS).getString(
+    String snoozeDelay = Prefs.getString(
         "settings_notification_snooze_delay", "10");
 
     notificationsHelper.getBuilder()
@@ -112,21 +110,21 @@ public class AlarmReceiver extends BroadcastReceiver {
                        .addAction(R.drawable.ic_remind_later_light, TextHelper.capitalize(mContext.getString(R.string
                            .add_reminder)), piPostpone);
 
-		setRingtone(prefs, notificationsHelper);
-		setVibrate(prefs, notificationsHelper);
+		setRingtone(notificationsHelper);
+		setVibrate(notificationsHelper);
 
 		notificationsHelper.show(note.get_id());
 	}
 
 
-	private void setRingtone(SharedPreferences prefs, NotificationsHelper notificationsHelper) {
-		String ringtone = prefs.getString("settings_notification_ringtone", null);
+	private void setRingtone(NotificationsHelper notificationsHelper) {
+		String ringtone = Prefs.getString("settings_notification_ringtone", null);
 		notificationsHelper.setRingtone(ringtone);
 	}
 
 
-  private void setVibrate (SharedPreferences prefs, NotificationsHelper notificationsHelper) {
-    if (prefs.getBoolean("settings_notification_vibration", true)) {
+  private void setVibrate ( NotificationsHelper notificationsHelper) {
+    if (Prefs.getBoolean("settings_notification_vibration", true)) {
       notificationsHelper.setVibration();
     }
   }

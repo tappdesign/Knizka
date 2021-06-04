@@ -32,6 +32,9 @@ import android.content.res.Configuration;
 import android.os.Build;
 import androidx.annotation.NonNull;
 import android.text.TextUtils;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.utils.Constants;
 
 import java.util.Locale;
@@ -46,15 +49,15 @@ public class LanguageHelper {
    */
   @SuppressLint("ApplySharedPref")
   public static Context updateLanguage (Context ctx, String lang) {
-    SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-    String language = prefs.getString(PREF_LANG, "");
+
+    String language = Prefs.getString(PREF_LANG, "");
 
     Locale locale = null;
     if (TextUtils.isEmpty(language) && lang == null) {
       locale = Locale.getDefault();
     } else if (lang != null) {
       locale = getLocale(lang);
-      prefs.edit().putString(PREF_LANG, lang).commit();
+      Prefs.edit().putString(PREF_LANG, lang).commit();
     } else if (!TextUtils.isEmpty(language)) {
       locale = getLocale(language);
     }
@@ -63,8 +66,8 @@ public class LanguageHelper {
   }
 
   public static Context resetSystemLanguage (Context ctx) {
-    SharedPreferences prefs = ctx.getSharedPreferences(Constants.PREFS_NAME, MODE_MULTI_PROCESS);
-    prefs.edit().remove(PREF_LANG).apply();
+
+    Prefs.edit().remove(PREF_LANG).apply();
 
     return setLocale(ctx, Locale.getDefault());
   }

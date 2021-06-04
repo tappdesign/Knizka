@@ -33,6 +33,9 @@ import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.helpers.LogDelegate;
 
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_KEEP_SCREEN_ON;
@@ -143,9 +146,9 @@ public class Display {
     }
 
 
-    public static void setKeepScreenOn(Activity mainActivity, SharedPreferences prefs)
+    public static void setKeepScreenOn(Activity mainActivity)
     {
-        boolean isKeepScreenOn = prefs.getBoolean(PREF_KEEP_SCREEN_ON, PREF_KEEP_SCREEN_ON_DEFAULT);
+        boolean isKeepScreenOn = Prefs.getBoolean(PREF_KEEP_SCREEN_ON, PREF_KEEP_SCREEN_ON_DEFAULT);
 
         if (isKeepScreenOn)
         {

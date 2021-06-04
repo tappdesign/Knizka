@@ -10,9 +10,9 @@ I:linebreak $
 K:G
  G2 A | B B d | (c B) A | %3
 w: ~Tri~ ~zá~-|zra~- ~ky~ ~sa|dnes~ * ~sta~-|
- G2 z |$ G2 A | B B d | %6
+ B2 z |$ G2 A | B B d | %6
 w: ~li,|prí~- ~chod|Kris~- ~ta~ ~zves~-|
- (c B) A | G2 z |$ B A B | %9
+ (c B) A | B2 z |$ B A B | %9
 w: ~to~- * ~va~-|li.|Deň~ ~ten~- ~to|
  c2 B | (B A) G | A2 z |$ %12
 w: ~kaž~- ~dý|kres~- * ~ťan|sláv,|

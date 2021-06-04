@@ -27,6 +27,9 @@ import static java.util.Locale.ITALIAN;
 import android.content.Context;
 import android.content.SharedPreferences;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.BaseAndroidTestCase;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.utils.Constants;
@@ -51,9 +54,7 @@ public class LanguageHelperTest extends BaseAndroidTestCase {
   @Test
   public void changeSharedPrefrencesLanguage () {
     LanguageHelper.updateLanguage(testContext, Locale.ITALY.toString());
-    SharedPreferences prefs = testContext.getSharedPreferences(Constants.PREFS_NAME, Context
-        .MODE_MULTI_PROCESS);
-    String language = prefs.getString(Constants.PREF_LANG, "");
+    String language = Prefs.getString(Constants.PREF_LANG, "");
     assertEquals(Locale.ITALY.toString(), language);
   }
 

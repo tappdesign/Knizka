@@ -15,7 +15,7 @@ w: ~Keď~ ~Je~- ~ži~- ~ša|ne~- ~vin~- ~né~- ~ho,|
 w: ~už~ ~u~- ~smr~- ~te~-|né~- ~ho,|
  C E A c | (B2 A) ^G | %6
 w: ~do~- ~lu~ ~z krí~- ~ža|zlo~- * ~ži~-|
- A z z2 |$ E E A c | %8
+ A z z2 |$ E E E A | %8
 w: ~li,|te~- ~lo~ ~v lo~- ~no|
  c B A E | F F E D |$ %10
 w: ~Mat~- ~ky~ ~mi~- ~lej,|Mat~- ~ky~ ~u~- ~šlach~-|

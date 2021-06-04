@@ -134,6 +134,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.neopixl.pixlui.components.edittext.EditText;
+import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Style;
@@ -258,7 +259,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    private boolean showKeyboard = false;
    private boolean swiping;
    private int startSwipeX;
-   private SharedPreferences prefs;
    private boolean orientationChanged;
    private long audioRecordingTimeStart;
    private long audioRecordingTime;
@@ -365,8 +365,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       mainActivity = (MainActivity) getActivity();
 
-      prefs = mainActivity.prefs;
-
       mainActivity.getSupportActionBar().setDisplayShowTitleEnabled(false);
       mainActivity.getToolbar().setNavigationOnClickListener(v -> navigateUp());
 
@@ -385,7 +383,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     EventBus.getDefault().post(new SwitchFragmentEvent(SwitchFragmentEvent.Direction.CHILDREN));
     init();
 
-    Display.setKeepScreenOn(mainActivity, prefs);
+    Display.setKeepScreenOn(mainActivity);
 
     setHasOptionsMenu(true);
     setRetainInstance(false);
@@ -413,7 +411,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    private void hideSystemUI() {
       if (getActivity() != null) {
 
-         boolean isFullScreen = prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
+         boolean isFullScreen = Prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
 
          // do not set fullscreen if note is edited
          if( (isFullScreen) && (binding.fragmentDetailContent.myweb.getVisibility() != View.GONE))
@@ -549,8 +547,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    private void checkNoteLock(Note note) {
       // If note is locked security password will be requested
       if (note.isLocked()
-              && prefs.getString(PREF_PASSWORD, null) != null
-              && !prefs.getBoolean("settings_password_access", false)) {
+              && Prefs.getString(PREF_PASSWORD, null) != null
+              && !Prefs.getBoolean("settings_password_access", false)) {
          PasswordHelper.requestPassword(mainActivity, passwordConfirmed -> {
             switch (passwordConfirmed) {
                case SUCCEED:
@@ -610,7 +608,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          //  with tags to set tag
          if (i.hasExtra(INTENT_WIDGET)) {
             String widgetId = i.getExtras().get(INTENT_WIDGET).toString();
-            String sqlCondition = prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
+            String sqlCondition = Prefs.getString(PREF_WIDGET_PREFIX + widgetId, "");
             String categoryId = TextHelper.checkIntentCategory(sqlCondition);
             if (categoryId != null) {
                Category category;
@@ -697,7 +695,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       binding.detailRoot.setOnTouchListener(this);
 
       // Overrides font sizes with the one selected from user
-      Fonts.overrideTextSize(mainActivity, prefs, binding.detailRoot);
+      Fonts.overrideTextSize(mainActivity, binding.detailRoot);
 
       // Color of tag marker if note is tagged a function is active in preferences
       setTagMarkerColor(noteTmp.getCategory());
@@ -720,13 +718,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    }
 
    private void initViewFooter() {
-      String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
+      String creation = DateHelper.getFormattedDate(noteTmp.getCreation(), Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
       binding.creation.append(creation.length() > 0 ? getString(R.string.creation) + " " + creation : "");
       if (binding.creation.getText().length() == 0) {
          binding.creation.setVisibility(View.GONE);
       }
 
-      String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), prefs.getBoolean(
+      String lastModification = DateHelper.getFormattedDate(noteTmp.getLastModification(), Prefs.getBoolean(
               PREF_PRETTIFIED_DATES, true));
       binding.lastModification.append(lastModification.length() > 0 ? getString(R.string.last_update) + " " +
               lastModification : "");
@@ -794,7 +792,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
 
       // Automatic location insertion
-      if (prefs.getBoolean(PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
+      if (Prefs.getBoolean(PREF_AUTO_LOCATION, false) && noteTmp.get_id() == null) {
          getLocation(detailFragment);
       }
 
@@ -832,7 +830,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    private void initViewAttachments() {
       // Attachments position based on preferences
-      if (prefs.getBoolean(PREF_ATTACHMENTS_ON_BOTTOM, false)) {
+      if (Prefs.getBoolean(PREF_ATTACHMENTS_ON_BOTTOM, false)) {
          binding.detailAttachmentsBelow.inflate();
       } else {
          binding.detailAttachmentsAbove.inflate();
@@ -1002,7 +1000,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       binding.fragmentDetailContent.myweb.getSettings().setJavaScriptCanOpenWindowsAutomatically(true);
 
       binding.fragmentDetailContent.myweb.setWebViewClient(new ourBrowser());
-      binding.fragmentDetailContent.myweb.getSettings().setTextZoom(prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT));
+      binding.fragmentDetailContent.myweb.getSettings().setTextZoom(Prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT));
       binding.fragmentDetailContent.myweb.addJavascriptInterface(new JSInterface(), "AndroidHook");
       loadNoteToWebView();
    }
@@ -1041,7 +1039,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     */
    private void setTagMarkerColor(Category tag) {
 
-      String colorsPref = prefs.getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
+      String colorsPref = Prefs.getString("settings_colors_app", PREF_COLORS_APP_DEFAULT);
 
       // Checking preference
       if (!"disabled".equals(colorsPref)) {
@@ -1140,7 +1138,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          searchMenuItem.collapseActionView();
       }
 
-      boolean isFullScreen = prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
+      boolean isFullScreen = Prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
       boolean isEditMode = binding.fragmentDetailContent.myweb.getVisibility() == View.GONE;
       boolean newNote = noteTmp.get_id() == null;
 
@@ -1313,12 +1311,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
    private void loadNoteToWebView() {
-       binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(prefs, noteTmp.getHandleID(), noteTmp.getTitle(), noteTmp.getHTMLContent()), null, null, null);
+       binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(noteTmp.getHandleID(), noteTmp.getTitle(), noteTmp.getHTMLContent()), null, null, null);
    }
 
    private void changeHtmlColorScheme(int i) {
 
-      prefs.edit().putString(PREF_HTML_COLOR_SCHEME, getResources().getStringArray(R.array.html_color_schemes_values)[i]).commit();
+      Prefs.edit().putString(PREF_HTML_COLOR_SCHEME, getResources().getStringArray(R.array.html_color_schemes_values)[i]).commit();
       loadNoteToWebView();
 
       mainActivity.recreate();
@@ -1328,7 +1326,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       int preselectedIndex = Arrays
               .asList(getResources().getStringArray(R.array.html_color_schemes_values))
-              .indexOf(prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_DEFAULT));
+              .indexOf(Prefs.getString(PREF_HTML_COLOR_SCHEME, PREF_HTML_COLOR_SCHEME_DEFAULT));
 
       MaterialAlertDialogBuilder importDialog = new MaterialAlertDialogBuilder(getActivity())
               .setTitle(R.string.dialog_html_color_scheme_caption)
@@ -1366,8 +1364,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    }
 
    private void toggleFullscreen() {
-      boolean isFullScreen = !prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
-      prefs.edit().putBoolean(PREF_SHOW_FULLSCREEN, isFullScreen).commit();
+      boolean isFullScreen = !Prefs.getBoolean(PREF_SHOW_FULLSCREEN, PREF_SHOW_FULLSCREEN_DEFAULT);
+      Prefs.edit().putBoolean(PREF_SHOW_FULLSCREEN, isFullScreen).commit();
 
       if (isFullScreen)
       {
@@ -1379,14 +1377,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    }
 
    private void zoomTexIn() {
-      int textZoom = (int) (prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT) * 1.1);
-      prefs.edit().putInt(PREF_WEBVIEW_ZOOM, textZoom).commit();
+      int textZoom = (int) (Prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT) * 1.1);
+      Prefs.edit().putInt(PREF_WEBVIEW_ZOOM, textZoom).commit();
       binding.fragmentDetailContent.myweb.getSettings().setTextZoom(textZoom);
    }
 
    private void zoomTexOut() {
-      int textZoom = (int) (prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT) * 1 / 1.1);
-      prefs.edit().putInt(PREF_WEBVIEW_ZOOM, textZoom).commit();
+      int textZoom = (int) (Prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT) * 1 / 1.1);
+      Prefs.edit().putInt(PREF_WEBVIEW_ZOOM, textZoom).commit();
       binding.fragmentDetailContent.myweb.getSettings().setTextZoom(textZoom);
    }
 
@@ -1414,14 +1412,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Retrieves options checkboxes and initialize their values
       final CheckBox keepChecked = layout.findViewById(R.id.checklist_keep_checked);
       final CheckBox keepCheckmarks = layout.findViewById(R.id.checklist_keep_checkmarks);
-      keepChecked.setChecked(prefs.getBoolean(PREF_KEEP_CHECKED, true));
-      keepCheckmarks.setChecked(prefs.getBoolean(PREF_KEEP_CHECKMARKS, true));
+      keepChecked.setChecked(Prefs.getBoolean(PREF_KEEP_CHECKED, true));
+      keepCheckmarks.setChecked(Prefs.getBoolean(PREF_KEEP_CHECKMARKS, true));
 
       new MaterialDialog.Builder(mainActivity)
               .customView(layout, false)
               .positiveText(R.string.ok)
               .onPositive((dialog, which) -> {
-                 prefs.edit()
+                 Prefs.edit()
                          .putBoolean(PREF_KEEP_CHECKED, keepChecked.isChecked())
                          .putBoolean(PREF_KEEP_CHECKMARKS, keepCheckmarks.isChecked())
                          .apply();
@@ -1433,8 +1431,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     * Toggles checklist view
     */
    private void toggleChecklist2() {
-      boolean keepChecked = prefs.getBoolean(PREF_KEEP_CHECKED, true);
-      boolean showChecks = prefs.getBoolean(PREF_KEEP_CHECKMARKS, true);
+      boolean keepChecked = Prefs.getBoolean(PREF_KEEP_CHECKED, true);
+      boolean showChecks = Prefs.getBoolean(PREF_KEEP_CHECKMARKS, true);
       toggleChecklist2(keepChecked, showChecks);
    }
 
@@ -1443,7 +1441,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       // Get instance and set options to convert EditText to CheckListView
 
       mChecklistManager = mChecklistManager == null ? new ChecklistManager(mainActivity) : mChecklistManager;
-      int checkedItemsBehavior = Integer.parseInt(prefs.getString("settings_checked_items_behavior", String.valueOf
+      int checkedItemsBehavior = Integer.parseInt(Prefs.getString("settings_checked_items_behavior", String.valueOf
               (it.feio.android.checklistview.Settings.CHECKED_HOLD)));
       mChecklistManager
               .showCheckMarks(showChecks)
@@ -1593,8 +1591,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       attachmentUri = FileProviderHelper.getFileProvider(f);
       takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
       takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, attachmentUri);
-      String maxVideoSizeStr = "".equals(prefs.getString("settings_max_video_size",
-              "")) ? "0" : prefs.getString("settings_max_video_size", "");
+      String maxVideoSizeStr = "".equals(Prefs.getString("settings_max_video_size",
+              "")) ? "0" : Prefs.getString("settings_max_video_size", "");
       long maxVideoSize = parseLong(maxVideoSizeStr) * 1024L * 1024L;
       takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, maxVideoSize);
       startActivityForResult(takeVideoIntent, TAKE_VIDEO);
@@ -1858,7 +1856,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     * Checks if nothing is changed to avoid committing if possible (check)
     */
    private boolean saveNotNeeded() {
-      if (noteTmp.get_id() == null && prefs.getBoolean(PREF_AUTO_LOCATION, false)) {
+      if (noteTmp.get_id() == null && Prefs.getBoolean(PREF_AUTO_LOCATION, false)) {
          note.setLatitude(noteTmp.getLatitude());
          note.setLongitude(noteTmp.getLongitude());
       }
@@ -1951,14 +1949,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       LogDelegate.d("Locking or unlocking note " + note.get_id());
 
       // If security password is not set yes will be set right now
-      if (prefs.getString(PREF_PASSWORD, null) == null) {
+      if (Prefs.getString(PREF_PASSWORD, null) == null) {
          Intent passwordIntent = new Intent(mainActivity, PasswordActivity.class);
          startActivityForResult(passwordIntent, SET_PASSWORD);
          return;
       }
 
       // If password has already been inserted will not be asked again
-      if (noteTmp.isPasswordChecked() || prefs.getBoolean("settings_password_access", false)) {
+      if (noteTmp.isPasswordChecked() || Prefs.getBoolean("settings_password_access", false)) {
          lockUnlock();
          return;
       }
@@ -1977,7 +1975,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    private void lockUnlock() {
       // Empty password has been set
-      if (prefs.getString(PREF_PASSWORD, null) == null) {
+      if (Prefs.getString(PREF_PASSWORD, null) == null) {
          mainActivity.showMessage(R.string.password_not_set, ONStyle.WARN);
          return;
       }

@@ -26,9 +26,6 @@ import android.webkit.WebView;
 
 import pk.tappdesign.knizka.utils.ThemeHelper;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
-
 
 public class AboutActivity extends BaseActivity {
 

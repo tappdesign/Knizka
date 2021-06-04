@@ -32,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
@@ -107,7 +108,7 @@ public class PasswordActivity extends BaseActivity {
         answerCheck = findViewById(R.id.answer_check);
 
         findViewById(R.id.password_remove).setOnClickListener(v -> {
-			if (prefs.getString(PREF_PASSWORD, null) != null) {
+			if (Prefs.getString(PREF_PASSWORD, null) != null) {
 				PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
 					if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 						updatePassword(null, null, null);
@@ -123,7 +124,7 @@ public class PasswordActivity extends BaseActivity {
 				final String passwordText = password.getText().toString();
 				final String questionText = question.getText().toString();
 				final String answerText = answer.getText().toString();
-				if (prefs.getString(PREF_PASSWORD, null) != null) {
+				if (Prefs.getString(PREF_PASSWORD, null) != null) {
 					PasswordHelper.requestPassword(mActivity, passwordConfirmed -> {
 						if (passwordConfirmed.equals(PasswordValidator.Result.SUCCEED)) {
 							updatePassword(passwordText, questionText, answerText);
@@ -136,7 +137,7 @@ public class PasswordActivity extends BaseActivity {
 		});
 
         findViewById(R.id.password_forgotten).setOnClickListener(v -> {
-			if (prefs.getString(PREF_PASSWORD, "").length() == 0) {
+			if (Prefs.getString(PREF_PASSWORD, "").length() == 0) {
 				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, croutonHandle).show();
 				return;
 			}
@@ -173,7 +174,7 @@ public class PasswordActivity extends BaseActivity {
 	@SuppressLint("CommitPrefEdits")
 	private void updatePassword(String passwordText, String questionText, String answerText) {
 		if (passwordText == null) {
-			if (prefs.getString(PREF_PASSWORD, "").length() == 0) {
+			if (Prefs.getString(PREF_PASSWORD, "").length() == 0) {
 				Crouton.makeText(mActivity, R.string.password_not_set, ONStyle.WARN, croutonHandle).show();
 				return;
 			}
@@ -188,7 +189,7 @@ public class PasswordActivity extends BaseActivity {
 					.from(DbHelper.getInstance().getNotesWithLock(true))
 					.subscribeOn(Schedulers.newThread())
 					.observeOn(AndroidSchedulers.mainThread())
-					.doOnSubscribe(() -> prefs.edit()
+					.doOnSubscribe(() -> Prefs.edit()
 							.putString(PREF_PASSWORD, Security.md5(passwordText))
 							.putString(PREF_PASSWORD_QUESTION, questionText)
 							.putString(PREF_PASSWORD_ANSWER, Security.md5(answerText))

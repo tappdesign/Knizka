@@ -15,7 +15,7 @@ w: ~Na~- ~ro~- ~dil~ ~sa|Spa~- ~si~- ~teľ,|
 w: ~Spa~- ~si~- ~teľ,|v me~- ~ste~ ~Be~- ~tle~-|
  B2 B2 | B c B A | %6
 w: ~he~- ~me.|Má~- ~ri~- ~a~ ~ho|
- G2 G A |$ B c B A | %8
+ G2 G F |$ B c B A | %8
 w: ~zro~- ~di~- ~la,|do~ ~ja~- ~sli~- ~čiek|
  G2 G F | E G B2 |$ %10
 w: ~vlo~- ~ži~- ~la:|zblí~- ~zka~ ~vôl|

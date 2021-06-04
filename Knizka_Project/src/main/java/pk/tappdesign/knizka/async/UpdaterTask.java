@@ -20,7 +20,6 @@
  */
 package pk.tappdesign.knizka.async;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.DRIVE_FOLDER_LAST_BUILD;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_LAST_UPDATE_CHECK;
 import static pk.tappdesign.knizka.utils.ConstantsBase.UPDATE_MIN_FREQUENCY;
@@ -37,6 +36,8 @@ import androidx.annotation.NonNull;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.google.gson.Gson;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import it.feio.android.analitica.AnalyticsHelper;
 import pk.tappdesign.knizka.BuildConfig;
 import pk.tappdesign.knizka.Knizka;
@@ -62,7 +63,6 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   private static final String BETA = " Beta ";
   private final WeakReference<Activity> mActivityReference;
   private final Activity mActivity;
-  private final SharedPreferences prefs;
   private boolean promptUpdate = false;
   private long now;
 
@@ -70,7 +70,6 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   public UpdaterTask (Activity mActivity) {
     this.mActivityReference = new WeakReference<>(mActivity);
     this.mActivity = mActivity;
-    this.prefs = mActivity.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
   }
 
 
@@ -78,7 +77,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   protected void onPreExecute () {
     now = System.currentTimeMillis();
     if (Knizka.isDebugBuild() || !ConnectionManager.internetAvailable(Knizka.getAppContext())
-        || now < prefs.getLong(PREF_LAST_UPDATE_CHECK, 0) + UPDATE_MIN_FREQUENCY) {
+        || now < Prefs.getLong(PREF_LAST_UPDATE_CHECK, 0) + UPDATE_MIN_FREQUENCY) {
       cancel(true);
     }
     super.onPreExecute();
@@ -93,7 +92,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
         // promptUpdate = isVersionUpdated(getAppData());
         promptUpdate = false;
         if (promptUpdate) {
-          prefs.edit().putLong(PREF_LAST_UPDATE_CHECK, now).apply();
+          Prefs.edit().putLong(PREF_LAST_UPDATE_CHECK, now).apply();
         }
       } catch (Exception e) {
         LogDelegate.w("Error fetching app metadata", e);

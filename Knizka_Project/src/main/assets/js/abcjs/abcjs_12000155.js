@@ -11,7 +11,7 @@ I:linebreak $
 K:F
  F G A A | G F G !fermata!G |$ %2
 w: Ó,~ hrieš- ni- ci|pre- štast- li- ví,|
- A B c c | (B/A/) G F z |$ %4
+ A B c c | (B/A/) G A z |$ %4
 w: ~vám~ ~sa~ ~ži~- ~vot|o~- * ~tvá~- ~ra;|
  F G A A | G F G !fermata!G |$ %6
 w: ~hľa,~ ~za~ ~vás~ ~už|do~- ~bro~- ~ti~- ~vý|
@@ -21,7 +21,7 @@ w: ~Bo~- ~ho~- ~člo~- ~vek|u~- * ~mie~- ~ra!|
 w: ~Pre~- ~dra~- ~hý~ ~náš|Vy~- ~ku~- ~pi~- ~teľ,|
  G A B B | c B A G |$ %12
 w: ~on~ ~je~ ~mi~- ~lý|náš~ ~Spa~- ~si~- ~teľ,|
- A B c d/B/ | A G F z |] %14
+ A B c (d/B/) | A G F z |] %14
 w: ~on~ ~pre~ ~nás~ ~rád~ *|u~- ~mie~- ~ra.|
 
 `;

@@ -20,7 +20,6 @@
  */
 package pk.tappdesign.knizka.db;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_INTENT;
@@ -50,6 +49,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+
+import com.pixplicity.easyprefs.library.Prefs;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -212,7 +213,6 @@ public class DbHelper extends SQLiteOpenHelper {
   private static final String UPGRADE_QUERY_SUFFIX = ".sql";
 
   private final Context mContext;
-  private final SharedPreferences prefs;
 
   private static DbHelper instance = null;
   private SQLiteDatabase db;
@@ -273,7 +273,6 @@ public class DbHelper extends SQLiteOpenHelper {
   private DbHelper(Context mContext) {
     super(mContext, mContext.getApplicationInfo().dataDir + DBConst.DB_STORAGE_FILE_USER_DATA, null, DBConst.DB_VERSION_USER_DATA);
     this.mContext = mContext;
-    this.prefs = mContext.getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
   }
 
   public String getDatabaseName() {
@@ -375,17 +374,17 @@ public class DbHelper extends SQLiteOpenHelper {
   private void updateUserNote(SQLiteDatabase db, Note note, boolean updateLastModification)
   {
 //    String content = Boolean.TRUE.equals(note.isLocked())
-//            ? Security.encrypt(note.getContent(), prefs.getString(PREF_PASSWORD, ""))
+//            ? Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, ""))
 //            : note.getContent();
 
     String content;
     if (note.getHTMLContent().isEmpty()) {
       content = Boolean.TRUE.equals(note.isLocked())
-              ? Security.encrypt(note.getContent(), prefs.getString(PREF_PASSWORD, ""))
+              ? Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, ""))
               : note.getContent();
     } else {
       content = Boolean.TRUE.equals(note.isLocked())
-              ? Security.encrypt(note.getHTMLContent(), prefs.getString(PREF_PASSWORD, ""))
+              ? Security.encrypt(note.getHTMLContent(), Prefs.getString(PREF_PASSWORD, ""))
               : note.getHTMLContent();
     }
 
@@ -476,7 +475,7 @@ public class DbHelper extends SQLiteOpenHelper {
         case Navigation.ARCHIVE:
           return getNotesArchived();
         case Navigation.REMINDERS:
-          return getNotesWithReminder(prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, false));
+          return getNotesWithReminder(Prefs.getBoolean(PREF_FILTER_PAST_REMINDERS, false));
         case Navigation.TRASH:
           return getNotesTrashed();
         case Navigation.UNCATEGORIZED:
@@ -509,7 +508,7 @@ public class DbHelper extends SQLiteOpenHelper {
   {
     String result;
 
-    String jksSortingType = prefs.getString(PREF_JKS_SORTING_TYPE, PREF_JKS_SORTING_TYPE_DEFAULT);
+    String jksSortingType = Prefs.getString(PREF_JKS_SORTING_TYPE, PREF_JKS_SORTING_TYPE_DEFAULT);
 
     switch (jksSortingType)
     {
@@ -690,7 +689,7 @@ public class DbHelper extends SQLiteOpenHelper {
               // Eventual decryption of content
               // could be imnplemented in future
               //      if (note.isLocked()) {
-              //          note.setContent(Security.decrypt(note.getContent(), prefs.getString(Constants.PREF_PASSWORD,
+              //          note.setContent(Security.decrypt(note.getContent(), Prefs.getString(Constants.PREF_PASSWORD,
               //                  "")));
               //      }
 
@@ -949,7 +948,7 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public List<Note> getNotesByCategory(Long categoryId, String orderBy) {
     List<Note> notes;
-    boolean filterArchived = prefs.getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
+    boolean filterArchived = Prefs.getBoolean(PREF_FILTER_ARCHIVED_IN_CATEGORIES + categoryId, false);
     try {
       String whereCondition = " WHERE "
               + COL_MERGED_CATEGORY + " = " + categoryId
@@ -964,7 +963,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
   public List<Note> getNotesByCategory() {
 
-    int categoryID = prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
+    int categoryID = Prefs.getInt(PREF_NAVIGATION_JKS_CATEGORY_ID, PREF_NAVIGATION_JKS_CATEGORY_ID_DEFAULT);
     if (categoryID > 0)
     {
       return getNotesByCategory(new Long(categoryID), getJKSSortingType());

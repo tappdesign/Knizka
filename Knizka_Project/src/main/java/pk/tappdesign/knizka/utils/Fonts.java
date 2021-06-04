@@ -26,6 +26,9 @@ import android.content.SharedPreferences;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.pixplicity.easyprefs.library.Prefs;
+
 import it.feio.android.checklistview.utils.DensityUtil;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.helpers.LogDelegate;
@@ -37,14 +40,14 @@ public class Fonts {
   /**
    * Overrides all the fonts set to TextView class descendants found in the view passed as parameter
    */
-  public static void overrideTextSize (Context context, SharedPreferences prefs, View v) {
+  public static void overrideTextSize (Context context, View v) {
     Context privateContext = context.getApplicationContext();
     try {
       if (v instanceof ViewGroup) {
         ViewGroup vg = (ViewGroup) v;
         for (int i = 0; i < vg.getChildCount(); i++) {
           View child = vg.getChildAt(i);
-          overrideTextSize(privateContext, prefs, child);
+          overrideTextSize(privateContext, child);
         }
       } else if (v instanceof TextView) {
         float currentSize = DensityUtil.pxToDp(((TextView) v).getTextSize(), privateContext);
@@ -52,7 +55,7 @@ public class Fonts {
             .asList(privateContext.getResources().getStringArray(
                 R.array.text_size_values))
             .indexOf(
-                prefs.getString("settings_text_size", "default"));
+                Prefs.getString("settings_text_size", "default"));
         float offset = privateContext.getResources().getIntArray(
             R.array.text_size_offset)[index == -1 ? 0 : index];
         ((TextView) v).setTextSize(currentSize + offset);

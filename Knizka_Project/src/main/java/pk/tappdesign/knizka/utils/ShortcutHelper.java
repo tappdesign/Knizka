@@ -40,6 +40,8 @@ import android.os.Build;
 import android.os.Build.VERSION_CODES;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
@@ -61,7 +63,7 @@ public class ShortcutHelper {
     public static void addShortcut(Context context, Note note) {
 
         String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
-                .getCreation(), Knizka.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
+                .getCreation(), Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
 
     if (Build.VERSION.SDK_INT < 26) {
       createShortcutPreOreo(context, note, shortcutTitle);
@@ -148,7 +150,7 @@ public class ShortcutHelper {
     Intent addIntent = new Intent();
     addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
     String shortcutTitle = note.getTitle().length() > 0 ? note.getTitle() : DateHelper.getFormattedDate(note
-        .getCreation(), Knizka.getSharedPreferences().getBoolean(PREF_PRETTIFIED_DATES, true));
+        .getCreation(), Prefs.getBoolean(PREF_PRETTIFIED_DATES, true));
 
         addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, shortcutTitle);
 

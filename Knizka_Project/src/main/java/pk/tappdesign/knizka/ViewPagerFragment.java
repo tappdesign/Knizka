@@ -32,6 +32,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.models.adapters.JKSStylePagerAdapter;
 
@@ -75,7 +77,7 @@ public class ViewPagerFragment extends Fragment {
 
    private void saveJKSLayout()
    {
-      ((JKSFormatActivity) getActivity()).prefs.edit().putString(PREF_LAYOUT_JKS_CSS, LAYOUT_JKS_PREFIX + String.format("%02d", viewPager.getCurrentItem()+1) + ".css").commit();
+      Prefs.edit().putString(PREF_LAYOUT_JKS_CSS, LAYOUT_JKS_PREFIX + String.format("%02d", viewPager.getCurrentItem()+1) + ".css").commit();
       ((JKSFormatActivity) getActivity()).showExitMessageAndFinish(R.string.settings_jks_format_set, ONStyle.INFO);
    }
 

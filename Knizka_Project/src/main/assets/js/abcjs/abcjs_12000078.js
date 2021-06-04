@@ -13,8 +13,8 @@ K:F
 w: ~Pred~ ~te~- ~bou~ ~sa|kla~- ~nia~- ~me,|
  c3/2 B/ A d |$ c B A z | %4
 w: ~všet~- ~ci~ ~vrú~- ~cne|kľa~- ~ká~- ~me,|
- c A F G | G E C z | %6
-w: ~Je~- ~žiš~- ~ko~ ~na|svet~ ~da~- ~ný|
+  c2 A F | G G E C | %6
+w: ~Je~- ~žiš~- ~ko~ |~na~ svet~ ~da~- ~ný|
  c2 A F |$ G G E C | %8
 w: ~z Má~- ~ri~- ~e,|čis~- ~tej~ ~Pan~- ~ny.|
 |: B2 A2 | d2 c2 |$ %10

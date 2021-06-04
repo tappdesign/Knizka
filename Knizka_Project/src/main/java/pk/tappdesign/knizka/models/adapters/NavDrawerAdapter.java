@@ -21,7 +21,6 @@
 package pk.tappdesign.knizka.models.adapters;
 
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 
 import android.app.Activity;
@@ -41,6 +40,7 @@ import androidx.annotation.ColorInt;
 
 import com.google.android.material.color.MaterialColors;
 import com.neopixl.pixlui.components.textview.TextView;
+import com.pixplicity.easyprefs.library.Prefs;
 
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.MainActivity;
@@ -92,7 +92,7 @@ public class NavDrawerAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.drawer_list_item, parent, false);
 
             // Overrides font sizes with the one selected from user
-            Fonts.overrideTextSize(mActivity, mActivity.getSharedPreferences(Constants.PREFS_NAME, Context.MODE_MULTI_PROCESS), convertView); // BUG01: @pk: not finished, check every appearance of overrideTextSize
+            Fonts.overrideTextSize(mActivity, convertView); // BUG01: @pk: not finished, check every appearance of overrideTextSize
 
 
 
@@ -136,9 +136,7 @@ public class NavDrawerAdapter extends BaseAdapter {
         String navigationTmp = MainActivity.class.isAssignableFrom(mActivity.getClass()) ? ((MainActivity) mActivity)
                 .getNavigationTmp() : null;
 
-        String navigation = navigationTmp != null ? navigationTmp
-                : mActivity.getSharedPreferences(PREFS_NAME, Activity.MODE_MULTI_PROCESS)
-                .getString(PREF_NAVIGATION, navigationListCodes[0]);
+        String navigation = navigationTmp != null ? navigationTmp : Prefs.getString(PREF_NAVIGATION, navigationListCodes[0]);
 
         // Finding selected item from standard navigation items or tags
         int index = Arrays.asList(navigationListCodes).indexOf(navigation);

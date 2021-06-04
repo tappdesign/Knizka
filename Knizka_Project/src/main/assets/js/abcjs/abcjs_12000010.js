@@ -14,7 +14,7 @@ w: ~An~- ~jel~ ~Ga~- *|bri~- ~el,|
  B B A |$ G F2 | %4
 w: ~a~- ~ko~ ~Pán|Boh~ ~chcel,|
 M:4/4
- (D/E/) F E D |[M:3/4] A B2 |$ %6
+ (D/E/) F E D |[M:3/4] B B2 |$ %6
 w: ~z ne~- * ~ba~ ~ko~- ~ná|ce~- ~stu|
  d d c | B A2 | %8
 w: ~k Pan~- ~ne~ ~Má~-|ri~- ~i,|

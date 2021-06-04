@@ -41,7 +41,7 @@ import pk.tappdesign.knizka.utils.HTMLProducer;
 import static pk.tappdesign.knizka.utils.ConstantsBase.LAYOUT_JKS_PREFIX;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WEBVIEW_ZOOM;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_WEBVIEW_ZOOM_DEFAULT;
-
+import com.pixplicity.easyprefs.library.Prefs;
 
 public class JKSStyleFragment extends Fragment {
    public static final String ARG_OBJECT = "object";
@@ -74,7 +74,7 @@ public class JKSStyleFragment extends Fragment {
    }
 
    private void loadNoteToWebView() {
-      vw.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getLoremIpsumHTML(Knizka.getSharedPreferences(), layoutCSS), null, null, null);
+      vw.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getLoremIpsumHTML(layoutCSS), null, null, null);
    }
 
 }

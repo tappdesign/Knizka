@@ -23,7 +23,7 @@ w: ~To~ ~Die~- ~ťat~- ~ko|pri~- ~ví~- ~taj~- ~me:|
 w: ~česť~ ~a~ ~chvá~- ~lu|mu~ ~vzdá~- ~vaj~- ~me:|
  E D E F |$ G2 c2 | %14
 w: ~Vi~- ~taj,~ ~vi~- ~taj,|Krá~- ~ľu,|
- E F G D | C2 z2 |] %16
+ G F E D | C2 z2 |] %16
 w: ~všet~- ~ci~ ~spie~- ~vaj~-|me!|
 
 `;

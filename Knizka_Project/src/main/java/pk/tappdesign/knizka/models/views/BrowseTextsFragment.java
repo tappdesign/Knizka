@@ -46,7 +46,6 @@ import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.utils.HTMLProducer;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PICKED_FROM_BROWSE_TEXTS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_KEY;
 import static pk.tappdesign.knizka.utils.ConstantsBase.LAYOUT_JKS_PREFIX;
@@ -104,8 +103,7 @@ public class BrowseTextsFragment  extends Fragment {
 
    private void loadNoteToWebView() {
       Note note = DbHelper.getInstance().getNote(noteIDForShow);
-      SharedPreferences prefs = getContext().getSharedPreferences(PREFS_NAME, Context.MODE_MULTI_PROCESS);
-      vw.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(prefs, note.getHandleID(), note.getTitle(), note.getHTMLContent()), null, null, null);
+      vw.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(note.getHandleID(), note.getTitle(), note.getHTMLContent()), null, null, null);
    }
 
    final GestureDetector gestureDetector = new GestureDetector( getContext(), new GestureDetector.SimpleOnGestureListener() {

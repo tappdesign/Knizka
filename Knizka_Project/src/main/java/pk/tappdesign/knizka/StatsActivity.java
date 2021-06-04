@@ -31,9 +31,6 @@ import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.models.Stats;
 import pk.tappdesign.knizka.utils.ThemeHelper;
 
-import static pk.tappdesign.knizka.utils.Constants.PREFS_NAME;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
-
 
 public class StatsActivity extends Activity {
 

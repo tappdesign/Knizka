@@ -12,7 +12,7 @@ K:D
 w: ~Jak~ ~veľ~- ~ká~ ~to|mi~- ~losť~ ~bo~- ~la|
  F F A F |$ E2 z2 | %4
 w: ~Bo~- ~ha~ ~moc~- ~né~-|ho,|
- d A A A | A A F F | %6
+ d A A A | B B A A | %6
 w: ~že~ ~na~ ~ten~ ~svet|z ne~- ~ba~ ~zo~- ~slal|
  F F A F |$ E2 z2 | %8
 w: ~Sy~- ~na~ ~mi~- ~lé~-|ho!|

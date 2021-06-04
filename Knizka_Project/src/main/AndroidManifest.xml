@@ -184,6 +184,12 @@
             android:label="@string/title_activity_directorium"
             android:launchMode="singleTop" />
 
+        <!-- Responsorium Verses -->
+        <activity
+            android:name="pk.tappdesign.knizka.RespVersesActivity"
+            android:label="@string/title_activity_resp_verses"
+            android:launchMode="singleTop" />
+
         <!-- Intro -->
         <activity
             android:name="pk.tappdesign.knizka.intro.IntroActivity"

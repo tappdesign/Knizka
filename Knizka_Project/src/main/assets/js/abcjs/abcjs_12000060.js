@@ -10,9 +10,9 @@ I:linebreak $
 K:F
  F F A A | c c d2 | %2
 w: ~Lá~- ~ska~ ~vo~- ~lá|ma~ ~na~ ~ce~-|
- d2 z z |$ F F A A | %4
+ c2 z z |$ F F A A | %4
 w: ~stu,|k Be~- ~tle~- ~he~- ~mu|
- c c d2 | d2 z z | %6
+ c c d2 | c2 z z | %6
 w: ~chcem~ ~ísť~ ~me~-|stu,|
  c A B G |$ F A c2 | %8
 w: ~by~ ~som~ ~sa~ ~ta|do~- ~sta~- ~vil,|

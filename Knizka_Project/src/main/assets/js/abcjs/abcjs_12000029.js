@@ -18,11 +18,10 @@ w: ~Mat~- ~ka~ ~Bo~- ~žia|vy~- ~vo~- ~le~- ~ná|
 w: ~Je~- ~zu~ ~Kri~-|sta!|
  B B B B | A B ^c d |$ %10
 w: ~Ty~ ~ľa~- ~li~- ~a|si~ ~naj~- ~kraj~- ~šia,|
- B F E2 | D2 z2 | %12
+ G F E2 | D2 z2 | %12
 w: ~dra~- ~há~ ~Pan~-|na,|
  D E F G |$ A G A B | %14
 w: ~nad~ ~hviez~- ~dy~ ~si|naj~- ~jas~- ~nej~- ~šia.|
  c B A2 | G2 z2 |] %16
 w: ~Vi~- ~taj,~ ~Pan~-|na!|
-
 `;

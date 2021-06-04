@@ -9,7 +9,7 @@ L:1/4
 M:3/4
 I:linebreak $
 K:G
- D G G | (B/A/) G D | G B, E | %3
+ D G G | (G/F/) E D | G B, E | %3
 w: Ó,~ srd- ce|ka- * men- né,|roz- po- meň|
  D2 z |$ B A G | F G A | %6
 w: ~sa,|na~ ~bol~- ~lesť|Kris~- ~to~- ~vu|

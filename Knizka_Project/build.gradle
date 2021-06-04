@@ -42,7 +42,7 @@ if (signConfigExists) {
 android {
 
     compileSdkVersion Integer.parseInt(project.TARGET_SDK)
-    //buildToolsVersion project.BUILD_TOOLS
+//    buildToolsVersion project.BUILD_TOOLS
 
     defaultConfig {
         applicationId project.PACKAGE
@@ -137,9 +137,9 @@ dependencies {
         exclude module: 'recyclerview-v7'
     }
 
-    debugImplementation('com.squareup.leakcanary:leakcanary-android:2.4') {
-        exclude group: "com.android.support"
-    }
+ //   debugImplementation('com.squareup.leakcanary:leakcanary-android:2.4') {
+  //      exclude group: "com.android.support"
+  //  }
 
     compileOnly "org.projectlombok:lombok:1.18.12"
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
@@ -185,6 +185,7 @@ dependencies {
     implementation 'org.bitbucket.cowwoc:diff-match-patch:1.1'
     implementation 'com.github.bosphere.android-filelogger:filelogger:1.0.7'
     implementation 'com.github.sevar83:indeterminate-checkbox:1.0.5@aar'
+    implementation 'com.pixplicity.easyprefs:library:1.9.0'
 
     implementation('com.github.federicoiosue:simplegallery:3.0.1') {
         exclude group: 'com.android.support'
@@ -225,7 +226,7 @@ dependencies {
     fossImplementation 'com.jakewharton.timber:timber:4.5.1'
 
     testImplementation 'junit:junit:4.12'
-    implementation "androidx.core:core-ktx:+"
+    implementation "androidx.core:core-ktx:1.5.0"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 }
 
@@ -246,7 +247,7 @@ android.productFlavors.each { flavor ->
 }
 
 apply plugin: 'jacoco'
-task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport']) {
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 'createAlphaDebugCoverageReport', 'connectedPlayDebugAndroidTest']) {
 
     reports {
         xml.enabled = true
@@ -261,7 +262,7 @@ task jacocoTestReport(type: JacocoReport, dependsOn: ['testAlphaDebugUnitTest', 
     classDirectories.from = files([debugTree])
     executionData.from = fileTree(dir: "$buildDir", includes: [
             "jacoco/testAlphaDebugUnitTest.exec",
-            "outputs/code-coverage/alphaDebugAndroidTest/connected/*coverage.ec"
+            "outputs/code_coverage/alphaDebugAndroidTest/connected/*coverage.ec"
     ])
 }
 jacoco {
@@ -270,6 +271,9 @@ jacoco {
 
 apply plugin: 'com.adarshr.test-logger'
 tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+
     testLogging {
         events "standardOut", "standardError", "started", "passed", "skipped", "failed"
         exceptionFormat "full"

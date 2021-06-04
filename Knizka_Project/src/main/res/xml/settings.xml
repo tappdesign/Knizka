@@ -106,6 +106,17 @@
               android:targetPackage="@string/app_package" />
        </Preference>
 
+       <Preference
+           android:key="settings_show_resp_verses"
+           android:summary="@string/settings_show_resp_verses_summary"
+           android:title="@string/settings_show_resp_verses_title"
+           app:iconSpaceReserved="false">
+             <intent
+                 android:targetClass="pk.tappdesign.knizka.RespVersesActivity"
+                 android:targetPackage="@string/app_package" />
+       </Preference>
+
+
       </PreferenceCategory>
 
 
