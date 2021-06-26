@@ -112,13 +112,32 @@
            android:title="@string/settings_show_resp_verses_title"
            app:iconSpaceReserved="false">
              <intent
-                 android:targetClass="pk.tappdesign.knizka.RespVersesActivity"
+                 android:targetClass="pk.tappdesign.knizka.ShowHTMLActivity"
                  android:targetPackage="@string/app_package" />
        </Preference>
 
 
       </PreferenceCategory>
 
+
+    <PreferenceCategory
+        android:title="@string/settings_category_about_JKS"
+        app:iconSpaceReserved="false">
+
+        <Preference
+            android:key="settings_show_JKS_info"
+            android:title="@string/settings_show_JKS_info_title"
+            app:iconSpaceReserved="false">
+            <intent
+                android:targetClass="pk.tappdesign.knizka.ShowHTMLActivity"
+                android:targetPackage="@string/app_package">
+                <extra
+                    android:name="show_jks_info"
+                    android:value="empty" />
+            </intent>
+        </Preference>
+
+    </PreferenceCategory>
 
       <PreferenceCategory
         android:title="@string/settings_category_about"

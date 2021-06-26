@@ -6,7 +6,7 @@ L: 1/4
 R: J. E. (1889)
 K: G
    G G A B | c3/2 B/ B A |
-w: O~-sla~-vuj~-me|naj~-svä~-tej~-šie   
+w: O~-sla~-vuj~-me|Naj~-svä~-tej~-šie   
    d G/c/ B A | G z z2 |
 w: Srd~-ce ~Je~-ži~-šo~-|vo, 
     G G A B | c3/2 B/ B A | 

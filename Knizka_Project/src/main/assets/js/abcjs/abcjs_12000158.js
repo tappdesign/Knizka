@@ -9,7 +9,7 @@ M:4/2
 I:linebreak $
 K:C
  D2 G2 A2 G2 |[M:4/4] A c B A |$ %2
-w: ~Po~- ~ďa~- ~kuj~- ~me|mi~- ~losť~ ~Sy~- ~na|
+w: ~Ó,~ ~pre~- ~veľ~- ~ká|mi~- ~losť~ ~Sy~- ~na|
 M:4/2
  G2 F2 E2 z2 | e2 c2 d2 B2 |$ %4
 w: ~Bo~- ~žie~- ~ho,|pre~ ~nás~ ~na~ ~smrť|

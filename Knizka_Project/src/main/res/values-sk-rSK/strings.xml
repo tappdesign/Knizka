@@ -138,6 +138,7 @@
   <string name="title_activity_about">Informácie</string>
   <string name="title_activity_directorium">JKS Direktórium</string>
   <string name="title_activity_resp_verses">Responzóriové verše</string>
+  <string name="title_activity_JKS_origin">Vznik JKS</string>
   <string name="deleted">vymazané</string>
   <string name="no_items_in_list">Nič tu nie je!</string>
   <string name="checklist_on">Povoliť zaškrtávací zoznam</string>
@@ -309,6 +310,7 @@
   <string name="settings_category_preferences">Nastavenia</string>
   <string name="settings_category_beta">Beta</string>
   <string name="settings_category_about">O aplikácii</string>
+  <string name="settings_category_about_JKS">Jednotný katolícky spevník</string>
   <string name="settings_category_export_import_advanced">Export/Import pre pokročilých používateľov</string>
   <string name="settings_beta">Opt-in</string>
   <string name="settings_beta_summary">Prihlásiť sa do beta program a držať krok s najnovšími funkciami</string>
@@ -331,6 +333,7 @@
   <string name="settings_show_jks_directorium_summary">Zobrazí návrh vhodných piesní z JKS podľa lit. obdobia</string>
   <string name="settings_show_resp_verses_title">Zobraz responzóriové verše</string>
   <string name="settings_show_resp_verses_summary">Zobrazí responzóriové verše na nedele a sviatky podľa lit. roka (A, B, C)</string>
+  <string name="settings_show_JKS_info_title">Vznik JKS</string>
   <string name="backup_include_settings">Zahrnúť nastavenia (s heslom)</string>
   <string name="settings_included">nastavenia zahrnuté</string>
   <string name="settings_password_question_instructions">Vložte otázku a tajnú odpoveď na obnovenie hesla v prípade zabudnutia.</string>

@@ -186,7 +186,7 @@
 
         <!-- Responsorium Verses -->
         <activity
-            android:name="pk.tappdesign.knizka.RespVersesActivity"
+            android:name="pk.tappdesign.knizka.ShowHTMLActivity"
             android:label="@string/title_activity_resp_verses"
             android:launchMode="singleTop" />
 

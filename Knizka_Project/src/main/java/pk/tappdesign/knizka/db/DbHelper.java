@@ -517,7 +517,7 @@ public class DbHelper extends SQLiteOpenHelper {
         result =  COL_TEXT_NUMBER + " ASC, ";
         break;
       case JKS_SORTING_TYPE_NAME:
-        result =  COL_TITLE + " ASC, ";
+        result =  COL_TITLE + " COLLATE LOCALIZED ASC, ";
         break;
     }
     return result;

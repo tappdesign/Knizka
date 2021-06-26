@@ -21,15 +21,20 @@
 
 package pk.tappdesign.knizka;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebView;
 
 import androidx.appcompat.widget.Toolbar;
 
+import pk.tappdesign.knizka.utils.SystemHelper;
 import pk.tappdesign.knizka.utils.ThemeHelper;
 
-public class RespVersesActivity  extends BaseActivity {
+import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_RESTART_APP;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_WIDGET;
 
+public class ShowHTMLActivity extends BaseActivity {
+   private WebView webview;
    private String currentTheme = "";
 
    protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +42,7 @@ public class RespVersesActivity  extends BaseActivity {
       currentTheme = ThemeHelper.trySetTheme(this);
       setContentView(R.layout.activity_about);
 
-      WebView webview = findViewById(R.id.webview);
-      webview.loadUrl("file:///android_asset/html/ResponsoriumVerses.html");
+      webview = findViewById(R.id.webview);
 
       initUI();
    }
@@ -51,6 +55,8 @@ public class RespVersesActivity  extends BaseActivity {
       {
          recreate();
       }
+
+      updateWebViewAndTitle();
    }
 
    @Override
@@ -74,6 +80,28 @@ public class RespVersesActivity  extends BaseActivity {
       getSupportActionBar().setHomeButtonEnabled(true);
       toolbar.setNavigationOnClickListener(v -> onNavigateUp());
    }
+
+   private void updateWebViewAndTitle()
+   {
+      String result = "file:///android_asset/html/ResponsoriumVerses.html";
+      String activityTitle =  getResources().getString(R.string.title_activity_resp_verses);
+      Intent i = getIntent();
+
+      if (i.hasExtra("show_jks_info") )
+      {
+         result = "file:///android_asset/html/JKSInfo.html";
+         activityTitle = getResources().getString(R.string.title_activity_JKS_origin);
+      }
+
+      webview.loadUrl(result);
+
+      if (getSupportActionBar() != null) {
+         getSupportActionBar().setTitle(activityTitle);
+         getSupportActionBar().setDisplayShowTitleEnabled(true); // bug-fix: make sure title is visible in actionbar
+      }
+      return ;
+   }
+
 
 }
 

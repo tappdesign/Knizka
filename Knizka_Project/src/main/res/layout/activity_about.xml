@@ -16,16 +16,22 @@
   ~ along with this program.  If not, see <http://www.gnu.org/licenses/>.
   -->
 
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:clipToPadding="true"
              android:fitsSystemWindows="false">
-
-    <WebView android:id="@+id/webview"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"/>
-
     <include android:id="@+id/toolbar" layout="@layout/toolbar"/>
 
-</FrameLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/toolbar">
+
+        <WebView android:id="@+id/webview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </FrameLayout>
+
+</RelativeLayout>

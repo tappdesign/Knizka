@@ -7,7 +7,7 @@ R: J. V. - F. S. (1858)
 C: M. Sch. T.
 K: Bb
    F D E F | B3/2 A/ G F |
-w: K~sto~-lu bo~-žej|lás~-ka~-vo~-sti   
+w: K~sto~-lu Bo~-žej|lás~-ka~-vo~-sti   
    D D G G | F E D2 |
 w: s~po~-ko~-rou pri|chá~-dza~-me,   
    F D E F | d c B A |
