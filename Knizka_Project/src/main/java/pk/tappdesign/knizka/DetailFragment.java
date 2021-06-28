@@ -31,7 +31,6 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_DISMISS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_MERGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_NOTIFICATION_CLICK;
-import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PICKED_FROM_BROWSE_TEXTS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_PINNED;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
@@ -85,7 +84,6 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -166,6 +164,7 @@ import pk.tappdesign.knizka.models.Category;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.models.Tag;
+import pk.tappdesign.knizka.models.WebViewTouchListener;
 import pk.tappdesign.knizka.models.adapters.AttachmentAdapter;
 import pk.tappdesign.knizka.models.adapters.CategoryRecyclerViewAdapter;
 import pk.tappdesign.knizka.models.adapters.PlacesAutoCompleteAdapter;
@@ -184,6 +183,7 @@ import pk.tappdesign.knizka.utils.FileProviderHelper;
 import pk.tappdesign.knizka.utils.GeocodeHelper;
 import pk.tappdesign.knizka.utils.IntentChecker;
 import pk.tappdesign.knizka.utils.KeyboardUtils;
+import pk.tappdesign.knizka.utils.OnSwipeWebviewTouchListener;
 import pk.tappdesign.knizka.utils.PasswordHelper;
 import pk.tappdesign.knizka.utils.ReminderHelper;
 import pk.tappdesign.knizka.utils.ShortcutHelper;
@@ -221,7 +221,7 @@ import android.webkit.WebViewClient;
 
 public class DetailFragment extends BaseFragment implements OnReminderPickedListener, OnTouchListener,
         OnAttachingFileListener, TextWatcher, CheckListChangedListener, OnNoteSaved,
-        OnGeoUtilResultListener {
+        OnGeoUtilResultListener, WebViewTouchListener {
 
    private static final int TAKE_PHOTO = 1;
    private static final int TAKE_VIDEO = 2;
@@ -1002,6 +1002,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       binding.fragmentDetailContent.myweb.setWebViewClient(new ourBrowser());
       binding.fragmentDetailContent.myweb.getSettings().setTextZoom(Prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT));
       binding.fragmentDetailContent.myweb.addJavascriptInterface(new JSInterface(), "AndroidHook");
+      binding.fragmentDetailContent.myweb.setOnTouchListener( new OnSwipeWebviewTouchListener( getActivity(), this));
       loadNoteToWebView();
    }
 
@@ -1022,6 +1023,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       }
    }
+
+   @Override
+   public void onSwipeRight() {
+      LogDelegate.i("Webview swipped right");
+   }
+
+   @Override
+   public void onSwipeLeft() {
+      LogDelegate.i("Webview swipped left");
+   }
+
 
    /**
     * Force focus and shows soft keyboard. Only happens if it's a new note, without shared content. {@link showKeyboard}
