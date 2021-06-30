@@ -101,7 +101,10 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   private Uri sketchUri;
   boolean prefsChanged = false;
   private FragmentManager mFragmentManager;
-
+  @Getter @Setter
+  private List<Note> notesList;
+  @Getter @Setter
+  private String notesListCaption;
   private String currentTheme = "";
 
  ActivityMainBinding binding;

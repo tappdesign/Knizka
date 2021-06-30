@@ -41,6 +41,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_CLICKED_IMAGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_IMAGES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_TITLE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_GOOGLE_NOW;
@@ -693,7 +694,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       // Sets onTouchListener to the whole activity to swipe notes
       binding.detailRoot.setOnTouchListener(this);
-
+      binding.contentWrapper.setOnTouchListener(touchListenerForContentWrapper);
+      
       // Overrides font sizes with the one selected from user
       Fonts.overrideTextSize(mainActivity, binding.detailRoot);
 
@@ -1027,11 +1029,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    @Override
    public void onSwipeRight() {
       LogDelegate.i("Webview swipped right");
+      activateBrowsingTexts(-1);
    }
 
    @Override
    public void onSwipeLeft() {
       LogDelegate.i("Webview swipped left");
+      activateBrowsingTexts(1);
    }
 
 
@@ -2224,16 +2228,26 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    private void activateBrowsingTexts(int direction) {
 
-
-
       String actTitle = "";
+      int notePosition = 0;
       ArrayList<String> notesIds = new ArrayList<>();
-     // for (int i = 0; i < listAdapter.getItemCount(); i++) {
-     //    notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID()));
-    //  }
-      notesIds.add("11000005");
-      notesIds.add("11000006");
-      notesIds.add("11000007");
+
+      if (mainActivity.getNotesList() != null)
+      {
+         int i = 0;
+         for (Note note : mainActivity.getNotesList()) {
+            notesIds.add("" + note.getHandleID().longValue());
+            if (noteTmp.getHandleID().longValue() == note.getHandleID().longValue())
+            {
+               notePosition = i + direction;
+            }
+            i++;
+         }
+      } else {
+        // notesIds.add("11000005");
+        // notesIds.add("11000006");
+        // notesIds.add("11000007");
+      }
 
 
       if (notesIds.isEmpty())
@@ -2243,9 +2257,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
          browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, notesIds.size());
          browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
+         browseTextsFormatIntent.putExtra(INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER, notePosition);
 
          if (mainActivity.getSupportActionBar() != null) {
-            actTitle = "br";//mainActivity.getSupportActionBar().getTitle().toString();
+            actTitle = mainActivity.getNotesListCaption();
          }
          browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
 
@@ -2743,6 +2758,49 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
 
    }
+
+   final OnTouchListener touchListenerForContentWrapper = new OnTouchListener() {
+
+      private boolean isSwipping;
+      private int startSwipeInX;
+
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+         int x = (int) event.getX();
+         int y = (int) event.getY();
+
+         switch (event.getAction()) {
+
+            case MotionEvent.ACTION_DOWN:
+               LogDelegate.v("MotionEvent.ACTION_DOWN");
+               isSwipping = true;
+               startSwipeInX = x;
+               break;
+
+            case MotionEvent.ACTION_UP:
+               LogDelegate.v("MotionEvent.ACTION_UP");
+               if (isSwipping) {
+                  isSwipping = false;
+               }
+               break;
+
+            case MotionEvent.ACTION_MOVE:
+               if (isSwipping) {
+                  LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
+                  if (Math.abs(x - startSwipeInX) > SWIPE_OFFSET) {
+                     isSwipping = false;
+                     activateBrowsingTexts( -1 * ( (int) Math.signum(x - startSwipeInX)));
+                  }
+               }
+               break;
+
+            default:
+               LogDelegate.e("Wrong element choosen: " + event.getAction());
+         }
+
+         return true;
+      }
+   };
 
 }
 

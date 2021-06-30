@@ -43,6 +43,7 @@ import pk.tappdesign.knizka.BrowseTextsActivity;
 import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.db.DbHelper;
+import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.utils.HTMLProducer;
 
@@ -63,7 +64,43 @@ public class BrowseTextsFragment  extends Fragment {
 
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      return inflater.inflate(R.layout.fragment_for_browse_texts_in_viewpager, container, false);
+
+      View result = inflater.inflate(R.layout.fragment_for_browse_texts_in_viewpager, container, false);
+
+      result.setOnTouchListener(new View.OnTouchListener() {
+
+         private final int MOVING_THRESHOLD = 30;
+         float x;
+         float y;
+         private boolean status_pressed = false;
+
+         public boolean onTouch(View v, MotionEvent ev) {
+            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
+               x = ev.getX();
+               y = ev.getY();
+               status_pressed = true;
+            }
+            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
+               float dx = Math.abs(x - ev.getX());
+               float dy = Math.abs(y - ev.getY());
+               double dxy = Math.sqrt(dx * dx + dy * dy);
+               LogDelegate.d("Moved of " + dxy);
+               if (dxy >= MOVING_THRESHOLD) {
+                  status_pressed = false;
+               }
+            }
+            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
+               if (status_pressed) {
+                  //  clicked
+                  showPickedText();
+                  status_pressed = false;
+               }
+            }
+            return true;
+         }
+      });
+
+      return result;
    }
 
    @Override
@@ -106,16 +143,21 @@ public class BrowseTextsFragment  extends Fragment {
       vw.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(note.getHandleID(), note.getTitle(), note.getHTMLContent()), null, null, null);
    }
 
+   private final void showPickedText()
+   {
+      getActivity().finish();
+
+      Intent shortcutIntent = new Intent(getContext(), MainActivity.class);
+      shortcutIntent.putExtra(INTENT_KEY, noteIDForShow);
+      shortcutIntent.setAction(ACTION_PICKED_FROM_BROWSE_TEXTS);
+      startActivity(shortcutIntent);
+   }
+
    final GestureDetector gestureDetector = new GestureDetector( getContext(), new GestureDetector.SimpleOnGestureListener() {
       @Override
       public boolean onSingleTapConfirmed(MotionEvent e) {
 
-         ((BrowseTextsActivity) getActivity()).finish();
-
-         Intent shortcutIntent = new Intent(getContext(), MainActivity.class);
-         shortcutIntent.putExtra(INTENT_KEY, noteIDForShow);
-         shortcutIntent.setAction(ACTION_PICKED_FROM_BROWSE_TEXTS);
-         startActivity(shortcutIntent);
+         showPickedText();
 
          return true;
       }

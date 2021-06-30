@@ -1181,7 +1181,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     String actTitle = "";
     ArrayList<String> notesIds = new ArrayList<>();
     for (int i = 0; i < listAdapter.getItemCount(); i++) {
-      notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID()));
+      notesIds.add(String.valueOf(listAdapter.getItem(i).getHandleID().longValue()));
     }
 
     if (notesIds.isEmpty())
@@ -1498,6 +1498,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   public void onEvent(NotesLoadedEvent notesLoadedEvent) {
     listAdapter = new NoteAdapter(mainActivity, Prefs.getBoolean(PREF_EXPANDED_VIEW, true),
         notesLoadedEvent.getNotes());
+
+    mainActivity.setNotesList(notesLoadedEvent.getNotes());
+    if (mainActivity.getSupportActionBar() != null) {
+      mainActivity.setNotesListCaption(mainActivity.getSupportActionBar().getTitle().toString());// = "br";//
+    }
+
 
     initSwipeGesture();
 
