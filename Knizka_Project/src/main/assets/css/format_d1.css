@@ -5,7 +5,7 @@
 	width: 100%;
 	/*margin: 10px auto 10px auto;*/
 	border-collapse: collapse;
-	background-color: white;
+	background-color: #d3b695;
 	color: black;
 	font-weight: bold;
 	Font-family: Verdana;
@@ -18,8 +18,8 @@ td, th {
 	text-align: center;
 }
 th {
-	background: #b33c00;
-	/* spolocna hlavicka vsetkych období; #000033; #cc3300; purple;*/
+	background: #993c00;
+	/* spolocna hlavicka vsetkych období; #b33c00; #673e37; */
 	color: white;
 	border-color: white;
 }
@@ -29,35 +29,28 @@ th {
 }
 .obdobie {
 	height: 60px;
-	/* 60px;*/
 }
 .advent-step tr:nth-child(odd) td, .advent-step tr:nth-child(odd) th {
-	background-color: #ffb399;
-	/* purple;*/
+	background-color: #e9daca; /* #ffb399;*/	
 	color: #992600;
 }
 .vianoce-step tr:nth-child(odd) td, .vianoce-step tr:nth-child(odd) th {
-	background-color: #ffb399;
-	/* yellow;	gold;*/
-	color: #992600;
-	/* white; brown;*/
+	background-color: #e9daca;
+	color: #992600;	
 }
 .post-step tr:nth-child(odd) td, .post-step tr:nth-child(odd) th {
-	background-color: #ffb399;
+	background-color: #e9daca;
 	color: #992600;
 }
 .velkanoc-step tr:nth-child(odd) td, .velkanoc-step tr:nth-child(odd) th {
-	background-color: #ffb399;
-	/* yellow;	gold;*/
+	background-color: #e9daca;
 	color: #992600;
 }
 .cezrok-step tr:nth-child(odd) td, .cezrok-step tr:nth-child(odd) th {
-	background-color: #ffb399;
-/* green,	#00FF33;*/
+	background-color: #e9daca;
 	color: #992600;
 }
 .sviatkycezrok-step tr:nth-child(odd) td, .sviatkycezrok-step tr:nth-child(odd) th {
-	background-color: #ffb399;
-	/* #4da6ff;	whitesmoke;*/
+	background-color: #e9daca;	
 	color: #992600;
 }

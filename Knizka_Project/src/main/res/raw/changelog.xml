@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Júl 09, 2021"
+        versionName="1.6.0">
+        <changelogtext>[b]New:[/b] Nové gesto pre listovanie v textoch</changelogtext>
+        <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Jún 26, 2021"
         versionName="1.5.4">
         <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>

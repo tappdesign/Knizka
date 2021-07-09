@@ -694,8 +694,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       // Sets onTouchListener to the whole activity to swipe notes
       binding.detailRoot.setOnTouchListener(this);
-      binding.contentWrapper.setOnTouchListener(touchListenerForContentWrapper);
-      
+     // binding.contentWrapper.setOnTouchListener(touchListenerForContentWrapper); this can sometimes block scrolling in webview, not safely usable
+
+      binding.contentWrapper.setOnTouchListener( new OnSwipeWebviewTouchListener( getActivity(), this));
+
+
       // Overrides font sizes with the one selected from user
       Fonts.overrideTextSize(mainActivity, binding.detailRoot);
 
@@ -2759,6 +2762,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    }
 
+   //not used, ....this can sometimes block scrolling in webview, not safely usable
+   // onDown event was probably consumed and not sent to webview....
+   // functionality was replaced by "OnSwipeWebviewTouchListener"
    final OnTouchListener touchListenerForContentWrapper = new OnTouchListener() {
 
       private boolean isSwipping;

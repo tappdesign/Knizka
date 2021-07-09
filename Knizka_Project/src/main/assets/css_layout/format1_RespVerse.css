@@ -1,5 +1,5 @@
 ﻿body
-{
+{background-color: #d3b695;
 }
 .PRTitlePart /*--- Tento styl je uz vytvoreny iba prebraty z Knižky (format1.css) - komplet skopirovany ---*/
 {
@@ -18,12 +18,10 @@
 	border-width: 1px;
 }
 
-
-
 /*---RESPONZÓRIOVÉ VERŠE NA NEDELE A SVIATKY---*/
 
 .RespVersPKT {
-color: #ff6e12; 
+color: #673e37; /* #ff6e12 */
 font-weight: bold;
 }
 .RespVersA {
@@ -36,12 +34,11 @@ list-style-type: none; /*upper-alpha; none;*/
 padding-left: 15px;  
 }
 .RespVersOr {
-color: grey;
+color: dimgrey; /* grey*/
 }
 .RespVersX {
 font-weight: bold;
 }
 .RespVersNbr {
-color: #ff6e12;
+color: #673e37; /* #ff6e12 */
 }
-
