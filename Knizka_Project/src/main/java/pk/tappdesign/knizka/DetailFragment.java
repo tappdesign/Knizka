@@ -37,6 +37,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_SHORTCUT_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET_SHOW_LIST;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_WIDGET_TAKE_PHOTO;
+import static pk.tappdesign.knizka.utils.ConstantsBase.ACTIVATE_TEXT_BROWSING_DISPLAY_RATIO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_CLICKED_IMAGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_IMAGES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.GALLERY_TITLE;
@@ -57,6 +58,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_SKETCH;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_SKETCH_EXT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_VIDEO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_VIDEO_EXT;
+import static pk.tappdesign.knizka.utils.ConstantsBase.MIN_X_MOVING_OFFSET_FOR_TEXT_BROWSING;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ATTACHMENTS_ON_BOTTOM;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_AUTO_LOCATION;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
@@ -184,7 +186,6 @@ import pk.tappdesign.knizka.utils.FileProviderHelper;
 import pk.tappdesign.knizka.utils.GeocodeHelper;
 import pk.tappdesign.knizka.utils.IntentChecker;
 import pk.tappdesign.knizka.utils.KeyboardUtils;
-import pk.tappdesign.knizka.utils.OnSwipeWebviewTouchListener;
 import pk.tappdesign.knizka.utils.PasswordHelper;
 import pk.tappdesign.knizka.utils.ReminderHelper;
 import pk.tappdesign.knizka.utils.ShortcutHelper;
@@ -268,6 +269,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    private int contentLineCounter = 1;
    private int contentCursorPosition;
    private ArrayList<String> mergedNotesIds;
+   private ArrayList<String> notesIdsInListView;
+   private String titleForBrowsing = "";
    private MainActivity mainActivity;
    TextLinkClickListener textLinkClickListener = new TextLinkClickListener() {
       @Override
@@ -467,8 +470,37 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       noteOriginal = savedInstanceState.getParcelable("noteOriginal");
       attachmentUri = savedInstanceState.getParcelable("attachmentUri");
       orientationChanged = savedInstanceState.getBoolean("orientationChanged");
+      notesIdsInListView = savedInstanceState.getStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER);
+      titleForBrowsing =  savedInstanceState.getString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER);
     }
   }
+
+  private ArrayList<String> getNoteIdsFromListView()
+  {
+     ArrayList<String> result = new ArrayList<String>();
+     if (mainActivity.getNotesList() != null)
+     {
+        for (Note note : mainActivity.getNotesList()) {
+           result.add("" + note.getHandleID().longValue());
+        }
+     } else {
+        result = notesIdsInListView;
+     }
+     return result;
+  }
+
+   private String getTitleForBrowsing()
+   {
+      String result = null;
+      if (mainActivity.getNotesListCaption() != null) {
+         result = mainActivity.getNotesListCaption();
+      }
+      if ((result == null) || (result.isEmpty()))
+      {
+         result = titleForBrowsing;
+      }
+      return result;
+   }
 
    @Override
    public void onSaveInstanceState(Bundle outState) {
@@ -480,6 +512,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          outState.putParcelable("noteOriginal", noteOriginal);
          outState.putParcelable("attachmentUri", attachmentUri);
          outState.putBoolean("orientationChanged", orientationChanged);
+         outState.putStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, getNoteIdsFromListView());
+         outState.putString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, getTitleForBrowsing());
       }
       super.onSaveInstanceState(outState);
    }
@@ -693,10 +727,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    private void initViews() {
 
       // Sets onTouchListener to the whole activity to swipe notes
-      binding.detailRoot.setOnTouchListener(this);
-     // binding.contentWrapper.setOnTouchListener(touchListenerForContentWrapper); this can sometimes block scrolling in webview, not safely usable
-
-      binding.contentWrapper.setOnTouchListener( new OnSwipeWebviewTouchListener( getActivity(), this));
+      binding.detailRoot.setOnTouchListener(this);  //we dont't use this for now
+      binding.contentWrapper.setOnTouchListener(touchListenerForContentWrapper);
+      // another possibility is to set touch listener "OnSwipeWebviewTouchListener" to handle specific gestures
+      // e.g. onFling. "OnSwipeWebviewTouchListener" was mainly intended for webView to catch fling events, but we don't need it know
+     //  binding.contentWrapper.setOnTouchListener( new OnSwipeWebviewTouchListener( getActivity(), this));
 
 
       // Overrides font sizes with the one selected from user
@@ -1007,7 +1042,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       binding.fragmentDetailContent.myweb.setWebViewClient(new ourBrowser());
       binding.fragmentDetailContent.myweb.getSettings().setTextZoom(Prefs.getInt(PREF_WEBVIEW_ZOOM, PREF_WEBVIEW_ZOOM_DEFAULT));
       binding.fragmentDetailContent.myweb.addJavascriptInterface(new JSInterface(), "AndroidHook");
-      binding.fragmentDetailContent.myweb.setOnTouchListener( new OnSwipeWebviewTouchListener( getActivity(), this));
+      // do not use this touch listener, is not need for now, we don't react onFling in WebView
+      //binding.fragmentDetailContent.myweb.setOnTouchListener( new OnSwipeWebviewTouchListener( getActivity(), this));
       loadNoteToWebView();
    }
 
@@ -2234,10 +2270,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       String actTitle = "";
       int notePosition = 0;
       ArrayList<String> notesIds = new ArrayList<>();
-
+      int i = 0;
       if (mainActivity.getNotesList() != null)
       {
-         int i = 0;
          for (Note note : mainActivity.getNotesList()) {
             notesIds.add("" + note.getHandleID().longValue());
             if (noteTmp.getHandleID().longValue() == note.getHandleID().longValue())
@@ -2247,41 +2282,38 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             i++;
          }
       } else {
-        // notesIds.add("11000005");
-        // notesIds.add("11000006");
-        // notesIds.add("11000007");
-      }
 
+         for (String s : notesIdsInListView) {
+            notesIds.add(s);
+            if (noteTmp.getHandleID().longValue() == Long.valueOf(s).longValue())
+            {
+               notePosition = i + direction;
+            }
+            i++;
+         }
+      }
 
       if (notesIds.isEmpty())
       {
          mainActivity.showMessage(R.string.jks_list_is_empty, ONStyle.ALERT);
+         binding.contentWrapper.animate().x(0).y(0).setDuration(100).start();
       } else {
          Intent browseTextsFormatIntent = new Intent(getActivity(), BrowseTextsActivity.class);
          browseTextsFormatIntent.putExtra(INTENT_EXTRA_MAX_PAGES_IN_BROWSER, notesIds.size());
          browseTextsFormatIntent.putExtra(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, notesIds);
          browseTextsFormatIntent.putExtra(INTENT_EXTRA_LIST_VIEW_POSITION_OFFSET_FOR_VIEWPAGER, notePosition);
 
-         if (mainActivity.getSupportActionBar() != null) {
-            actTitle = mainActivity.getNotesListCaption();
+         actTitle = mainActivity.getNotesListCaption();
+         if ((actTitle == null) || (actTitle.isEmpty()))
+         {
+            actTitle = titleForBrowsing;
          }
+
          browseTextsFormatIntent.putExtra(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, actTitle);
 
          startActivity(browseTextsFormatIntent);
          navigateUp();
       }
-
-
-
-      //  navigateUp();
-   /*   Note newNote;
-      if (direction < 0) {
-         newNote = DbHelper.getInstance().getNote(note.getHandleID() + 1);
-      } else {
-         newNote = DbHelper.getInstance().getNote(note.getHandleID() - 1);
-      }
-*/
-
    }
 
    @SuppressLint("NewApi")
@@ -2318,8 +2350,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
                if (Math.abs(x - startSwipeX) > SWIPE_OFFSET) {
                   swiping = false;
-                  //showNextNote(x - startSwipeX);  //todo: @pk: not implemented yet, switch note by swipping
-                  activateBrowsingTexts(x - startSwipeX);
+                  //showNextNote(x - startSwipeX);  //in general works, but not good user experience
+               //   activateBrowsingTexts(x - startSwipeX); // could activate texts browsing, but not used now
             /*  // original code, creates new note
             FragmentTransaction transaction = mainActivity.getSupportFragmentManager().beginTransaction();
             mainActivity.animateTransition(transaction, TRANSITION_VERTICAL);
@@ -2762,49 +2794,80 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    }
 
-   //not used, ....this can sometimes block scrolling in webview, not safely usable
-   // onDown event was probably consumed and not sent to webview....
-   // functionality was replaced by "OnSwipeWebviewTouchListener"
    final OnTouchListener touchListenerForContentWrapper = new OnTouchListener() {
 
-      private boolean isSwipping;
-      private int startSwipeInX;
-
+      float dX;
+      float dY;
+      int lastAction;
+      float onDownXPosition = 0;
+      private boolean wasOnDownPerformed;
+      private boolean wasMovingStarted;
+      private int displayWidth;
       @Override
       public boolean onTouch(View v, MotionEvent event) {
-         int x = (int) event.getX();
-         int y = (int) event.getY();
 
-         switch (event.getAction()) {
-
+         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-               LogDelegate.v("MotionEvent.ACTION_DOWN");
-               isSwipping = true;
-               startSwipeInX = x;
-               break;
+               dX = v.getX() - event.getRawX();
+               dY = v.getY() - event.getRawY();
+               onDownXPosition = event.getRawX();
+               lastAction = MotionEvent.ACTION_DOWN;
+               wasOnDownPerformed = true;
 
-            case MotionEvent.ACTION_UP:
-               LogDelegate.v("MotionEvent.ACTION_UP");
-               if (isSwipping) {
-                  isSwipping = false;
-               }
+               Point displaySize = Display.getUsableSize(mainActivity);
+               displayWidth = displaySize.x;
                break;
 
             case MotionEvent.ACTION_MOVE:
-               if (isSwipping) {
-                  LogDelegate.v("MotionEvent.ACTION_MOVE at position " + x + ", " + y);
-                  if (Math.abs(x - startSwipeInX) > SWIPE_OFFSET) {
-                     isSwipping = false;
-                     activateBrowsingTexts( -1 * ( (int) Math.signum(x - startSwipeInX)));
+               if (((Math.abs(event.getRawX() - onDownXPosition)> MIN_X_MOVING_OFFSET_FOR_TEXT_BROWSING) && (wasOnDownPerformed)) || (wasMovingStarted))
+               {
+                  wasMovingStarted = true;
+
+                  // v.setY(event.getRawY() + dY);
+                  v.setX(event.getRawX() + dX);
+
+                  // fade out text if browsing will be activated
+                  if ((Math.abs(event.getRawX() - onDownXPosition) > (displayWidth / ACTIVATE_TEXT_BROWSING_DISPLAY_RATIO) ))
+                  {
+                    v.setAlpha(0.4f);
+                  } else {
+                     v.setAlpha(1.0f);
                   }
                }
+
+               lastAction = MotionEvent.ACTION_MOVE;
+               break;
+
+            case MotionEvent.ACTION_UP:
+
+               if( (wasOnDownPerformed) && (wasMovingStarted))
+               {
+
+                  if ((Math.abs(event.getRawX() - onDownXPosition) > (displayWidth / ACTIVATE_TEXT_BROWSING_DISPLAY_RATIO))){
+                     if (event.getRawX() - onDownXPosition > 0)
+                     {
+                        onSwipeRight();
+                     } else {
+                        onSwipeLeft();
+                     }
+                  } else {
+                     // animate to the origin position, text browsing is not acitvated
+                     v.animate().x(0).y(0).setDuration(100).start();
+                  }
+               }
+
+               wasOnDownPerformed = false;
+               wasMovingStarted = false;
+
+               v.setAlpha(1.0f);
+
                break;
 
             default:
-               LogDelegate.e("Wrong element choosen: " + event.getAction());
+               return false;
          }
 
-         return true;
+         return false;
       }
    };
 

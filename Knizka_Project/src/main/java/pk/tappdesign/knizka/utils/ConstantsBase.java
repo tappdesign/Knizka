@@ -52,6 +52,8 @@ public interface ConstantsBase {
 	String JKS_SORTING_TYPE_NUMBER = "by_number";
 	String JKS_SORTING_TYPE_NAME = "by_name";
 
+	int MIN_X_MOVING_OFFSET_FOR_TEXT_BROWSING = 30;
+	int ACTIVATE_TEXT_BROWSING_DISPLAY_RATIO = 3;  //   1/4
 
 	String HTML_TEXT_BODY_CLASS = "<div class=\"TextBody\">";
 	String HTML_DIV_END_TAG = "</div>";

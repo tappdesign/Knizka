@@ -47,6 +47,7 @@ public class OnSwipeWebviewTouchListener implements View.OnTouchListener {
       public boolean onDown(MotionEvent e) {
          return false;  // THIS does the trick
       }
+
       @Override
       public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
          boolean result = false;
