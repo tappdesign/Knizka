@@ -160,6 +160,7 @@
     <string name="title_activity_directorium">JKS Directorium</string>
     <string name="title_activity_resp_verses">Response verses</string>
     <string name="title_activity_JKS_origin">Origin of JKS</string>
+    <string name="title_activity_liturgical_solemnity">Liturgical solemnity</string>
     <string name="deleted">deleted</string>
     <string name="no_items_in_list">Nothing here!</string>
     <string name="checklist_on">Enable checklist</string>
@@ -358,6 +359,8 @@
     <string name="settings_show_resp_verses_title">Show responsorium verses</string>
     <string name="settings_show_resp_verses_summary">Show responsorium verses for whole year and cycles (A, B, C)</string>
     <string name="settings_show_JKS_info_title">Origin od JKS</string>
+    <string name="settings_show_liturgical_solemnity_summary">Show liturgical solemnity for whole year</string>
+    <string name="settings_show_liturgical_solemnity_title">Liturgical solemnity</string>
     <string name="backup_include_settings">Include settings and password</string>
     <string name="settings_included">settings included</string>
     <string name="settings_password_question_instructions">Insert a question and a secret answer in case you forget the password</string>

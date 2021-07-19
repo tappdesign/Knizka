@@ -116,6 +116,19 @@
                  android:targetPackage="@string/app_package" />
        </Preference>
 
+       <Preference
+          android:key="settings_show_liturgical_solemnity"
+          android:summary="@string/settings_show_liturgical_solemnity_summary"
+          android:title="@string/settings_show_liturgical_solemnity_title"
+          app:iconSpaceReserved="false">
+          <intent
+             android:targetClass="pk.tappdesign.knizka.ShowHTMLActivity"
+             android:targetPackage="@string/app_package">
+           <extra
+               android:name="show_liturgical_solemnity"
+               android:value="empty" />
+           </intent>
+       </Preference>
 
       </PreferenceCategory>
 
