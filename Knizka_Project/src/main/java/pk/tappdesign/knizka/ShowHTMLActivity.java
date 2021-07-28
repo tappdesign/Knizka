@@ -96,7 +96,7 @@ public class ShowHTMLActivity extends BaseActivity {
       if (i.hasExtra("show_liturgical_solemnity") )
       {
          result = "file:///android_asset/html/LiturgicalSolemnity.html";
-         activityTitle = getResources().getString(R.string.title_activity_JKS_origin);
+         activityTitle = getResources().getString(R.string.title_activity_liturgical_solemnity);
       }
 
       webview.loadUrl(result);

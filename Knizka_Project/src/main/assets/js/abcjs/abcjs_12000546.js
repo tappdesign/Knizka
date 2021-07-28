@@ -13,7 +13,7 @@ w: ~Blíž~ ~k te~- ~be|Bo~- ~že~ ~môj,|
 w: ~len~ ~k te~- ~be|blíž,|
  A2 G F | F3/2 D/ D2 | %6
 w: ~keď~ ~tla~- ~čí|do~ ~pra~- ~chu|
- C F E G | F3 z |$ %8
+ (C F) E G | F3 z |$ %8
 w: ~mňa~ * ~ťaž~- ~ký|kríž.|
  c2 d c | c A c2 | %10
 w: ~Duch~ ~výš~ ~po~-|vzne~- ~sie~ ~sa|
@@ -21,7 +21,7 @@ w: ~Duch~ ~výš~ ~po~-|vzne~- ~sie~ ~sa|
 w: ~a~ ~v pies~- ~ni|oz~- ~ve~ ~sa:|
  A2 G F | F3/2 D/ D2 | %14
 w: ~Blíž~ ~k te~- ~be,|Bo~- ~že~ ~môj,|
- C F E G | F3 z |] %16
+ (C F) E G | F3 z |] %16
 w: ~len~ * ~k te~- ~be|blíž.|
 
 `;

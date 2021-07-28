@@ -6,7 +6,7 @@ L: 1/8
 R: F. R. O. (1877)
 C: A. M. (1909)
 K: D
-   (DE)(FG) D2 (EF) |
+   (DE)(FG) F2 (EF) |
 w: Prij~-* mi, * Mat~-ka, *
    E2 D2 z2 (FG) | (AB) A4 (GA) | 
 w: ve~-niec, ra~-*|dost~-* ný ru~-*   

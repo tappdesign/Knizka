@@ -25,7 +25,7 @@ w: je- di- ný~ všet- kých|hlas:~ Ó,|
 w: svä- tý~ Cy- ril|i~ Me- tod,|
  F G E (3(F/E/)F/ | G2 z G |$ %16
 w: o- ro- duj- te~ * za|nás,~ ó,|
- e d c =B | A G F2 |$ %18
+ e d c B | A G F2 |$ %18
 w: svä- tý~ Cy- ril|i~ Me- tod,|
  G (=A/=B/) c e | d2 c2 :| %20
 w: ~o~- ~ro~- * ~duj~- ~te|za~ ~nás.|

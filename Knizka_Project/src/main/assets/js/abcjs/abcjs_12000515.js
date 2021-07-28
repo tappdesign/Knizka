@@ -38,12 +38,11 @@ w: ~lú;|ráč~ ~od~- ~pus~- ~tiť|
  F F =E2 | F2 z2 |$ %28
 w: ~môj~- ~mu~ ~te~-|lu!|
  d c B A | d e d c |$ %30
-w: ~Pred~ ~ve~ ~le~ ~bou|tvo~ ~jou~ ~kľa~ ~kám|
+w: ~Pred~ ~ve~- ~le~- ~bou|tvo~- ~jou~ ~kľa~- ~kám|
  c B A2 | B z z2 | %32
-w: ~v~po~ ~kor~ ~no|sti,|
+w: ~v~po~- ~kor~- ~no~-|sti,|
  B B B c |$ B B A2 | %34
-w: ~vrú~ ~cne~ ~pro~ ~siac|o~ ~mi~ ~lo|
+w: ~vrú~- ~cne~ ~pro~- ~siac|o~ ~mi~- ~lo~-|
  B z z2 |] %35
 w: ~sti.|
-
 `;

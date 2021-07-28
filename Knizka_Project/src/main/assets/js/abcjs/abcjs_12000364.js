@@ -11,7 +11,7 @@ I:linebreak $
 K:Eb
  B, | E G B G | %2
 w: ~Ó,|Kris~- ~te,~ ~veľ~- ~ký|
- E F B,3/2 B,/ |$ E G A B | %4
+ E F B,3/2 B,/ |$ E G A c | %4
 w: ~Krá~- ~ľu~ ~náš,~ ~čo|sve~- ~tom,~ ~ne~- ~bom|
  c2 B B |$ c B A F | %6
 w: ~vlád~- ~neš,~ ~ty|bož~- ~skej~ ~mo~- ~ci|

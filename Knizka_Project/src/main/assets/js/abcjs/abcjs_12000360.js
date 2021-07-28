@@ -15,16 +15,15 @@ w: ~ve~-|čnej~ ~mňa,|ó,~ ~Pa~-|ne,|
  z c | B A | G F | E z |$ %12
 w: ~keď|hroz~- ~ný,|strast~- ~ný|ten|
  z F | G A | G F | E z |$ %16
-w: ~deň|sú~- ~du|na~- ~sta|ne!|
+w: ~deň|sú~- ~du|na~- ~sta~-|ne!|
  z D | G G | F G | A z |$ %20
 w: ~Keď|ne~- ~be~-|sá~ ~i|zem|
  z D | A A | G A | B2 |$ %24
 w: ~bu~-|dú~ ~sa|triasť~ ~a|chvieť,|
  z c | B A | G F | E z |$ %28
-w: ~ty|prí~ ~deš|k~nám~ ~v~ten|deň,|
+w: ~ty|prí~- ~deš|k~nám~ ~v~ten|deň,|
  z F | G A | G F | E z | %32
 w: ~bys´|sú~- ~dil|ten~- ~to|svet.|
  z |] %33
 w: |
-
 `;

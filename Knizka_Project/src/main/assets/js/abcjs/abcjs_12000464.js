@@ -13,7 +13,7 @@ K:G
 w: V deň~ sláv ny~ vi- taj|v na šich srd ciach,|
  E E/F/ G G | c B A2 |$ %4
 w: ó,~ svä- tý~ Mi- chal,|pa- trón~ náš,|
- D G/A/ B c | B A G D |$ %6
+ D G/A/ B c | B A A G |$ %6
 w: o- chran- com~ na- ším|si~ v úz- kos- tiach,|
  E F/G/ A B | A (F/E/) D z |$ %8
 w: ~u~ ~Bo~- ~ha~ ~sa~ ~nás|za~- ~stá~- * ~vaš.|

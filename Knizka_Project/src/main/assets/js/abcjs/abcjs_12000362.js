@@ -15,7 +15,7 @@ w: Ot če~ náš,~ čo|v~nad hviez dna tej~ vý ši|
 w: v~ne- prí- stup- nej~ slá- ve|kra- ľu- ješ,|
  G3 G A2 A2 | BBAG c2 A2 |$ %6
 w: k~te- be~ sa~ dnes|ver- ný~ ľud~ tvoj~ blí- ži,|
- F2 A2 G2 D2 |[M:2/4] DF ED | %8
+ F2 A2 G2 E2 |[M:2/4] DF ED | %8
 w: ~s~an~- ~jel~- ~mi~ ~ti|chvá~- ~lu~ ~vzdá~- ~va|
 M:4/4
  C4 z2 CC |$ G2 G2 AAAA | %10

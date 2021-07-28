@@ -6,7 +6,7 @@ L: 1/4
 R: A. R. (1872)
 C: M. Sch. T.
 K: Bb
-   D/B/ | A2 G | ^F2 D/B/ |
+   D/B/ | A2 G | ^F2 D/d/ |
 w: Ne~-o~-|púš~-ťaj|nás, ne~-o~- 
    c2 B | A2 z | d2 d |
 w: púš~-ťaj|nás,|Mat~-ka,   
@@ -22,7 +22,7 @@ w: vo~-laj ~k~Pá~-nu|pre o~-chra~-nu,
    c B A G | ^F G E !fermata!D ||
 w: nech ~za~-ho~-jí|du~-še ra~-nu. 
 M:3/4
-   D/B/ | A2 G | ^F2 D/B/ |
+   D/B/ | A2 G | ^F2 D/d/ |
 w: Ne~-o~-|púš~-ťaj|nás, ne~-o~-
    c2 B | A2 z | d2 d |
 w: púš~-ťaj|nás,|Mat~-ka,   

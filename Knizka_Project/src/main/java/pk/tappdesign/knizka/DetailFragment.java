@@ -127,6 +127,7 @@ import android.webkit.WebChromeClient;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
@@ -2808,14 +2809,22 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
          switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN:
-               dX = v.getX() - event.getRawX();
-               dY = v.getY() - event.getRawY();
-               onDownXPosition = event.getRawX();
-               lastAction = MotionEvent.ACTION_DOWN;
-               wasOnDownPerformed = true;
+               int x = (int) event.getX();
 
                Point displaySize = Display.getUsableSize(mainActivity);
                displayWidth = displaySize.x;
+
+               if (((x < MIN_X_MOVING_OFFSET_FOR_TEXT_BROWSING  || x > displayWidth - MIN_X_MOVING_OFFSET_FOR_TEXT_BROWSING))
+                      // || (v instanceof ScrollView)
+               )
+               {
+                  dX = v.getX() - event.getRawX();
+                  dY = v.getY() - event.getRawY();
+                  onDownXPosition = event.getRawX();
+                  lastAction = MotionEvent.ACTION_DOWN;
+                  wasOnDownPerformed = true;
+               }
+
                break;
 
             case MotionEvent.ACTION_MOVE:
@@ -2842,7 +2851,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
                if( (wasOnDownPerformed) && (wasMovingStarted))
                {
-
                   if ((Math.abs(event.getRawX() - onDownXPosition) > (displayWidth / ACTIVATE_TEXT_BROWSING_DISPLAY_RATIO))){
                      if (event.getRawX() - onDownXPosition > 0)
                      {

@@ -23,7 +23,7 @@ w: ~ným;~ ~nech|vzí~- ~de~ ~svet~- ~lo|
 w: ~več~- ~né~ ~im|do~ ~vlas~- ~ti~ ~raj~- *|
  F2 z B, | E G B A |$ %14
 w: ~skej~ ~a|po~- ~ží~- ~vať~ ~im|
- G2 F F | G E F ^D | %16
+ G2 F F | G E E ^D | %16
 w: ~daj~ ~bla~- ~ho|sla~- ~sti~ ~an~- ~jel~-|
  E2 !fermata!z |] %17
 w: ~skej.|

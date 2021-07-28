@@ -21,7 +21,7 @@ w: nás! Tvo~-ja|moc je slá~-ve
 w: ná, le~-bos´,|bla~-ho~-sla~-ve|ná,
    G c B/A/ | G F E | 
 w: lurd~-ská hvie~-zda|pre~-krás~-na,
-   D/F/ E D | C z2 |] 
+   A/F/ E D | C z2 |] 
 w: Pan~-na Má~-ri~-|a!
 
 `;

@@ -8,7 +8,7 @@ L:1/4
 M:4/4
 I:linebreak $
 K:Bb
- G (G/A/) G A | G (^F/G/) =E D |$ %2
+ G (G/A/) B A | G (^F/G/) =E D |$ %2
 w: Ty~ ko- * ru- na|pa- nien~ * čis- tá,|
  G (G/A/) B A | c B G !fermata!A |$ %4
 w: ty~ si~ * na- ša|ná- dej~ is- tá,|
