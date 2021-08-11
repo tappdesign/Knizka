@@ -57,10 +57,10 @@ public class Note extends BaseNote implements Parcelable {
     }
 
 
-    public Note(Long creation, Long lastModification, String title, String content, String htmlContent, Boolean favorite, Long handleID, Long packageID, Long prayerSet, String tagList, Integer archived,
+    public Note(Long creation, Long lastModification, String title, String content, String htmlContent, Boolean favorite, Long handleID, Long packageID, Long prayerMerged, String tagList, Integer archived,
                 Integer trashed, Integer erased, String alarm, String recurrenceRule, Integer reminderFired, String latitude, String longitude, Category
                         category, Integer locked, Integer checklist) {
-        super(creation, lastModification, title, content, htmlContent, favorite, handleID, packageID, prayerSet, tagList, archived, trashed, erased, alarm, reminderFired, recurrenceRule,
+        super(creation, lastModification, title, content, htmlContent, favorite, handleID, packageID, prayerMerged, tagList, archived, trashed, erased, alarm, reminderFired, recurrenceRule,
                 latitude,
                 longitude, category, locked, checklist);
     }
@@ -79,7 +79,7 @@ public class Note extends BaseNote implements Parcelable {
         setHTMLContent(in.readString());
         setPackageID(in.readLong());
         setTagList(in.readString());
-        setPrayerSet(in.readLong());
+        setPrayerMerged(in.readLong());
         setArchived(in.readInt());
         setTrashed(in.readInt());
         setErased(in.readInt());
@@ -182,7 +182,7 @@ public class Note extends BaseNote implements Parcelable {
         parcel.writeString(getHTMLContent());
         parcel.writeLong(getPackageID());
         parcel.writeString(getTagList());
-        parcel.writeLong(getPrayerSet());
+        parcel.writeLong(getPrayerMerged());
         parcel.writeInt(isArchived() ? 1 : 0);
         parcel.writeInt(isTrashed() ? 1 : 0);
         parcel.writeInt(isErased() ? 1 : 0);

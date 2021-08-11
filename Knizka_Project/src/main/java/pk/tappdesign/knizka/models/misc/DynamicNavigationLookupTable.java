@@ -41,7 +41,7 @@ public class DynamicNavigationLookupTable {
 	int uncategorized;
 	int reminders;
 	int favorites;
-	int prayerSets;
+	int prayerMerged;
 	int intentions;
 
 
@@ -58,32 +58,9 @@ public class DynamicNavigationLookupTable {
 		return instance;
 	}
 
-/*
 	public void update() {
 		((Runnable) () -> {
-			archived = trashed = uncategorized = reminders = favorites = prayerSets = intentions = 0;
-			List<Note> notes = DbHelper.getInstance().getAllNotes(false);
-			for (int i = 0; i < notes.size(); i++) {
-				if (notes.get(i).isTrashed()) trashed++;
-				else if (notes.get(i).isArchived()) archived++;
-				else if (notes.get(i).getAlarm() != null) reminders++;
-				else if (notes.get(i).isFavorite()) favorites++;
-				else if (notes.get(i).getPackageID() == ConstantsBase.PACKAGE_USER_INTENT) intentions++;
-				else if (notes.get(i).getPrayerSet() > 0) prayerSets++;
-
-				if (notes.get(i).getCategory() == null || notes.get(i).getCategory().getId().equals(0L)) {
-					uncategorized++;
-				}
-			}
-			EventBus.getDefault().post(new DynamicNavigationReadyEvent());
-			LogDelegate.d("Dynamic menu finished counting items");
-		}).run();
-	}
-*/
-
-	public void update() {
-		((Runnable) () -> {
-			archived = trashed = uncategorized = reminders = favorites = prayerSets = intentions = 0;
+			archived = trashed = uncategorized = reminders = favorites = prayerMerged = intentions = 0;
 			List<Note> notes = DbHelper.getInstance().getAllNotes(false);
 			for (int i = 0; i < notes.size(); i++) {
 				if (notes.get(i).isTrashed()) trashed++;
@@ -93,7 +70,7 @@ public class DynamicNavigationLookupTable {
 					if (notes.get(i).getAlarm() != null) reminders++;
 					if (notes.get(i).isFavorite()) favorites++;
 					if (notes.get(i).getPackageID() == ConstantsBase.PACKAGE_USER_INTENT) intentions++;
-					if (notes.get(i).getPrayerSet() > 0) prayerSets++;
+					if (notes.get(i).getPrayerMerged() > 0) prayerMerged++;
 					if (notes.get(i).getCategory() == null || notes.get(i).getCategory().getId().equals(0L)) {
 						uncategorized++;
 					}
@@ -134,8 +111,8 @@ public class DynamicNavigationLookupTable {
 		return favorites;
 	}
 
-	public int getPrayerSets() {
-		return prayerSets;
+	public int getPrayerMerged() {
+		return prayerMerged;
 	}
 
 	public int getIntentions() {

@@ -38,8 +38,8 @@ public interface ConstantsBase {
 	long PACKAGE_USER_ADDED = 1;
 	long PACKAGE_USER_INTENT = 2;
 
-	int PRAYER_SET_NO = 0;
-	int PRAYER_SET_YES = 1;
+	int PRAYER_MERGED_NO = 0;
+	int PRAYER_MERGED_YES = 1;
 
 	String INTENT_EXTRA_MAX_PAGES_IN_BROWSER = "maxPagesInViewPager";
 	String INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER = "NoteIDsForViewPager";

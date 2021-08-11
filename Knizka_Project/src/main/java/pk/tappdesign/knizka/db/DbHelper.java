@@ -43,7 +43,6 @@ import static pk.tappdesign.knizka.utils.PKStringUtils.stripToMaxChars;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
@@ -52,10 +51,8 @@ import android.net.Uri;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
-import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -127,7 +124,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public static final String COL_CATEGORY_ID_REF = "category_id_ref";
   public static final String COL_CATEGORY_ID = "category_id";
   public static final String COL_PACKAGE_ID = "package_id";
-  public static final String COL_PRAYER_SET = "prayer_set_flag";
+  public static final String COL_PRAYER_MERGED = "prayer_set_flag";
   public static final String COL_TAG_LIST = "tag_list";
 
   public static final String COL_IS_FAVORITE = "uf_is_favorite";
@@ -404,7 +401,7 @@ public class DbHelper extends SQLiteOpenHelper {
             : Calendar.getInstance().getTimeInMillis();
     values.put(COL_LAST_MODIFICATION, lastModification);
     values.put(COL_PACKAGE_ID, note.getPackageID());
-    values.put(COL_PRAYER_SET, note.getPrayerSet());
+    values.put(COL_PRAYER_MERGED, note.getPrayerMerged());
     values.put(COL_TAG_LIST, note.getTagList());
 
     values.put(COL_CATEGORY_ID_REF, note.getCategory() != null ? note.getCategory().getId() : null);
@@ -486,8 +483,8 @@ public class DbHelper extends SQLiteOpenHelper {
           return getLastShown();
         case Navigation.RANDOM:
           return getRandom();
-        case Navigation.PRAYER_SETS:
-          return getPrayerSet();
+        case Navigation.PRAYER_MERGED:
+          return getPrayerMerged();
         case Navigation.JKS:
         case Navigation.JKS_NUMBER_SEARCH:
         case Navigation.JKS_CATEGORIES:
@@ -529,7 +526,7 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
   public List<Note> getNotesActivePrayers() {
-    String whereCondition = " WHERE " +  COL_TEXT_NUMBER + " IS NULL AND "  + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT + " AND " + COL_PRAYER_SET + " IS NOT 1 ";
+    String whereCondition = " WHERE " +  COL_TEXT_NUMBER + " IS NULL AND "  + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT + " AND " + COL_PRAYER_MERGED + " IS NOT 1 ";
     return getNotes(whereCondition, "", "",true);
   }
 
@@ -567,8 +564,8 @@ public class DbHelper extends SQLiteOpenHelper {
     return getNotes(whereCondition, "", "", true);
   }
 
-  public List<Note> getPrayerSet() {
-    String whereCondition = " WHERE " +  COL_PRAYER_SET + " = 1 AND "  + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT;
+  public List<Note> getPrayerMerged() {
+    String whereCondition = " WHERE " + COL_PRAYER_MERGED + " = 1 AND "  + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT;
     return getNotes(whereCondition, "", "", true);
   }
 
@@ -612,7 +609,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     String query = "";
 
-    query = " select " +  COL_UF_HANDLE_ID_REF + ", " + COL_HANDLE_ID + ", " + COL_TITLE + ", " + COL_INSIGHT +", "  + COL_CONTENT + ", " + COL_TAG_LIST + ", "    + COL_PACKAGE_ID + ", " + COL_PRAYER_SET + ", " + COL_CATEGORY_ID_SEl +
+    query = " select " +  COL_UF_HANDLE_ID_REF + ", " + COL_HANDLE_ID + ", " + COL_TITLE + ", " + COL_INSIGHT +", "  + COL_CONTENT + ", " + COL_TAG_LIST + ", "    + COL_PACKAGE_ID + ", " + COL_PRAYER_MERGED + ", " + COL_CATEGORY_ID_SEl +
             ", "+ COL_CATEGORY_NAME + ", "+ COL_CATEGORY_DESCRIPTION + ", "+ COL_CATEGORY_COLOR + ", " + COL_UF_IS_TRASHED +  ", " + COL_IS_FAVORITE +  ", " +  COL_UF_IS_ARCHIVED +  ", " +  COL_UF_IS_ERASED +  ", " + COL_UF_CATEGORY +  ", " + COL_UF_TAG_LIST +  ", " +
             COL_UF_IS_ALARM + ", " +  COL_UF_IS_REMINDER_FIRED + ", " + COL_UF_IS_RECURRENCE_RULE + ", " +
             DB_COL_FULL_NAME_CF_ID +  ", " + DB_COL_FULL_NAME_CF_NAME +  ", " + DB_COL_FULL_NAME_CF_DESCRIPTION + ", " + DB_COL_FULL_NAME_CF_COLOR + ", " + DB_COL_FULL_NAME_CF_DELETED + ", " +
@@ -665,7 +662,7 @@ public class DbHelper extends SQLiteOpenHelper {
           note.setHTMLContent(cursor.getString(cursor.getColumnIndex(COL_CONTENT)));
           note.setHandleID(cursor.getLong(cursor.getColumnIndex(COL_HANDLE_ID)));
           note.setPackageID(cursor.getLong(cursor.getColumnIndex(COL_PACKAGE_ID)));
-          note.setPrayerSet(cursor.getLong(cursor.getColumnIndex(COL_PRAYER_SET)));
+          note.setPrayerMerged(cursor.getLong(cursor.getColumnIndex(COL_PRAYER_MERGED)));
           note.setTagList(cursor.getString(cursor.getColumnIndex(COL_TAG_LIST)));
           if (cursor.getString(cursor.getColumnIndex(COL_TAG_LIST_USER)) != null)
           {

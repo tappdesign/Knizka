@@ -128,7 +128,7 @@ public class NotesHelper {
     mergedNote.setLatitude(latitude);
     mergedNote.setLongitude(longitude);
     mergedNote.setAttachmentsList(attachments);
-    mergedNote.setPrayerSet(new Long(ConstantsBase.PRAYER_SET_YES).longValue());
+    mergedNote.setPrayerMerged(new Long(ConstantsBase.PRAYER_MERGED_YES).longValue());
 
     return mergedNote;
   }

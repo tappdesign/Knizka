@@ -37,7 +37,7 @@ public class BaseNote implements Serializable {
 	private Long handleID;
 	private Boolean favorite;
 	private Long packageID;
-	private Long prayerSet;
+	private Long prayerMerged;
 	private String tagList;
 	private Long creation;
 	private Long lastModification;
@@ -63,7 +63,7 @@ public class BaseNote implements Serializable {
 		this.htmlContent = "";
 		this.tagList = "";
 		this.packageID = new Long(-1);
-		this.prayerSet = new Long(0);
+		this.prayerMerged = new Long(0);
 		this.handleID = new Long(0);
 		this.archived = false;
 		this.trashed = false;
@@ -72,8 +72,8 @@ public class BaseNote implements Serializable {
 		this.checklist = false;
 	}
 
-	public BaseNote(Long creation, Long lastModification, String title, String content, String htmlContent, Boolean favorite, Long handleID, Long packageID, Long prayerSet, String tagList, Integer archived,
-					Integer trashed, Integer erased, String alarm, Integer reminderFired, String recurrenceRule, String latitude, String longitude, BaseCategory
+	public BaseNote(Long creation, Long lastModification, String title, String content, String htmlContent, Boolean favorite, Long handleID, Long packageID, Long prayerMerged, String tagList, Integer archived,
+						 Integer trashed, Integer erased, String alarm, Integer reminderFired, String recurrenceRule, String latitude, String longitude, BaseCategory
 
 							baseCategory, Integer locked, Integer checklist) {
 		super();
@@ -81,7 +81,7 @@ public class BaseNote implements Serializable {
 		this.content = content;
 		this.htmlContent = htmlContent;
 		this.packageID = packageID;
-		this.prayerSet = prayerSet;
+		this.prayerMerged = prayerMerged;
 		this.tagList = tagList;
 		this.favorite = favorite;
 		this.handleID = handleID;
@@ -112,7 +112,7 @@ public class BaseNote implements Serializable {
 		setFavorite(baseNote.isFavorite());
 		setHandleID(baseNote.getHandleID());
 		setPackageID(baseNote.getPackageID());
-		setPrayerSet(baseNote.getPrayerSet());
+		setPrayerMerged(baseNote.getPrayerMerged());
 		setTagList(baseNote.getTagList());
 		setCreation(baseNote.getCreation());
 		setLastModification(baseNote.getLastModification());
@@ -198,12 +198,12 @@ public class BaseNote implements Serializable {
 		this.tagList = tagList;
 	}
 
-	public Long getPrayerSet() {
-		return prayerSet;
+	public Long getPrayerMerged() {
+		return prayerMerged;
 	}
 
-	public void setPrayerSet(Long prayerSet) {
-		this.prayerSet = prayerSet;
+	public void setPrayerMerged(Long prayerMerged) {
+		this.prayerMerged = prayerMerged;
 	}
 
 	public Long getHandleID() {

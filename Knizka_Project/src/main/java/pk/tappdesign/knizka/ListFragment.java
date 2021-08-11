@@ -62,7 +62,7 @@ import static pk.tappdesign.knizka.utils.Navigation.JKS_CATEGORIES;
 import static pk.tappdesign.knizka.utils.Navigation.JKS_NUMBER_SEARCH;
 import static pk.tappdesign.knizka.utils.Navigation.LAST_SHOWN;
 import static pk.tappdesign.knizka.utils.Navigation.NOTES;
-import static pk.tappdesign.knizka.utils.Navigation.PRAYER_SETS;
+import static pk.tappdesign.knizka.utils.Navigation.PRAYER_MERGED;
 import static pk.tappdesign.knizka.utils.Navigation.RANDOM;
 import static pk.tappdesign.knizka.utils.Navigation.REMINDERS;
 import static pk.tappdesign.knizka.utils.Navigation.UNCATEGORIZED;
@@ -75,7 +75,6 @@ import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
@@ -674,7 +673,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       case FAVORITES:
       case LAST_SHOWN:
       case RANDOM:
-      case PRAYER_SETS:
+      case PRAYER_MERGED:
       case JKS:
       case JKS_NUMBER_SEARCH:
       case JKS_CATEGORIES:

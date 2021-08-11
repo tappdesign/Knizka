@@ -51,7 +51,7 @@ public class Navigation {
     public static final int FAVORITES = 5;
     public static final int LAST_SHOWN = 6;
     public static final int RANDOM = 7;
-    public static final int PRAYER_SETS = 8;
+    public static final int PRAYER_MERGED = 8;
     public static final int JKS = 9;
     public static final int JKS_NUMBER_SEARCH = 10;
     public static final int INTENTIONS = 11;
@@ -81,8 +81,8 @@ public class Navigation {
             return LAST_SHOWN;
         } else if (navigationListCodes[RANDOM].equals(navigation)) {
             return RANDOM;
-        } else if (navigationListCodes[PRAYER_SETS].equals(navigation)) {
-            return PRAYER_SETS;
+        } else if (navigationListCodes[PRAYER_MERGED].equals(navigation)) {
+            return PRAYER_MERGED;
         } else if (navigationListCodes[JKS].equals(navigation)) {
             return JKS;
         } else if (navigationListCodes[JKS_NUMBER_SEARCH].equals(navigation)) {
