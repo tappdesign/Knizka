@@ -294,8 +294,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                  })
                  .onNegative((dialog, which) -> {
                     android.content.ClipboardManager clipboard = (android.content.ClipboardManager)
-                            mainActivity
-                                    .getSystemService(CLIPBOARD_SERVICE);
+                mainActivity.getSystemService(CLIPBOARD_SERVICE);
                     android.content.ClipData clip = android.content.ClipData.newPlainText("text label",
                             clickedString);
                     clipboard.setPrimaryClip(clip);
@@ -347,13 +346,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       EventBus.getDefault().register(this);
    }
 
-   @Override
-   public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      binding = FragmentDetailBinding.inflate(inflater, container, false);
-      View view = binding.getRoot();
-      view.getViewTreeObserver().addOnWindowFocusChangeListener(focusHandler);
-      return view;
-   }
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    binding = FragmentDetailBinding.inflate(inflater, container, false);
+    return binding.getRoot();
+  }
 
    @Override
    public void onDestroyView() {

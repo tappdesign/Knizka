@@ -24,6 +24,7 @@ package pk.tappdesign.knizka.helpers.date;
 import static com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicker.RecurrenceOption.DOES_NOT_REPEAT;
 
 import android.content.Context;
+import android.text.TextUtils;
 import org.apache.commons.lang3.StringUtils;
 import android.text.format.Time;
 import com.appeaser.sublimepickerlibrary.recurrencepicker.EventRecurrence;
@@ -32,6 +33,7 @@ import com.appeaser.sublimepickerlibrary.recurrencepicker.SublimeRecurrencePicke
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.helpers.LogDelegate;
+import  pk.tappdesign.knizka.models.Note;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -58,8 +60,12 @@ public class RecurrenceHelper {
             mContext.getResources(), recurrenceEvent, true);
   }
 
-  public static Long nextReminderFromRecurrenceRule (long reminder, String recurrenceRule) {
-    return nextReminderFromRecurrenceRule(reminder, Calendar.getInstance().getTimeInMillis(), recurrenceRule);
+  public static Long nextReminderFromRecurrenceRule(Note note) {
+    if (!TextUtils.isEmpty(note.getRecurrenceRule()) && note.getAlarm() != null) {
+      return nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()),
+          Calendar.getInstance().getTimeInMillis(), note.getRecurrenceRule());
+    }
+    return 0L;
   }
 
   public static Long nextReminderFromRecurrenceRule (long reminder, long currentTime, String recurrenceRule) {

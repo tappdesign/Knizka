@@ -60,12 +60,9 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
   private Note[] notes;
 
   public static void setNextRecurrentReminder(Note note) {
-    if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
-      long nextReminder = RecurrenceHelper.nextReminderFromRecurrenceRule(Long.parseLong(note.getAlarm()), note
-          .getRecurrenceRule());
-      if (nextReminder > 0) {
-        updateNoteReminder(nextReminder, note, true);
-      }
+    long nextReminder = RecurrenceHelper.nextReminderFromRecurrenceRule(note);
+    if (nextReminder > 0) {
+      updateNoteReminder(nextReminder, note, true);
     } else {
       new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
     }
