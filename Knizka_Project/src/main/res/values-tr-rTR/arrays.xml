@@ -33,6 +33,7 @@
     <item>JKS - Search</item>
     <item>Intentions</item>
     <item>JKS Categories</item>
+    <item>Linked Set</item>
   </string-array>
   <string-array name="sortable_columns_human_readable">
     <item>Başlık</item>

@@ -32,6 +32,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_IMAGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_SKETCH;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_VIDEO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_ADDED;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_YES;
 import static pk.tappdesign.knizka.utils.PKStringUtils.removeBRTags;
 
 import pk.tappdesign.knizka.Knizka;
@@ -128,7 +129,7 @@ public class NotesHelper {
     mergedNote.setLatitude(latitude);
     mergedNote.setLongitude(longitude);
     mergedNote.setAttachmentsList(attachments);
-    mergedNote.setPrayerMerged(new Long(ConstantsBase.PRAYER_MERGED_YES).longValue());
+    mergedNote.setPrayerMerged(PRAYER_MERGED_YES);
 
     return mergedNote;
   }

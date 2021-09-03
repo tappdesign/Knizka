@@ -30,6 +30,8 @@
   <string name="save">Uložiť</string>
   <string name="share">Zdieľať</string>
   <string name="duplicate_note">Duplikovať</string>
+  <string name="add_note_to_linked_set">Pridať do zostavy</string>
+  <string name="finish_open_linked_set">Uzavreť zostavu</string>
   <string name="choose_color_scheme">Vybrať tému</string>
   <string name="undo">Späť</string>
   <string name="trash">Odstrániť</string>
@@ -52,6 +54,7 @@
   <string name="empty_note_not_saved">Prázdna modlitba nebola uložená</string>
   <string name="empty_note_not_shared">Prázdna modlitba nie je zdieľateľná</string>
   <string name="song_not_found">Pieseň nenájdená</string>
+  <string name="note_added_to_set">Položka pridaná do zostavy</string>
   <string name="note_archived">Položka bola archivovaná</string>
   <string name="note_unarchived">Položka bola obnovená z archívu</string>
   <string name="note_duplicated">Položky boli duplikované</string>
@@ -94,6 +97,12 @@
   <string name="data_import_completed">Import údajov bol dokončený</string>
   <string name="click_to_refresh_application">Kliknite pre obnovu aplikácie</string>
   <string name="backup_existing">Záloha už existuje, a preto bude prepísaná</string>
+  <string name="choose_prayer_set">Vyberte zostavu</string>
+  <string name="choose_prayer_set_name">Zadajte meno zostavy</string>
+  <string name="btn_dlg_cancel">Zrušiť</string>
+  <string name="edt_dlg_hint">Meno zostavy</string>
+  <string name="btn_add_to_prayer_set">pridať</string>
+  <string name="btn_new_prayer_set">Nová</string>
   <string name="tag">Značka</string>
   <string name="tags">Značky</string>
   <string name="add_tag">Pridať značky</string>
@@ -240,6 +249,7 @@
   <string name="choose_html_color_scheme">Vybrať</string>
   <string name="dialog_html_color_scheme_caption">Vybrať farebnú schému pre texty</string>
   <string name="dialog_JKS_categories_caption">Kategórie piesní</string>
+  <string name="dialog_choose_linked_set_caption">Zostavy modlitieb</string>
   <string name="dialog_button_cancel">Zrušiť</string>
 
   <!-- Settings -->

@@ -1,0 +1,1 @@
+-- Create new table for linked setsCREATE	TABLE prayer_linked_set	(		linked_set_row_id INTEGER PRIMARY KEY AUTOINCREMENT, 		prayer_handle_id_ref INTEGER,		prayer_text_id_ref INTEGER,		text_order INTEGER,		text_type INTEGER,		text_category INTEGER	);

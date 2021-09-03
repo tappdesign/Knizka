@@ -30,6 +30,7 @@
         <item>JKS - Search</item>
         <item>Intentions</item>
         <item>JKS Categories</item>
+        <item>Linked Set</item>
     </string-array>
 
     <string-array name="navigation_list_codes">
@@ -46,6 +47,7 @@
         <item>JKS_Search</item>
         <item>Intentions</item>
         <item>JKS_Categories</item>
+        <item>LinkedSet</item>
     </string-array>
 
     <string-array name="navigation_list_activity_caption">
@@ -62,6 +64,7 @@
         <item>JKS - Search</item>
         <item>Intentions</item>
         <item>JKS Categories</item>
+        <item>Linked set</item>
     </string-array>
 
     <integer-array name="navigation_list_icons">
@@ -78,6 +81,7 @@
         <item>@drawable/ic_numbers_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
         <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
+        <item>@drawable/ic_dynamic_feed_black_48</item>
     </integer-array>
 
     <integer-array name="navigation_list_icons_selected">
@@ -94,6 +98,7 @@
         <item>@drawable/ic_numbers_black_48dp</item>
         <item>@drawable/ic_prayers_intentions_black_48dp</item>
         <item>@drawable/ic_prayers_jks_categories_black_48dp</item>
+        <item>@drawable/ic_dynamic_feed_black_48</item>
     </integer-array>
 
 
@@ -110,6 +115,7 @@
         <item>9</item>
         <item>10</item>
         <item>12</item>
+        <item>13</item>
         <item>11</item>
     </integer-array>
 

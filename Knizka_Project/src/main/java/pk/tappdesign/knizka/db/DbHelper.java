@@ -20,9 +20,12 @@
  */
 package pk.tappdesign.knizka.db;
 
+import static pk.tappdesign.knizka.db.DBConst.DB_VERSION_USER_DATA;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
+import static pk.tappdesign.knizka.utils.ConstantsBase.LINKED_NOTE_TYPE_RANDOM_CATEGORY;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_INTENT;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_LINKED_SET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_PAST_REMINDERS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_JKS_SORTING_TYPE;
@@ -72,6 +75,7 @@ import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.models.Attachment;
 import pk.tappdesign.knizka.models.Category;
 import pk.tappdesign.knizka.models.Note;
+import pk.tappdesign.knizka.models.NoteLink;
 import pk.tappdesign.knizka.models.Stats;
 import pk.tappdesign.knizka.models.Tag;
 import pk.tappdesign.knizka.utils.AssetUtils;
@@ -97,6 +101,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public static final String TBL_LAST_SHOWN = "last_shown";
   public static final String TBL_CATEGORIES_FLAG = "category_flags";
   public static final String TBL_ATTACHMENTS = "attachments";
+  public static final String TBL_PRAYER_LINKED_SET = "prayer_linked_set";
 
   public static final String ATTCH_PRAYERS = ATTACHED_DB + "." + TBL_PRAYERS;
   public static final String ATTCH_CATEGORIES = ATTACHED_DB + "." + TBL_CATEGORIES;
@@ -181,6 +186,14 @@ public class DbHelper extends SQLiteOpenHelper {
   public static final String COL_LS_HANDLE_ID = TBL_LAST_SHOWN + "."+ COL_LS_HANDLE_ID_REF;
   public static final String COL_LS_LAST_SHOWN_DATE = TBL_LAST_SHOWN + "."+ COL_LS_LAST_SHOWN;
 
+  // columns for prayer linked sets
+  public static final String COL_LINKED_SET_ID = "linked_set_row_id";
+  public static final String COL_LINKED_SET_HANDLE_ID_REF = "prayer_handle_id_ref";
+  public static final String COL_LINKED_SET_TEXT_ID_REF = "prayer_text_id_ref";
+  public static final String COL_LINKED_SET_TEXT_ORDER = "text_order";
+  public static final String COL_LINKED_SET_TEXT_TYPE = "text_type";
+  public static final String COL_LINKED_SET_TEXT_CATEGORY = "text_category";
+
   // temporary columns
   public static final String COL_MERGED_CATEGORY = "MergedCategory";
 
@@ -203,6 +216,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
   // Categories table name
   public static final String TABLE_CATEGORY = "categories";
+
 
   // Queries
   private static final String CREATE_QUERY = "create.sql";
@@ -268,7 +282,7 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
   private DbHelper(Context mContext) {
-    super(mContext, mContext.getApplicationInfo().dataDir + DBConst.DB_STORAGE_FILE_USER_DATA, null, DBConst.DB_VERSION_USER_DATA);
+    super(mContext, mContext.getApplicationInfo().dataDir + DBConst.DB_STORAGE_FILE_USER_DATA, null, DB_VERSION_USER_DATA);
     this.mContext = mContext;
   }
 
@@ -299,6 +313,7 @@ public class DbHelper extends SQLiteOpenHelper {
     try {
       LogDelegate.i("Database creation");
       execSqlFile(CREATE_QUERY, db);
+      onUpgrade(db, 0, DB_VERSION_USER_DATA);
     } catch (IOException e) {
       throw new DatabaseException("Database creation failed: " + e.getMessage(), e);
     }
@@ -454,6 +469,26 @@ public class DbHelper extends SQLiteOpenHelper {
     return notes.isEmpty() ? null : notes.get(0);
   }
 
+  /**
+   * Getting note content for linked sets
+   */
+  public String getNoteContentForLinkedSet(long id) {
+    String retVal = "";
+    List<NoteLink> linkedNotes = getLinkedNotes(" WHERE " + COL_LINKED_SET_HANDLE_ID_REF + " = " + id, COL_LINKED_SET_TEXT_ORDER, "", true);
+    for (NoteLink linkedNote : linkedNotes) {
+      Note note = null;
+      if (linkedNote.getTextType() == LINKED_NOTE_TYPE_RANDOM_CATEGORY) {
+        note = getRandomFromCategory(linkedNote.getCategory());
+      } else {
+        note = getNote(linkedNote.getTextIdRef());
+      }
+
+      if (note != null) {
+        retVal = retVal + "  <div class= \"PRStartPrayerDecoration\"></div> " + "<div class= \"PRTitleLinkedSet\">" + note.getTitle() + "</div>" + note.getHTMLContent();
+      }
+    }
+    return retVal;
+  }
 
   /**
    * Getting All notes
@@ -485,6 +520,8 @@ public class DbHelper extends SQLiteOpenHelper {
           return getRandom();
         case Navigation.PRAYER_MERGED:
           return getPrayerMerged();
+        case Navigation.PRAYER_LINKED_SET:
+          return getPrayerLinkedSet();
         case Navigation.JKS:
         case Navigation.JKS_NUMBER_SEARCH:
         case Navigation.JKS_CATEGORIES:
@@ -558,6 +595,12 @@ public class DbHelper extends SQLiteOpenHelper {
     return getNotes(whereCondition, " RANDOM(), ", " LIMIT 1 ", true);
   }
 
+  public Note getRandomFromCategory(int categoryID) {
+    String whereCondition = " WHERE " + COL_MERGED_CATEGORY + " = " + categoryID + " AND " + COL_TEXT_NUMBER + " IS NULL AND "  + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT;
+    List<Note> notes = getNotes(whereCondition, " RANDOM(), ", " LIMIT 1 ", true);
+    return notes.isEmpty() ? null : notes.get(0);
+  }
+
   public List<Note> getFavorites() {
     String whereCondition = " WHERE " +  COL_UF_IS_FAVORITE +" = 1 AND "+ WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT;
     // String orderBy = " " + COL_LS_LAST_SHOWN_DATE + " DESC, ";
@@ -566,6 +609,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
   public List<Note> getPrayerMerged() {
     String whereCondition = " WHERE " + COL_PRAYER_MERGED + " = 1 AND "  + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT;
+    return getNotes(whereCondition, "", "", true);
+  }
+
+  public List<Note> getPrayerLinkedSet() {
+    String whereCondition = " WHERE " + COL_PRAYER_MERGED + " = 2 AND "  + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT;
     return getNotes(whereCondition, "", "", true);
   }
 
@@ -722,9 +770,38 @@ public class DbHelper extends SQLiteOpenHelper {
     return noteList;
   }
 
-  /**
-   * Duplicates single note
-   */
+  public List<NoteLink> getLinkedNotes(String whereCondition, String orderBy, String limit, boolean order) {
+    List<NoteLink> noteList = new ArrayList<>();
+
+    String query = "";
+    query = " SELECT " +  COL_LINKED_SET_ID + ", " + COL_LINKED_SET_HANDLE_ID_REF + ", " + COL_LINKED_SET_TEXT_ID_REF + ", " + COL_LINKED_SET_TEXT_ORDER +
+            ", "+ COL_LINKED_SET_TEXT_TYPE + ", "+ COL_LINKED_SET_TEXT_CATEGORY +
+            " FROM " +
+            " " + TBL_PRAYER_LINKED_SET + " " +
+            whereCondition +
+            " ORDER BY " + orderBy;
+
+    try (Cursor cursor = getDatabase().rawQuery(query, null)) {
+
+      // Looping through all rows and adding to list
+      if (cursor.moveToFirst()) {
+        do {
+          NoteLink noteLink = new NoteLink();
+
+          noteLink.setTextIdRef(cursor.getLong(cursor.getColumnIndex(COL_LINKED_SET_TEXT_ID_REF)));
+          noteLink.setTextType(cursor.getInt(cursor.getColumnIndex(COL_LINKED_SET_TEXT_TYPE)));
+          noteLink.setCategory(cursor.getInt(cursor.getColumnIndex(COL_LINKED_SET_TEXT_CATEGORY)));
+
+          noteList.add(noteLink);
+        } while (cursor.moveToNext());
+      }
+    }
+    return noteList;
+  }
+
+    /**
+     * Duplicates single note
+     */
   public void duplicateNote(Note note) {
     Note newNote = new Note(note);
     newNote.setHandleID(null);
@@ -1288,6 +1365,43 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
   /**
+   * Retrieves all linked sets as list from database
+   *
+   * @return List of categories
+   */
+  public ArrayList<Note> getLinkedSets() {
+    ArrayList<Note> notesList = new ArrayList<>();
+
+    String sql = " select " + COL_HANDLE_ID + ", " + COL_TITLE + ", " + COL_PRAYER_MERGED +
+            " FROM ( " +
+            " select * from " + ATTCH_PRAYERS +
+            " UNION " +
+            " select * from " + MAIN_PRAYERS +
+            " ) foo " +
+            " WHERE " + COL_PRAYER_MERGED + " = 2 " +
+            " ORDER BY " + COL_TITLE + " ASC ";
+
+    try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
+      // Looping through all rows and adding to list
+      if (cursor.moveToFirst()) {
+        do {
+          long noteId = cursor.getLong(cursor.getColumnIndex(COL_HANDLE_ID));
+          String noteTitle = cursor.getString(cursor.getColumnIndex(COL_TITLE)) ;
+
+          Note note = new Note();
+          note.setHandleID(noteId);
+          note.setTitle(noteTitle);
+
+          notesList.add(note);
+
+        } while (cursor.moveToNext());
+      }
+
+    }
+    return notesList;
+  }
+
+  /**
    * Retrieves statistics data based on app usage
    */
   public Stats getStats() {
@@ -1439,6 +1553,78 @@ public class DbHelper extends SQLiteOpenHelper {
   {
     SQLiteDatabase db = getDatabase(true);
     updateNoteFlags(db, note);
+  }
+
+
+  public void addNotesToPrayerSet(List<Note> noteList, Long parentNoteID)
+  {
+    SQLiteDatabase db = getDatabase(true);
+
+    for (Note note:noteList)
+    {
+      // do not allow insert another parent prayer set in prayer set
+      if (DbHelper.getInstance().isNoteParentLinkedSet(note.getHandleID()) == false)
+      {
+        ContentValues values = new ContentValues();
+        values.put(COL_LINKED_SET_HANDLE_ID_REF, parentNoteID);
+        values.put(COL_LINKED_SET_TEXT_ID_REF, note.getHandleID());
+        values.put(COL_LINKED_SET_TEXT_ORDER, 9999); // do not care, just big number, stack to the end, order could be arranged later
+        values.put(COL_LINKED_SET_TEXT_TYPE, 0);
+        values.put(COL_LINKED_SET_TEXT_CATEGORY, 0);
+
+        db.insertWithOnConflict(TBL_PRAYER_LINKED_SET, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
+      }
+    }
+
+  }
+
+  public boolean isNoteParentLinkedSet(Long parentNoteID)
+  {
+    boolean result = false;
+
+    String sql = " select " + COL_HANDLE_ID +  ", " + COL_PRAYER_MERGED +
+            " FROM ( " +
+            " select * from " + ATTCH_PRAYERS +
+            " UNION " +
+            " select * from " + MAIN_PRAYERS +
+            " ) foo " +
+            " WHERE " + COL_HANDLE_ID + " = " + parentNoteID;
+
+    try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
+      // only one row is expected
+      if (cursor.moveToFirst()) {
+        long mergedType = cursor.getLong(cursor.getColumnIndex(COL_PRAYER_MERGED));
+        if (mergedType == PRAYER_MERGED_LINKED_SET) {
+          result = true;
+        }
+      }
+    }
+
+  return  result;
+  }
+
+  public void updatePrayerSetNoteContent(Long parentNoteID) {
+    List<NoteLink> linkedNotes = getLinkedNotes(" WHERE " + COL_LINKED_SET_HANDLE_ID_REF + " = " + parentNoteID, COL_LINKED_SET_TEXT_ORDER, "", true);
+
+    String noteContent = "";
+    for (NoteLink linkedNote : linkedNotes) {
+      Note noteFromLinkedSet = getNote(linkedNote.getTextIdRef());
+      if (noteFromLinkedSet != null)
+      {
+        if (noteContent.isEmpty())
+        {
+          noteContent = noteFromLinkedSet.getTitle();
+        } else {
+          noteContent =  noteContent + ", " + noteFromLinkedSet.getTitle();
+        }
+      }
+    }
+
+    Note parentNote = getNote(parentNoteID);
+    parentNote.setContent(noteContent);
+    parentNote.setHTMLContent(noteContent);
+    updateNote(parentNote, false);
   }
 
 }

@@ -56,7 +56,7 @@ color: #ff6e12;
 	border-color: #5E5E40;	
 }
 
-.PRTitlePartSmall
+.PRTitlePartSmall, .PRTitleLinkedSet
 {
 	color: #91303d; 
 	background-color:#f8f9fa;

@@ -56,6 +56,7 @@ public class Navigation {
     public static final int JKS_NUMBER_SEARCH = 10;
     public static final int INTENTIONS = 11;
     public static final int JKS_CATEGORIES = 12;
+    public static final int PRAYER_LINKED_SET = 13;
     public static final int CATEGORY = 50;
 
     /**
@@ -83,6 +84,8 @@ public class Navigation {
             return RANDOM;
         } else if (navigationListCodes[PRAYER_MERGED].equals(navigation)) {
             return PRAYER_MERGED;
+        } else if (navigationListCodes[PRAYER_LINKED_SET].equals(navigation)) {
+            return PRAYER_LINKED_SET;
         } else if (navigationListCodes[JKS].equals(navigation)) {
             return JKS;
         } else if (navigationListCodes[JKS_NUMBER_SEARCH].equals(navigation)) {

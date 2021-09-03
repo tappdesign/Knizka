@@ -41,6 +41,7 @@ import pk.tappdesign.knizka.models.NavigationItem;
 import pk.tappdesign.knizka.models.adapters.NavDrawerAdapter;
 import pk.tappdesign.knizka.models.misc.DynamicNavigationLookupTable;
 import pk.tappdesign.knizka.models.views.NonScrollableListView;
+import pk.tappdesign.knizka.utils.ConstantsBase;
 import pk.tappdesign.knizka.utils.Navigation;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
@@ -175,6 +176,11 @@ public class MainMenuTask extends AsyncTask<Void, Void, List<NavigationItem>> {
         break;
       case Navigation.PRAYER_MERGED:
         if (dynamicMenu && dynamicNavigationLookupTable.getPrayerMerged() == 0) {
+          skippable = true;
+        }
+        break;
+      case Navigation.PRAYER_LINKED_SET:
+        if (dynamicMenu && dynamicNavigationLookupTable.getPrayerLinkedSet() == 0) {
           skippable = true;
         }
         break;

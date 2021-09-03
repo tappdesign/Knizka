@@ -42,6 +42,8 @@
     <string name="save">Save</string>
     <string name="share">Share</string>
     <string name="duplicate_note">Duplicate</string>
+    <string name="add_note_to_linked_set">Add to new linked set</string>
+    <string name="finish_open_linked_set">Finish open linked set</string>
     <string name="choose_color_scheme">Choose colors</string>
     <string name="undo">Undo</string>
     <string name="trash">Trash</string>
@@ -67,6 +69,7 @@
     <string name="empty_note_not_shared">Can\'t share an empty note</string>
     <string name="note_doesnt_exist">Note doesn\'t exists anymore</string>
     <string name="song_not_found">Song doesn\'t exists</string>
+    <string name="note_added_to_set">Note added to set</string>
     <string name="note_archived">Note archived</string>
     <string name="note_unarchived">Note restored from archive</string>
     <string name="note_duplicated">Note duplicated</string>
@@ -115,6 +118,12 @@
     <string name="click_to_refresh_application">Click to refresh application</string>
     <string name="backup_existing">Backup already exists. It\'ll be overwritten</string>
     <string name="remove_pinned">FATTO</string>
+    <string name="choose_prayer_set">Choose prayer set</string>
+    <string name="choose_prayer_set_name">Prayer Set Name</string>
+    <string name="btn_add_to_prayer_set">Add</string>
+    <string name="btn_new_prayer_set">New</string>
+    <string name="btn_dlg_cancel">Cancel</string>
+    <string name="edt_dlg_hint">Prayer set name</string>
     <string name="tag">Tag</string>
     <string name="tags">Tags</string>
     <string name="add_tag">Add tags</string>
@@ -261,6 +270,7 @@
     <string name="choose_html_color_scheme">Choose</string>
     <string name="dialog_html_color_scheme_caption">Choose color scheme for texts</string>
     <string name="dialog_JKS_categories_caption">Category of JKS songs</string>
+    <string name="dialog_choose_linked_set_caption">Choose linked set</string>
     <string name="dialog_button_cancel">Cancel</string>
 
     <!-- Settings -->

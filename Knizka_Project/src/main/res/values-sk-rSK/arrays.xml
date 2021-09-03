@@ -33,6 +33,7 @@
     <item>JKS - vyhľadanie piesne</item>
     <item>Úmysly</item>
     <item>JKS - Kategórie</item>
+    <item>Zostavy</item>
   </string-array>
 
   <string-array name="navigation_list_activity_caption">
@@ -49,6 +50,7 @@
     <item>JKS - vyhľadanie piesne</item>
     <item>Úmysly</item>
     <item>JKS - Kategórie</item>
+    <item>Zostavy</item>
   </string-array>
 
   <string-array name="jks_songs_category">

@@ -1364,7 +1364,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
 
    private void loadNoteToWebView() {
-       binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(noteTmp.getHandleID(), noteTmp.getTitle(), noteTmp.getHTMLContent()), null, null, null);
+      String noteContent;
+      if (noteTmp.getPrayerMerged() == ConstantsBase.PRAYER_MERGED_LINKED_SET)
+      {
+         noteContent = DbHelper.getInstance().getNoteContentForLinkedSet(noteTmp.getHandleID());
+      } else {
+         noteContent =  noteTmp.getHTMLContent();
+      }
+       binding.fragmentDetailContent.myweb.loadDataWithBaseURL("file:///android_asset/", HTMLProducer.getHTML(noteTmp.getHandleID(), noteTmp.getTitle(), noteContent), null, null, null);
    }
 
    private void changeHtmlColorScheme(int i) {

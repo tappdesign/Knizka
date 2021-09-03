@@ -21,6 +21,8 @@
 package pk.tappdesign.knizka;
 
 import static androidx.core.view.ViewCompat.animate;
+import static java.util.Arrays.asList;
+import static java.util.Collections.reverse;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_MERGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_POSTPONE;
@@ -37,6 +39,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MENU_SORT_GROUP_ID;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_LINKED_SET;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_YES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_EXPANDED_VIEW;
@@ -62,6 +66,7 @@ import static pk.tappdesign.knizka.utils.Navigation.JKS_CATEGORIES;
 import static pk.tappdesign.knizka.utils.Navigation.JKS_NUMBER_SEARCH;
 import static pk.tappdesign.knizka.utils.Navigation.LAST_SHOWN;
 import static pk.tappdesign.knizka.utils.Navigation.NOTES;
+import static pk.tappdesign.knizka.utils.Navigation.PRAYER_LINKED_SET;
 import static pk.tappdesign.knizka.utils.Navigation.PRAYER_MERGED;
 import static pk.tappdesign.knizka.utils.Navigation.RANDOM;
 import static pk.tappdesign.knizka.utils.Navigation.REMINDERS;
@@ -74,6 +79,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -98,6 +104,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.view.ActionMode;
 import androidx.appcompat.widget.SearchView;
 import androidx.appcompat.widget.SearchView.OnQueryTextListener;
@@ -128,32 +135,40 @@ import pk.tappdesign.knizka.async.notes.NoteProcessorCategorize;
 import pk.tappdesign.knizka.async.notes.NoteProcessorDelete;
 import pk.tappdesign.knizka.async.notes.NoteProcessorDuplicate;
 import pk.tappdesign.knizka.async.notes.NoteProcessorTrash;
+import pk.tappdesign.knizka.async.notes.SaveLinkedNoteTask;
+import pk.tappdesign.knizka.async.notes.SaveNoteTask;
 import pk.tappdesign.knizka.databinding.FragmentListBinding;
 import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.helpers.NotesHelper;
 import pk.tappdesign.knizka.models.Category;
 import pk.tappdesign.knizka.models.Note;
+import pk.tappdesign.knizka.models.NoteLink;
 import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.models.PasswordValidator;
 import pk.tappdesign.knizka.models.Tag;
 import pk.tappdesign.knizka.models.UndoBarController;
 import pk.tappdesign.knizka.models.adapters.CategoryRecyclerViewAdapter;
 import pk.tappdesign.knizka.models.adapters.NoteAdapter;
+import pk.tappdesign.knizka.models.listeners.OnLinkedNoteAdded;
 import pk.tappdesign.knizka.models.listeners.OnViewTouchedListener;
 import pk.tappdesign.knizka.models.listeners.RecyclerViewItemClickSupport;
 import pk.tappdesign.knizka.models.views.Fab;
 import pk.tappdesign.knizka.utils.AnimationsHelper;
+import pk.tappdesign.knizka.utils.ConstantsBase;
 import pk.tappdesign.knizka.utils.Display;
 import pk.tappdesign.knizka.utils.IntentChecker;
 import pk.tappdesign.knizka.utils.KeyboardUtils;
 import pk.tappdesign.knizka.utils.Navigation;
 import pk.tappdesign.knizka.utils.PasswordHelper;
 import pk.tappdesign.knizka.utils.ReminderHelper;
+import pk.tappdesign.knizka.utils.StorageHelper;
 import pk.tappdesign.knizka.utils.TagsHelper;
 import pk.tappdesign.knizka.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.feio.android.simplegallery.util.BitmapUtils;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -162,6 +177,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
 import android.text.Editable;
@@ -169,7 +186,7 @@ import android.text.TextWatcher;
 import android.widget.EditText;
 import pk.tappdesign.knizka.async.bus.NotesUpdatedEvent;
 
-public class ListFragment extends BaseFragment implements OnViewTouchedListener, UndoBarController.UndoListener {
+public class ListFragment extends BaseFragment implements OnViewTouchedListener, UndoBarController.UndoListener, OnLinkedNoteAdded {
 
   private static final int REQUEST_CODE_CATEGORY = 1;
   private static final int REQUEST_CODE_CATEGORY_NOTES = 2;
@@ -682,6 +699,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       case JKS_NUMBER_SEARCH:
       case JKS_CATEGORIES:
       case INTENTIONS:
+      case PRAYER_LINKED_SET:
         result = true;
         break;
       default:
@@ -724,6 +742,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       menu.findItem(R.id.menu_tags).setVisible(true);
       menu.findItem(R.id.menu_trash).setVisible(true);
       menu.findItem(R.id.menu_duplicate).setVisible(true);
+      //menu.findItem(R.id.menu_add_to_linked_set).setVisible(true);
+      menu.findItem(R.id.menu_add_to_linked_set).setVisible(false);   // not fully implemented now
     }
     menu.findItem(R.id.menu_select_all).setVisible(true);
     setCabTitle();
@@ -1042,6 +1062,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
         case R.id.menu_duplicate:
           duplicateNotes();
           break;
+        case R.id.menu_add_to_linked_set:
+          addNotesToLinkedSet();
+          break;
         case R.id.menu_search_jks_number:
           showDialogForNumbers();
           break;
@@ -1066,11 +1089,128 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     getSelectedNotes().clear();
   }
 
-
   private void duplicateNotes () {
     LogDelegate.d("Start duplicate notes");
     duplicateNote(getSelectedNotes());
   }
+
+  private void addNotesToLinkedSet () {
+    LogDelegate.d("Start additing notes to linked set");
+    showDialogForCategorySelecting();
+  }
+
+  private void saveToLinkedTask(Note note)
+  {
+    new SaveLinkedNoteTask(this, getSelectedNotes()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note.getHandleID());
+  }
+
+  private void getPrayerSetName(AlertDialog dialogParent)
+  {
+    MaterialAlertDialogBuilder chooseLinkedSetDialog = new MaterialAlertDialogBuilder(getActivity())
+            .setTitle(R.string.choose_prayer_set_name)
+            .setView(R.layout.dialog_edit_text)
+            .setPositiveButton(R.string.ok, (dialog, which) -> {
+
+            })
+            .setNegativeButton(R.string.btn_dlg_cancel, (dialog, which) -> {
+
+            });
+
+    AlertDialog dialogRef = chooseLinkedSetDialog.show();
+
+    EditText edtText = dialogRef.findViewById(R.id.edt_dialog_edit_text);
+    new Handler().postDelayed(() -> KeyboardUtils.showKeyboard(edtText), 100);
+
+    dialogRef.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+    dialogRef.getButton(DialogInterface.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener()
+    {
+      @Override
+      public void onClick(View v)
+      {
+        Note noteNew = new Note();
+        noteNew.setPackageID(PACKAGE_USER_ADDED);
+        noteNew.setPrayerMerged(PRAYER_MERGED_LINKED_SET);
+        noteNew.setTitle(edtText.getText().toString());
+        Note noteNewSaved = DbHelper.getInstance().updateNote(noteNew, false);
+        saveToLinkedTask(noteNewSaved);
+        dialogRef.dismiss();
+        if (dialogParent != null)
+        {
+          dialogParent.dismiss();
+        }
+      }
+
+    });
+    edtText.setHint(R.string.edt_dlg_hint);
+    edtText.addTextChangedListener(new TextWatcher() {
+
+      @Override
+      public void afterTextChanged(Editable s) {
+
+      }
+
+      @Override
+      public void beforeTextChanged(CharSequence s, int start,
+                                    int count, int after) {
+      }
+
+      @Override
+      public void onTextChanged(CharSequence s, int start,
+                                int before, int count) {
+        if(s.length() == 0)
+        {
+          dialogRef.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+        } else {
+          dialogRef.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
+        }
+      }
+    });
+
+  }
+
+  private void showDialogForCategorySelecting() {
+
+    final ArrayList<Note> linkedSets = DbHelper.getInstance().getLinkedSets();
+
+    List<String> list = new ArrayList<>();
+
+    for (Note note : linkedSets) {
+      list.add(note.getTitle());
+    }
+
+    MaterialAlertDialogBuilder chooseLinkedSetDialog = new MaterialAlertDialogBuilder(getActivity())
+            .setTitle(R.string.choose_prayer_set)
+            .setSingleChoiceItems(list.toArray(new CharSequence[list.size()]), -1, (dialog, position) -> {
+              ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
+            })
+            .setPositiveButton(R.string.btn_add_to_prayer_set, (dialog, which) -> {
+              int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+              if (position >= 0) {
+                Note note = linkedSets.get(position);
+              //  note.getTitle();
+              //  NoteLink noteLink = new NoteLink();
+               // noteLink.setLinkID(note.getHandleID());
+
+                saveToLinkedTask(note);
+                //new SaveLinkedNoteTask(this, getSelectedNotes()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note.getHandleID());
+              }
+            })
+            .setNegativeButton(R.string.btn_new_prayer_set, (dialog, which) -> {
+             // onClickListener will be added later, to avoid autodismiss of dialog
+            });
+
+    AlertDialog dialogRef = chooseLinkedSetDialog.show();
+    dialogRef.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+    dialogRef.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener()
+    {
+      @Override
+      public void onClick(View v)
+      {
+        getPrayerSetName((AlertDialog)dialogRef);
+      }
+    });
+  }
+
 
   private void addReminders () {
     Intent intent = new Intent(Knizka.getAppContext(), SnoozeActivity.class);
@@ -1096,7 +1236,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void showDialogForCategories () {
-    
+
     MaterialAlertDialogBuilder importDialog = new MaterialAlertDialogBuilder(getActivity())
             .setTitle(R.string.dialog_JKS_categories_caption)
             .setItems(getResources().getStringArray(R.array.jks_songs_category), (dialog, position) -> {
@@ -2238,5 +2378,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     return isAllowed;
   }
 
+  @Override
+  public void onLinkedNoteAdded()
+  {
+    finishActionMode();
+    getSelectedNotes().clear();
+    mainActivity.showMessage(R.string.note_added_to_set, ONStyle.INFO);
+  }
 
 }
