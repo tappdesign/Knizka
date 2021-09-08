@@ -26,7 +26,9 @@ import android.os.AsyncTask;
 
 import java.util.List;
 
+import de.greenrobot.event.EventBus;
 import pk.tappdesign.knizka.Knizka;
+import pk.tappdesign.knizka.async.bus.NotesUpdatedEvent;
 import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.models.listeners.OnLinkedNoteAdded;
@@ -59,10 +61,6 @@ public class SaveLinkedNoteTask extends AsyncTask<Long, Void, Void> {
       return null;
    }
 
-
-
-
-
    @Override
    protected void onPostExecute(Void note) {
       super.onPostExecute(note);
@@ -70,5 +68,7 @@ public class SaveLinkedNoteTask extends AsyncTask<Long, Void, Void> {
 
          mOnNoteSaved.onLinkedNoteAdded();
       }
+      EventBus.getDefault().post(new NotesUpdatedEvent(null)); // tu refresh navigation drawer
    }
+
 }

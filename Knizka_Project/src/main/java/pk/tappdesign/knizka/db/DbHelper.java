@@ -24,6 +24,7 @@ import static pk.tappdesign.knizka.db.DBConst.DB_VERSION_USER_DATA;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.LINKED_NOTE_TYPE_RANDOM_CATEGORY;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_ADDED;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_INTENT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_LINKED_SET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_FILTER_ARCHIVED_IN_CATEGORIES;
@@ -474,7 +475,7 @@ public class DbHelper extends SQLiteOpenHelper {
    */
   public String getNoteContentForLinkedSet(long id) {
     String retVal = "";
-    List<NoteLink> linkedNotes = getLinkedNotes(" WHERE " + COL_LINKED_SET_HANDLE_ID_REF + " = " + id, COL_LINKED_SET_TEXT_ORDER, "", true);
+    List<NoteLink> linkedNotes = getLinkedNotes(id, COL_LINKED_SET_TEXT_ORDER, "", true);
     for (NoteLink linkedNote : linkedNotes) {
       Note note = null;
       if (linkedNote.getTextType() == LINKED_NOTE_TYPE_RANDOM_CATEGORY) {
@@ -770,9 +771,10 @@ public class DbHelper extends SQLiteOpenHelper {
     return noteList;
   }
 
-  public List<NoteLink> getLinkedNotes(String whereCondition, String orderBy, String limit, boolean order) {
+  public List<NoteLink> getLinkedNotes(long  parentNoteID, String orderBy, String limit, boolean order) {
     List<NoteLink> noteList = new ArrayList<>();
 
+    String whereCondition = " WHERE " + COL_LINKED_SET_HANDLE_ID_REF + " = " + parentNoteID;
     String query = "";
     query = " SELECT " +  COL_LINKED_SET_ID + ", " + COL_LINKED_SET_HANDLE_ID_REF + ", " + COL_LINKED_SET_TEXT_ID_REF + ", " + COL_LINKED_SET_TEXT_ORDER +
             ", "+ COL_LINKED_SET_TEXT_TYPE + ", "+ COL_LINKED_SET_TEXT_CATEGORY +
@@ -799,24 +801,35 @@ public class DbHelper extends SQLiteOpenHelper {
     return noteList;
   }
 
-    /**
-     * Duplicates single note
-     */
-  public void duplicateNote(Note note) {
+  /**
+   * Duplicates single note
+   */
+  public Note duplicateNote(Note note) {
     Note newNote = new Note(note);
+
     newNote.setHandleID(null);
     newNote.setCreation("");
     newNote.setLastModification("");
-    newNote.setTitle(note.getTitle() +  Knizka.getAppContext().getString(R.string.note_duplicate_title_text));
+    newNote.setTitle(note.getTitle() + Knizka.getAppContext().getString(R.string.note_duplicate_title_text));
+
+    if (note.getPrayerMerged() == PRAYER_MERGED_LINKED_SET) {
+      newNote.setPackageID(PACKAGE_USER_ADDED);
+      newNote.setPrayerMerged(PRAYER_MERGED_LINKED_SET);
+    } else {
+      if (note.getPackageID() <= ConstantsBase.PACKAGE_SYSTEM) {
+        newNote.setPackageID(ConstantsBase.PACKAGE_USER_ADDED);
+      }
+    }
+
+    Note noteNewSaved = DbHelper.getInstance().updateNote(newNote, true);
 
     duplicateAttachments(note, newNote);
 
-    if (note.getPackageID() <= ConstantsBase.PACKAGE_SYSTEM)
-    {
-      newNote.setPackageID(ConstantsBase.PACKAGE_USER_ADDED);
-    }
-    updateNote(newNote, true);
+    copyLinkedNotesToPrayerSet(note, noteNewSaved);
+
+    return noteNewSaved;
   }
+
 
   public void duplicateAttachments(Note sourceNote, Note duplicatedNote) {
 
@@ -1555,28 +1568,36 @@ public class DbHelper extends SQLiteOpenHelper {
     updateNoteFlags(db, note);
   }
 
-
-  public void addNotesToPrayerSet(List<Note> noteList, Long parentNoteID)
+  public void insertNoteToLinkedSet(Long parentNoteID, Long textIdRef)
   {
     SQLiteDatabase db = getDatabase(true);
 
-    for (Note note:noteList)
-    {
+    ContentValues values = new ContentValues();
+    values.put(COL_LINKED_SET_HANDLE_ID_REF, parentNoteID);
+    values.put(COL_LINKED_SET_TEXT_ID_REF, textIdRef);
+    values.put(COL_LINKED_SET_TEXT_ORDER, 9999); // do not care, just big number, stack to the end, order could be arranged later
+    values.put(COL_LINKED_SET_TEXT_TYPE, 0);
+    values.put(COL_LINKED_SET_TEXT_CATEGORY, 0);
+
+    db.insertWithOnConflict(TBL_PRAYER_LINKED_SET, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+
+  }
+
+  public void copyLinkedNotesToPrayerSet(Note sourceNote, Note newNote) {
+    List<NoteLink> linkedNotes = getLinkedNotes(sourceNote.getHandleID(), COL_LINKED_SET_TEXT_ORDER, "", true);
+    for (NoteLink linkedNote : linkedNotes) {
+      insertNoteToLinkedSet(newNote.getHandleID(), linkedNote.getTextIdRef());
+    }
+  }
+
+  public void addNotesToPrayerSet(List<Note> noteList, Long parentNoteID) {
+
+    for (Note note : noteList) {
       // do not allow insert another parent prayer set in prayer set
-      if (DbHelper.getInstance().isNoteParentLinkedSet(note.getHandleID()) == false)
-      {
-        ContentValues values = new ContentValues();
-        values.put(COL_LINKED_SET_HANDLE_ID_REF, parentNoteID);
-        values.put(COL_LINKED_SET_TEXT_ID_REF, note.getHandleID());
-        values.put(COL_LINKED_SET_TEXT_ORDER, 9999); // do not care, just big number, stack to the end, order could be arranged later
-        values.put(COL_LINKED_SET_TEXT_TYPE, 0);
-        values.put(COL_LINKED_SET_TEXT_CATEGORY, 0);
-
-        db.insertWithOnConflict(TBL_PRAYER_LINKED_SET, null, values, SQLiteDatabase.CONFLICT_REPLACE);
-
+      if (DbHelper.getInstance().isNoteParentLinkedSet(note.getHandleID()) == false) {
+        insertNoteToLinkedSet(parentNoteID, note.getHandleID());
       }
     }
-
   }
 
   public boolean isNoteParentLinkedSet(Long parentNoteID)
@@ -1605,7 +1626,7 @@ public class DbHelper extends SQLiteOpenHelper {
   }
 
   public void updatePrayerSetNoteContent(Long parentNoteID) {
-    List<NoteLink> linkedNotes = getLinkedNotes(" WHERE " + COL_LINKED_SET_HANDLE_ID_REF + " = " + parentNoteID, COL_LINKED_SET_TEXT_ORDER, "", true);
+    List<NoteLink> linkedNotes = getLinkedNotes(parentNoteID, COL_LINKED_SET_TEXT_ORDER, "", true);
 
     String noteContent = "";
     for (NoteLink linkedNote : linkedNotes) {

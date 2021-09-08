@@ -21,8 +21,6 @@
 package pk.tappdesign.knizka;
 
 import static androidx.core.view.ViewCompat.animate;
-import static java.util.Arrays.asList;
-import static java.util.Collections.reverse;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_MERGE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_POSTPONE;
@@ -40,7 +38,6 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MENU_SORT_GROUP_ID;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_LINKED_SET;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_YES;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_EXPANDED_VIEW;
@@ -136,14 +133,12 @@ import pk.tappdesign.knizka.async.notes.NoteProcessorDelete;
 import pk.tappdesign.knizka.async.notes.NoteProcessorDuplicate;
 import pk.tappdesign.knizka.async.notes.NoteProcessorTrash;
 import pk.tappdesign.knizka.async.notes.SaveLinkedNoteTask;
-import pk.tappdesign.knizka.async.notes.SaveNoteTask;
 import pk.tappdesign.knizka.databinding.FragmentListBinding;
 import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.helpers.NotesHelper;
 import pk.tappdesign.knizka.models.Category;
 import pk.tappdesign.knizka.models.Note;
-import pk.tappdesign.knizka.models.NoteLink;
 import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.models.PasswordValidator;
 import pk.tappdesign.knizka.models.Tag;
@@ -155,20 +150,17 @@ import pk.tappdesign.knizka.models.listeners.OnViewTouchedListener;
 import pk.tappdesign.knizka.models.listeners.RecyclerViewItemClickSupport;
 import pk.tappdesign.knizka.models.views.Fab;
 import pk.tappdesign.knizka.utils.AnimationsHelper;
-import pk.tappdesign.knizka.utils.ConstantsBase;
 import pk.tappdesign.knizka.utils.Display;
 import pk.tappdesign.knizka.utils.IntentChecker;
 import pk.tappdesign.knizka.utils.KeyboardUtils;
 import pk.tappdesign.knizka.utils.Navigation;
 import pk.tappdesign.knizka.utils.PasswordHelper;
 import pk.tappdesign.knizka.utils.ReminderHelper;
-import pk.tappdesign.knizka.utils.StorageHelper;
 import pk.tappdesign.knizka.utils.TagsHelper;
 import pk.tappdesign.knizka.utils.TextHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
 import it.feio.android.simplegallery.util.BitmapUtils;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -178,7 +170,6 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
 import android.text.Editable;
@@ -742,8 +733,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
       menu.findItem(R.id.menu_tags).setVisible(true);
       menu.findItem(R.id.menu_trash).setVisible(true);
       menu.findItem(R.id.menu_duplicate).setVisible(true);
-      //menu.findItem(R.id.menu_add_to_linked_set).setVisible(true);
-      menu.findItem(R.id.menu_add_to_linked_set).setVisible(false);   // not fully implemented now
+      menu.findItem(R.id.menu_add_to_linked_set).setVisible(true);
     }
     menu.findItem(R.id.menu_select_all).setVisible(true);
     setCabTitle();
@@ -1096,7 +1086,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   private void addNotesToLinkedSet () {
     LogDelegate.d("Start additing notes to linked set");
-    showDialogForCategorySelecting();
+    showDialogForPrayerSetSelecting();
   }
 
   private void saveToLinkedTask(Note note)
@@ -1168,47 +1158,45 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
   }
 
-  private void showDialogForCategorySelecting() {
+  private void showDialogForPrayerSetSelecting() {
 
     final ArrayList<Note> linkedSets = DbHelper.getInstance().getLinkedSets();
 
-    List<String> list = new ArrayList<>();
+    List<String> listOfPrayerSets = new ArrayList<>();
 
     for (Note note : linkedSets) {
-      list.add(note.getTitle());
+      listOfPrayerSets.add(note.getTitle());
     }
-
-    MaterialAlertDialogBuilder chooseLinkedSetDialog = new MaterialAlertDialogBuilder(getActivity())
-            .setTitle(R.string.choose_prayer_set)
-            .setSingleChoiceItems(list.toArray(new CharSequence[list.size()]), -1, (dialog, position) -> {
-              ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
-            })
-            .setPositiveButton(R.string.btn_add_to_prayer_set, (dialog, which) -> {
-              int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
-              if (position >= 0) {
-                Note note = linkedSets.get(position);
-              //  note.getTitle();
-              //  NoteLink noteLink = new NoteLink();
-               // noteLink.setLinkID(note.getHandleID());
-
-                saveToLinkedTask(note);
-                //new SaveLinkedNoteTask(this, getSelectedNotes()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note.getHandleID());
-              }
-            })
-            .setNegativeButton(R.string.btn_new_prayer_set, (dialog, which) -> {
-             // onClickListener will be added later, to avoid autodismiss of dialog
-            });
-
-    AlertDialog dialogRef = chooseLinkedSetDialog.show();
-    dialogRef.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
-    dialogRef.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener()
+    if (listOfPrayerSets.isEmpty())
     {
-      @Override
-      public void onClick(View v)
-      {
-        getPrayerSetName((AlertDialog)dialogRef);
-      }
-    });
+      getPrayerSetName(null);
+    } else {
+      MaterialAlertDialogBuilder chooseLinkedSetDialog = new MaterialAlertDialogBuilder(getActivity())
+              .setTitle(R.string.choose_prayer_set)
+              .setSingleChoiceItems(listOfPrayerSets.toArray(new CharSequence[listOfPrayerSets.size()]), -1, (dialog, position) -> {
+                ((AlertDialog) dialog).getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(true);
+              })
+              .setPositiveButton(R.string.btn_add_to_prayer_set, (dialog, which) -> {
+                int position = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
+                if (position >= 0) {
+                  Note note = linkedSets.get(position);
+
+                  saveToLinkedTask(note);
+                }
+              })
+              .setNegativeButton(R.string.btn_new_prayer_set, (dialog, which) -> {
+                // onClickListener will be added later, to avoid autodismiss of dialog
+              });
+
+      AlertDialog dialogRef = chooseLinkedSetDialog.show();
+      dialogRef.getButton(DialogInterface.BUTTON_POSITIVE).setEnabled(false);
+      dialogRef.getButton(DialogInterface.BUTTON_NEGATIVE).setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+          getPrayerSetName((AlertDialog) dialogRef);
+        }
+      });
+    }
   }
 
 
@@ -2381,8 +2369,9 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
   @Override
   public void onLinkedNoteAdded()
   {
-    finishActionMode();
     getSelectedNotes().clear();
+    finishActionMode();
+    initNotesList(mainActivity.getIntent()); // refresh note list
     mainActivity.showMessage(R.string.note_added_to_set, ONStyle.INFO);
   }
 
