@@ -118,6 +118,8 @@
     <string name="click_to_refresh_application">Click to refresh application</string>
     <string name="backup_existing">Backup already exists. It\'ll be overwritten</string>
     <string name="remove_pinned">FATTO</string>
+    <string name="dialog_title_warning">Warning</string>
+    <string name="dialog_message_SystemSet">System prayer sets cannot be modified directly.\nCopy of prayer set was created.</string>
     <string name="choose_prayer_set">Choose prayer set</string>
     <string name="choose_prayer_set_name">Prayer Set Name</string>
     <string name="btn_add_to_prayer_set">Add</string>

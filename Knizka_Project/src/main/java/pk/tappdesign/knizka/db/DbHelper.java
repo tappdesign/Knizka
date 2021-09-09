@@ -1385,7 +1385,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public ArrayList<Note> getLinkedSets() {
     ArrayList<Note> notesList = new ArrayList<>();
 
-    String sql = " select " + COL_HANDLE_ID + ", " + COL_TITLE + ", " + COL_PRAYER_MERGED +
+    String sql = " select " + COL_HANDLE_ID + ", " + COL_TITLE + ", " + COL_PRAYER_MERGED +  ", " + COL_PACKAGE_ID +
             " FROM ( " +
             " select * from " + ATTCH_PRAYERS +
             " UNION " +
@@ -1398,12 +1398,12 @@ public class DbHelper extends SQLiteOpenHelper {
       // Looping through all rows and adding to list
       if (cursor.moveToFirst()) {
         do {
-          long noteId = cursor.getLong(cursor.getColumnIndex(COL_HANDLE_ID));
-          String noteTitle = cursor.getString(cursor.getColumnIndex(COL_TITLE)) ;
 
           Note note = new Note();
-          note.setHandleID(noteId);
-          note.setTitle(noteTitle);
+          note.setHandleID(cursor.getLong(cursor.getColumnIndex(COL_HANDLE_ID)));
+          note.setTitle(cursor.getString(cursor.getColumnIndex(COL_TITLE)));
+          note.setPackageID(cursor.getLong(cursor.getColumnIndex(COL_PACKAGE_ID)));
+          note.setPrayerMerged(cursor.getLong(cursor.getColumnIndex(COL_PRAYER_MERGED)));
 
           notesList.add(note);
 

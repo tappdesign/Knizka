@@ -35,6 +35,6 @@ public interface DBConst {
     String DB_ASSETS_FILE_USER_DATA = DB_ASSETS_DIR + DB_USER_DATA;
 
     int DB_VERSION_ATTACHED = 13;
-    int DB_VERSION_USER_DATA = 2;
+    int DB_VERSION_USER_DATA = 3;
 
 }

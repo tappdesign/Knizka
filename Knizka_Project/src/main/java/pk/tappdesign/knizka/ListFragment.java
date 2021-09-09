@@ -37,6 +37,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_WIDGET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NAME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.JKS_SORTING_TYPE_NUMBER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MENU_SORT_GROUP_ID;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_SYSTEM;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_LINKED_SET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_SWIPE_DEFAULT;
@@ -1089,8 +1090,23 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     showDialogForPrayerSetSelecting();
   }
 
+  private void showSystemSetWarningDialog()
+  {
+    MaterialAlertDialogBuilder warningDialog = new MaterialAlertDialogBuilder(getActivity())
+            .setTitle(R.string.dialog_title_warning)
+            .setMessage(R.string.dialog_message_SystemSet)
+            .setPositiveButton(R.string.ok, (dialog, which) -> {
+            });
+    warningDialog.show();
+  }
+
   private void saveToLinkedTask(Note note)
   {
+    if (note.getPackageID() == PACKAGE_SYSTEM)
+    {
+      note = DbHelper.getInstance().duplicateNote(note);
+      showSystemSetWarningDialog();
+    }
     new SaveLinkedNoteTask(this, getSelectedNotes()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note.getHandleID());
   }
 
