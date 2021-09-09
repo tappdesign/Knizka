@@ -1593,8 +1593,12 @@ public class DbHelper extends SQLiteOpenHelper {
   public void addNotesToPrayerSet(List<Note> noteList, Long parentNoteID) {
 
     for (Note note : noteList) {
-      // do not allow insert another parent prayer set in prayer set
-      if (DbHelper.getInstance().isNoteParentLinkedSet(note.getHandleID()) == false) {
+      if (DbHelper.getInstance().isNoteParentLinkedSet(note.getHandleID())) {
+        List<NoteLink> linkedNotes = getLinkedNotes(note.getHandleID(), COL_LINKED_SET_TEXT_ORDER, "", true);
+        for (NoteLink linkedNote : linkedNotes) {
+          insertNoteToLinkedSet(parentNoteID, linkedNote.getTextIdRef());
+        }
+      } else {
         insertNoteToLinkedSet(parentNoteID, note.getHandleID());
       }
     }
