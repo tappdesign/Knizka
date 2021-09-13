@@ -76,6 +76,7 @@ import pk.tappdesign.knizka.models.Category;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.utils.FileProviderHelper;
+import pk.tappdesign.knizka.utils.PKStringUtils;
 import pk.tappdesign.knizka.utils.PasswordHelper;
 import pk.tappdesign.knizka.utils.SystemHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
@@ -530,9 +531,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
     String titleText = note.getTitle();
 
-   // String contentText = titleText + System.getProperty("line.separator") + note.getContent();
-
-    String contentText = note.getContent();
+    String contentText = PKStringUtils.stripHTML(DbHelper.getInstance().getNoteContentForShare(note));
 
     Intent shareIntent = new Intent();
     // Prepare sharing intent with only text

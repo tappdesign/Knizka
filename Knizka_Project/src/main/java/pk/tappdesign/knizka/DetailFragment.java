@@ -1368,6 +1368,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       if (noteTmp.getPrayerMerged() == ConstantsBase.PRAYER_MERGED_LINKED_SET)
       {
          noteContent = DbHelper.getInstance().getNoteContentForLinkedSet(noteTmp.getHandleID());
+         noteTmp.setHTMLContent(noteContent);
       } else {
          noteContent =  noteTmp.getHTMLContent();
       }

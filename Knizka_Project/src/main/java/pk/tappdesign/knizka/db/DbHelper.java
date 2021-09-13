@@ -491,6 +491,22 @@ public class DbHelper extends SQLiteOpenHelper {
     return retVal;
   }
 
+  public String getNoteContentForShare(Note note) {
+    String result = "";
+
+    if (note.getPrayerMerged() == ConstantsBase.PRAYER_MERGED_LINKED_SET)
+    {
+      result = DbHelper.getInstance().getNoteContentForLinkedSet(note.getHandleID());
+    } else {
+      Note dbNote = getNote(note.getHandleID());
+      if (dbNote != null)
+      {
+        result =  dbNote.getHTMLContent();
+      }
+    }
+    return result;
+  }
+
   /**
    * Getting All notes
    *
@@ -791,6 +807,7 @@ public class DbHelper extends SQLiteOpenHelper {
           NoteLink noteLink = new NoteLink();
 
           noteLink.setTextIdRef(cursor.getLong(cursor.getColumnIndex(COL_LINKED_SET_TEXT_ID_REF)));
+          noteLink.setTextOrder(cursor.getInt(cursor.getColumnIndex(COL_LINKED_SET_TEXT_ORDER)));
           noteLink.setTextType(cursor.getInt(cursor.getColumnIndex(COL_LINKED_SET_TEXT_TYPE)));
           noteLink.setCategory(cursor.getInt(cursor.getColumnIndex(COL_LINKED_SET_TEXT_CATEGORY)));
 
@@ -875,6 +892,7 @@ public class DbHelper extends SQLiteOpenHelper {
     {
       db.delete(MAIN_PRAYERS, COL_HANDLE_ID + " = ?", new String[]{String.valueOf(note.getHandleID())});
       db.delete(TBL_USER_FLAGS, COL_HANDLE_ID_REF + " = ?", new String[]{String.valueOf(note.getHandleID())});
+      db.delete(TBL_PRAYER_LINKED_SET, COL_LINKED_SET_HANDLE_ID_REF + " = ?", new String[]{String.valueOf(note.getHandleID())});
     } else {
       // mark prayer as deleted, if it is not a "system" - bundled prayer
       ContentValues values = new ContentValues();
@@ -1568,16 +1586,16 @@ public class DbHelper extends SQLiteOpenHelper {
     updateNoteFlags(db, note);
   }
 
-  public void insertNoteToLinkedSet(Long parentNoteID, Long textIdRef)
+  public void insertNoteToLinkedSet(Long parentNoteID, NoteLink linkedNote)
   {
     SQLiteDatabase db = getDatabase(true);
 
     ContentValues values = new ContentValues();
     values.put(COL_LINKED_SET_HANDLE_ID_REF, parentNoteID);
-    values.put(COL_LINKED_SET_TEXT_ID_REF, textIdRef);
-    values.put(COL_LINKED_SET_TEXT_ORDER, 9999); // do not care, just big number, stack to the end, order could be arranged later
-    values.put(COL_LINKED_SET_TEXT_TYPE, 0);
-    values.put(COL_LINKED_SET_TEXT_CATEGORY, 0);
+    values.put(COL_LINKED_SET_TEXT_ID_REF, linkedNote.getTextIdRef());
+    values.put(COL_LINKED_SET_TEXT_ORDER, linkedNote.getTextOrder());
+    values.put(COL_LINKED_SET_TEXT_TYPE, linkedNote.getTextType());
+    values.put(COL_LINKED_SET_TEXT_CATEGORY, linkedNote.getCategory());
 
     db.insertWithOnConflict(TBL_PRAYER_LINKED_SET, null, values, SQLiteDatabase.CONFLICT_REPLACE);
 
@@ -1586,7 +1604,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public void copyLinkedNotesToPrayerSet(Note sourceNote, Note newNote) {
     List<NoteLink> linkedNotes = getLinkedNotes(sourceNote.getHandleID(), COL_LINKED_SET_TEXT_ORDER, "", true);
     for (NoteLink linkedNote : linkedNotes) {
-      insertNoteToLinkedSet(newNote.getHandleID(), linkedNote.getTextIdRef());
+      insertNoteToLinkedSet(newNote.getHandleID(), linkedNote);
     }
   }
 
@@ -1596,10 +1614,15 @@ public class DbHelper extends SQLiteOpenHelper {
       if (DbHelper.getInstance().isNoteParentLinkedSet(note.getHandleID())) {
         List<NoteLink> linkedNotes = getLinkedNotes(note.getHandleID(), COL_LINKED_SET_TEXT_ORDER, "", true);
         for (NoteLink linkedNote : linkedNotes) {
-          insertNoteToLinkedSet(parentNoteID, linkedNote.getTextIdRef());
+          insertNoteToLinkedSet(parentNoteID, linkedNote);
         }
       } else {
-        insertNoteToLinkedSet(parentNoteID, note.getHandleID());
+        NoteLink linkedNote = new NoteLink();
+        linkedNote.setTextIdRef(note.getHandleID());
+        linkedNote.setTextOrder(9999);
+        linkedNote.setCategory(0);
+        linkedNote.setTextType(0);
+        insertNoteToLinkedSet(parentNoteID, linkedNote);
       }
     }
   }
