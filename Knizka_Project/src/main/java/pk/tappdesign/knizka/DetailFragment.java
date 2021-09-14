@@ -135,6 +135,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
@@ -172,6 +173,7 @@ import pk.tappdesign.knizka.models.WebViewTouchListener;
 import pk.tappdesign.knizka.models.adapters.AttachmentAdapter;
 import pk.tappdesign.knizka.models.adapters.CategoryRecyclerViewAdapter;
 import pk.tappdesign.knizka.models.adapters.PlacesAutoCompleteAdapter;
+import pk.tappdesign.knizka.models.adapters.PrayerSetListAdapter;
 import pk.tappdesign.knizka.models.listeners.OnAttachingFileListener;
 import pk.tappdesign.knizka.models.listeners.OnGeoUtilResultListener;
 import pk.tappdesign.knizka.models.listeners.OnNoteSaved;
@@ -216,6 +218,8 @@ import android.content.res.TypedArray;
 import androidx.fragment.app.FragmentManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.webkit.JavascriptInterface;
 import android.webkit.WebView;
@@ -1045,6 +1049,21 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       loadNoteToWebView();
    }
 
+   private void showListPrayerSet()
+   {
+       binding.fragmentDetailContent.recyclerView.setVisibility(View.VISIBLE);
+      // Setup D&D feature and RecyclerView
+      RecyclerViewDragDropManager dragMgr = new RecyclerViewDragDropManager();
+
+      dragMgr.setInitiateOnMove(false);
+      dragMgr.setInitiateOnLongPress(true);
+
+      binding.fragmentDetailContent.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+      binding.fragmentDetailContent.recyclerView.setAdapter(dragMgr.createWrappedAdapter(new PrayerSetListAdapter()));
+
+      dragMgr.attachRecyclerView(binding.fragmentDetailContent.recyclerView);
+   }
+
    private void showProperItem() {
       boolean newNote = noteTmp.get_id() == null;
       View contentView = binding.detailRoot.findViewById(R.id.detail_content);
@@ -1059,8 +1078,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          binding.fragmentDetailContent.myweb.setVisibility(View.VISIBLE);
          contentView.setVisibility(View.GONE);
          tileCard.setVisibility(View.GONE);
-
       }
+      showListPrayerSet();
    }
 
    @Override
