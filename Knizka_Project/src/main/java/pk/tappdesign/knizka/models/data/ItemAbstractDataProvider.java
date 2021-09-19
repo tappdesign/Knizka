@@ -19,18 +19,34 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package pk.tappdesign.knizka.models.holders;
+package pk.tappdesign.knizka.models.data;
 
-import android.view.View;
-import android.widget.TextView;
+public abstract class ItemAbstractDataProvider {
 
-import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractDraggableItemViewHolder;
+   public static abstract class Data {
+      public abstract long getId();
 
-public class PrayerSetItemViewHolder extends AbstractDraggableItemViewHolder {
-   public TextView textView;
+      public abstract boolean isSectionHeader();
 
-   public PrayerSetItemViewHolder(View itemView) {
-      super(itemView);
-      textView = itemView.findViewById(android.R.id.text1);
+      public abstract int getViewType();
+
+      public abstract String getText();
+
+      public abstract void setPinned(boolean pinned);
+
+      public abstract boolean isPinned();
    }
+
+   public abstract int getCount();
+
+   public abstract Data getItem(int index);
+
+   public abstract void removeItem(int position);
+
+   public abstract void moveItem(int fromPosition, int toPosition);
+
+   public abstract void swapItem(int fromPosition, int toPosition);
+
+   public abstract int undoLastRemoval();
 }
+

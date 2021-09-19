@@ -96,12 +96,14 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.NinePatchDrawable;
 import android.location.Location;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
@@ -127,7 +129,6 @@ import android.webkit.WebChromeClient;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.ScrollView;
 import android.widget.Toast;
 import androidx.core.content.ContextCompat;
 import androidx.core.util.Pair;
@@ -135,7 +136,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.google.android.material.snackbar.Snackbar;
+import com.h6ah4i.android.widget.advrecyclerview.animator.DraggableItemAnimator;
+import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
+import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.draggable.RecyclerViewDragDropManager;
+import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
+import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager;
 import com.neopixl.pixlui.components.edittext.EditText;
 import com.pixplicity.easyprefs.library.Prefs;
 import com.pushbullet.android.extension.MessagingExtension;
@@ -172,8 +180,10 @@ import pk.tappdesign.knizka.models.Tag;
 import pk.tappdesign.knizka.models.WebViewTouchListener;
 import pk.tappdesign.knizka.models.adapters.AttachmentAdapter;
 import pk.tappdesign.knizka.models.adapters.CategoryRecyclerViewAdapter;
+import pk.tappdesign.knizka.models.adapters.DraggableSwipeableAdapter;
 import pk.tappdesign.knizka.models.adapters.PlacesAutoCompleteAdapter;
-import pk.tappdesign.knizka.models.adapters.PrayerSetListAdapter;
+import pk.tappdesign.knizka.models.data.ItemAbstractDataProvider;
+import pk.tappdesign.knizka.models.data.PrayerSetItemDataProvider;
 import pk.tappdesign.knizka.models.listeners.OnAttachingFileListener;
 import pk.tappdesign.knizka.models.listeners.OnGeoUtilResultListener;
 import pk.tappdesign.knizka.models.listeners.OnNoteSaved;
@@ -219,6 +229,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import android.webkit.JavascriptInterface;
@@ -316,6 +327,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    private final ViewTreeObserver.OnWindowFocusChangeListener focusHandler = this::onWindowFocusChanged;
    Handler hideUITimeoutHandler = new Handler();
 
+   private RecyclerView prayerSetRecyclerView;
+   private PrayerSetItemDataProvider prayerSetDataProvider;
+
    @Override
    public void onCreate(Bundle savedInstanceState) {
       super.onCreate(savedInstanceState);
@@ -380,6 +394,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       } else {
          mainActivity.getDrawerLayout().setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
       }
+
 
     restoreTempNoteAfterOrientationChange(savedInstanceState);
 
@@ -474,6 +489,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       orientationChanged = savedInstanceState.getBoolean("orientationChanged");
       notesIdsInListView = savedInstanceState.getStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER);
       titleForBrowsing =  savedInstanceState.getString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER);
+      prayerSetDataProvider = savedInstanceState.getParcelable("prayerItemData");
     }
   }
 
@@ -516,6 +532,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          outState.putBoolean("orientationChanged", orientationChanged);
          outState.putStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, getNoteIdsFromListView());
          outState.putString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, getTitleForBrowsing());
+         outState.putParcelable("prayerItemData", prayerSetDataProvider);
       }
       super.onSaveInstanceState(outState);
    }
@@ -573,6 +590,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       if (noteTmp.getPackageID() == PACKAGE_UNDEFINED) {
          noteTmp.setPackageID(PACKAGE_USER_ADDED);
+      }
+      if (prayerSetDataProvider == null)
+      {
+         prayerSetDataProvider = new PrayerSetItemDataProvider();
       }
 
       initViews();
@@ -1049,19 +1070,157 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       loadNoteToWebView();
    }
 
-   private void showListPrayerSet()
-   {
-       binding.fragmentDetailContent.recyclerView.setVisibility(View.VISIBLE);
-      // Setup D&D feature and RecyclerView
-      RecyclerViewDragDropManager dragMgr = new RecyclerViewDragDropManager();
+   /**
+    * This method will be called when a list item is removed
+    *
+    * @param position The position of the item within data set
+    */
+   public void onItemRemovedProcessor(int position) {
 
-      dragMgr.setInitiateOnMove(false);
-      dragMgr.setInitiateOnLongPress(true);
+       final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+              .title(R.string.remove_prayer_item)
+              //  .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
+              .backgroundColorAttr(R.attr.themeDialogBackgroundColor)
+              .positiveText(R.string.ok)
+              .positiveColorAttr(R.attr.themeAccent)
+              .negativeText(R.string.cancel)
+              .negativeColorAttr(R.attr.themeDialogNormalButtonColor)
+              .onPositive((dialog1, which) -> {
+                 prayerSetDataProvider.removeItem(position);
+                 prayerSetRecyclerView.getAdapter().notifyItemRemoved(position);
+              })
+              .onNegative((dialog12, which) -> {
 
-      binding.fragmentDetailContent.recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-      binding.fragmentDetailContent.recyclerView.setAdapter(dragMgr.createWrappedAdapter(new PrayerSetListAdapter()));
+              }).build();
+      dialog.show();
 
-      dragMgr.attachRecyclerView(binding.fragmentDetailContent.recyclerView);
+   }
+
+
+   /**
+    * This method will be called when a list item is pinned
+    *
+    * @param position The position of the item within data set
+    */
+   public void onItemPinnedProcessor(int position) {
+
+
+   }
+
+   /**
+    * This method will be called when a list item is clicked
+    *
+    * @param position The position of the item within data set
+    */
+   public void onItemClickedProcessor(int position) {
+      //final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_LIST_VIEW);
+      ItemAbstractDataProvider.Data data = getDataProvider().getItem(position);
+
+      if (data.isPinned()) {
+         // unpin if tapped the pinned item
+         data.setPinned(false);
+         prayerSetRecyclerView.getAdapter().notifyItemChanged(position);
+      }
+   }
+
+   public ItemAbstractDataProvider getDataProvider() {
+     // final Fragment fragment = getSupportFragmentManager().findFragmentByTag(FRAGMENT_TAG_DATA_PROVIDER);
+     // return ((ExampleDataProviderFragment) fragment).getDataProvider();
+      return prayerSetDataProvider;
+   }
+
+   /// --------------------------------- ended
+
+
+   private boolean supportsViewElevation() {
+      return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
+   }
+   private void onItemViewClick(View v, boolean pinned) {
+      int position = prayerSetRecyclerView.getChildAdapterPosition(v);
+      if (position != RecyclerView.NO_POSITION) {
+         onItemClickedProcessor(position);
+      }
+   }
+
+
+   private void showListPrayerSet2() {
+
+      RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(requireContext());
+      RecyclerView.Adapter mWrappedAdapter;
+
+      //noinspection ConstantConditions
+      prayerSetRecyclerView = getView().findViewById(R.id.recycler_view);
+
+      // touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
+      RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager = new RecyclerViewTouchActionGuardManager();
+      mRecyclerViewTouchActionGuardManager.setInterceptVerticalScrollingWhileAnimationRunning(true);
+      mRecyclerViewTouchActionGuardManager.setEnabled(true);
+
+      // drag & drop manager
+      RecyclerViewDragDropManager mRecyclerViewDragDropManager = new RecyclerViewDragDropManager();
+      mRecyclerViewDragDropManager.setDraggingItemShadowDrawable(
+              (NinePatchDrawable) ContextCompat.getDrawable(requireContext(), R.drawable.material_shadow_z3));
+
+      // swipe manager
+      RecyclerViewSwipeManager mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
+
+      //adapter
+      final DraggableSwipeableAdapter dsItemAdapter = new DraggableSwipeableAdapter(getDataProvider());
+      dsItemAdapter.setEventListener(new DraggableSwipeableAdapter.EventListener() {
+         @Override
+         public void onItemRemoved(int position) {
+           onItemRemovedProcessor(position);
+         }
+
+         @Override
+         public void onItemPinned(int position) {
+         //   onItemPinnedProcessor(position);
+         }
+
+         @Override
+         public void onItemViewClicked(View v, boolean pinned) {
+            onItemViewClick(v, pinned);
+         }
+
+         @Override
+         public void onUnderSwipeableViewButtonClicked(View v) {
+            int position = prayerSetRecyclerView.getChildAdapterPosition(v);
+            if (position != RecyclerView.NO_POSITION) {
+               onItemRemovedProcessor(position);
+            }
+         }
+      });
+
+      mWrappedAdapter = mRecyclerViewDragDropManager.createWrappedAdapter(dsItemAdapter);      // wrap for dragging
+      mWrappedAdapter = mRecyclerViewSwipeManager.createWrappedAdapter(mWrappedAdapter);      // wrap for swiping
+
+      final GeneralItemAnimator animator = new DraggableItemAnimator();
+
+      // Change animations are enabled by default since support-v7-recyclerview v22.
+      // Disable the change animation in order to make turning back animation of swiped item works properly.
+      animator.setSupportsChangeAnimations(false);
+
+      prayerSetRecyclerView.setLayoutManager(mLayoutManager);
+      prayerSetRecyclerView.setAdapter(mWrappedAdapter);  // requires *wrapped* adapter
+      prayerSetRecyclerView.setItemAnimator(animator);
+
+      // additional decorations
+      //noinspection StatementWithEmptyBody
+      if (supportsViewElevation()) {
+         // Lollipop or later has native drop shadow feature. ItemShadowDecorator is not required.
+      } else {
+         prayerSetRecyclerView.addItemDecoration(new ItemShadowDecorator((NinePatchDrawable) ContextCompat.getDrawable(requireContext(), R.drawable.material_shadow_z1)));
+      }
+      prayerSetRecyclerView.addItemDecoration(new SimpleListDividerDecorator(ContextCompat.getDrawable(requireContext(), R.drawable.list_divider_h), true));
+
+      // NOTE:
+      // The initialization order is very important! This order determines the priority of touch event handling.
+      //
+      // priority: TouchActionGuard > Swipe > DragAndDrop
+      mRecyclerViewTouchActionGuardManager.attachRecyclerView(prayerSetRecyclerView);
+      mRecyclerViewSwipeManager.attachRecyclerView(prayerSetRecyclerView);
+      mRecyclerViewDragDropManager.attachRecyclerView(prayerSetRecyclerView);
+
    }
 
    private void showProperItem() {
@@ -1079,7 +1238,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          contentView.setVisibility(View.GONE);
          tileCard.setVisibility(View.GONE);
       }
-      showListPrayerSet();
+      showListPrayerSet2();
    }
 
    @Override
