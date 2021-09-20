@@ -1077,9 +1077,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     */
    public void onItemRemovedProcessor(int position) {
 
-       final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+      ItemAbstractDataProvider.Data data = getDataProvider().getItem(position);
+
+      final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
               .title(R.string.remove_prayer_item)
-              //  .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
+              .content(data.getText())
               .backgroundColorAttr(R.attr.themeDialogBackgroundColor)
               .positiveText(R.string.ok)
               .positiveColorAttr(R.attr.themeAccent)
