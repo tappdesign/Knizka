@@ -18,6 +18,12 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="September 20, 2021"
+        versionName="1.6.5">
+        <changelogtext>[b]New:[/b] Aktualizácia textov [br](11 nových modlitieb)</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="September 03, 2021"
         versionName="1.6.4">
         <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
