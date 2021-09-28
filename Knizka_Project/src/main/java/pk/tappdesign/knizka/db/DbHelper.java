@@ -818,9 +818,38 @@ public class DbHelper extends SQLiteOpenHelper {
     return noteList;
   }
 
-  /**
-   * Duplicates single note
-   */
+  private String GetPrayerSetNoteCaption(long textID, long categoryId)
+  {
+    String result = "";
+    Note noteFromLinkedSet = getNote(textID);
+    if (noteFromLinkedSet != null)
+    {
+      result = noteFromLinkedSet.getTitle();
+    } else {
+      Category category = getCategory((long)categoryId);
+      if (category != null)
+      {
+        result = "[" + category.getName() + "]";
+      }
+    }
+
+    return result;
+  }
+
+  public List<NoteLink> getLinkedNotesWithCaptions(long  parentNoteID, String orderBy, String limit, boolean order) {
+
+    List<NoteLink> noteList = getLinkedNotes(parentNoteID, orderBy, limit, order);
+
+    for (NoteLink linkedNote : noteList) {
+      linkedNote.setTextRefCaption(GetPrayerSetNoteCaption(linkedNote.getTextIdRef(),(long)linkedNote.getCategory()));
+    }
+
+    return noteList;
+  }
+
+    /**
+     * Duplicates single note
+     */
   public Note duplicateNote(Note note) {
     Note newNote = new Note(note);
 
@@ -924,6 +953,14 @@ public class DbHelper extends SQLiteOpenHelper {
     return true;
   }
 
+  public boolean deleteNoteFromPrayerSets(long noteId)
+  {
+    SQLiteDatabase db = getDatabase(true);
+
+    db.delete(TBL_PRAYER_LINKED_SET, COL_LINKED_SET_HANDLE_ID_REF + " = ?", new String[]{String.valueOf(noteId)});
+
+    return true;
+  }
 
   /**
    * Empties trash deleting all trashed notes
@@ -1608,14 +1645,19 @@ public class DbHelper extends SQLiteOpenHelper {
     }
   }
 
+  public void insertLinkedNotesToPrayerSet(List<NoteLink> noteList, Long parentNoteID)
+  {
+    for (NoteLink linkedNote : noteList) {
+      insertNoteToLinkedSet(parentNoteID, linkedNote);
+    }
+  }
+
   public void addNotesToPrayerSet(List<Note> noteList, Long parentNoteID) {
 
     for (Note note : noteList) {
       if (DbHelper.getInstance().isNoteParentLinkedSet(note.getHandleID())) {
         List<NoteLink> linkedNotes = getLinkedNotes(note.getHandleID(), COL_LINKED_SET_TEXT_ORDER, "", true);
-        for (NoteLink linkedNote : linkedNotes) {
-          insertNoteToLinkedSet(parentNoteID, linkedNote);
-        }
+        insertLinkedNotesToPrayerSet(linkedNotes, parentNoteID);
       } else {
         NoteLink linkedNote = new NoteLink();
         linkedNote.setTextIdRef(note.getHandleID());
@@ -1652,27 +1694,36 @@ public class DbHelper extends SQLiteOpenHelper {
   return  result;
   }
 
-  public void updatePrayerSetNoteContent(Long parentNoteID) {
+  public Note updatePrayerSetNoteContent(Note note, Long parentNoteID) {
+
+    Note result;
+
     List<NoteLink> linkedNotes = getLinkedNotes(parentNoteID, COL_LINKED_SET_TEXT_ORDER, "", true);
 
     String noteContent = "";
     for (NoteLink linkedNote : linkedNotes) {
-      Note noteFromLinkedSet = getNote(linkedNote.getTextIdRef());
-      if (noteFromLinkedSet != null)
-      {
-        if (noteContent.isEmpty())
-        {
-          noteContent = noteFromLinkedSet.getTitle();
-        } else {
-          noteContent =  noteContent + ", " + noteFromLinkedSet.getTitle();
-        }
+
+      String title = GetPrayerSetNoteCaption(linkedNote.getTextIdRef(), linkedNote.getCategory());
+
+      if (noteContent.isEmpty()) {
+        noteContent = title;
+      } else {
+        noteContent = noteContent + ", " + title;
       }
     }
 
-    Note parentNote = getNote(parentNoteID);
+    Note parentNote;
+    if (note == null)
+    {
+      parentNote = getNote(parentNoteID);
+    } else {
+      parentNote = note;
+    }
+
     parentNote.setContent(noteContent);
     parentNote.setHTMLContent(noteContent);
-    updateNote(parentNote, false);
+    result = updateNote(parentNote, false);
+    return result;
   }
 
 }

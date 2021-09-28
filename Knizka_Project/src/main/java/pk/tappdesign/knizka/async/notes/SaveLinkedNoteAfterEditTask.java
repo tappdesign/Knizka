@@ -31,20 +31,22 @@ import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.async.bus.NotesUpdatedEvent;
 import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.models.Note;
+import pk.tappdesign.knizka.models.NoteLink;
 import pk.tappdesign.knizka.models.listeners.OnLinkedNoteAdded;
+import pk.tappdesign.knizka.models.listeners.OnNoteSaved;
 
-public class SaveLinkedNoteTask extends AsyncTask<Long, Void, Void> {
+public class SaveLinkedNoteAfterEditTask extends AsyncTask<Note, Void, Note> {
 
    private Context context;
-   private OnLinkedNoteAdded mOnNoteSaved;
-   private List<Note> noteList;
+   private OnNoteSaved mOnNoteSaved;
+   private List<NoteLink> noteList;
 
-   public SaveLinkedNoteTask(List<Note> noteList) {
+   public SaveLinkedNoteAfterEditTask(List<NoteLink> noteList) {
       this(null, noteList);
    }
 
 
-   public SaveLinkedNoteTask(OnLinkedNoteAdded mOnNoteSaved, List<Note> noteList) {
+   public SaveLinkedNoteAfterEditTask(OnNoteSaved mOnNoteSaved, List<NoteLink> noteList) {
       super();
       this.context = Knizka.getAppContext();
       this.mOnNoteSaved = mOnNoteSaved;
@@ -53,22 +55,29 @@ public class SaveLinkedNoteTask extends AsyncTask<Long, Void, Void> {
 
 
    @Override
-   protected Void doInBackground(Long... params) {
-      Long noteID = params[0];
+   protected Note doInBackground(Note... params) {
+      Note note = params[0];
 
-      DbHelper.getInstance().addNotesToPrayerSet(noteList, noteID);
-      DbHelper.getInstance().updatePrayerSetNoteContent(null, noteID);
-      return null;
+      if (noteList != null)
+      {
+         DbHelper.getInstance().deleteNoteFromPrayerSets(note.getHandleID());
+         DbHelper.getInstance().insertLinkedNotesToPrayerSet(noteList, note.getHandleID());
+      }
+
+      DbHelper.getInstance().updatePrayerSetNoteContent(note, note.getHandleID());
+
+      return note;
    }
 
    @Override
-   protected void onPostExecute(Void note) {
+   protected void onPostExecute(Note note) {
       super.onPostExecute(note);
-      if (this.mOnNoteSaved != null) {
 
-         mOnNoteSaved.onLinkedNoteAdded();
+      if (this.mOnNoteSaved != null) {
+         mOnNoteSaved.onNoteSaved(note);
       }
-      EventBus.getDefault().post(new NotesUpdatedEvent(null)); // tu refresh navigation drawer
+
+      EventBus.getDefault().post(new NotesUpdatedEvent(null)); // here refresh navigation drawer
    }
 
 }

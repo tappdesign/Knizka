@@ -130,6 +130,7 @@
   <string name="discard">Zahodiť</string>
   <string name="remove_category">Odstrániť kategóriu</string>
   <string name="remove_prayer_item">Zmazať položku?</string>
+  <string name="choose_category_for_prayerset">Vybrať kategóriu</string>
   <string name="no_tags_created">Zatiaľ neboli vytvorené žiadne značky</string>
   <string name="no_categories_created">Zatiaľ nebola vytvorená žiadna kategória</string>
   <string name="notes_category_removed">Kategória bola odstránená z poznámok</string>

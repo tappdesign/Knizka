@@ -27,6 +27,7 @@ import static androidx.core.view.ViewCompat.animate;
 import static pk.tappdesign.knizka.BaseActivity.TRANSITION_HORIZONTAL;
 import static pk.tappdesign.knizka.BaseActivity.TRANSITION_VERTICAL;
 import static pk.tappdesign.knizka.MainActivity.FRAGMENT_DETAIL_TAG;
+import static pk.tappdesign.knizka.db.DbHelper.COL_LINKED_SET_TEXT_ORDER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_DISMISS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_FAB_TAKE_PHOTO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.ACTION_MERGE;
@@ -59,6 +60,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_SKETCH_EXT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_VIDEO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_VIDEO_EXT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIN_X_MOVING_OFFSET_FOR_TEXT_BROWSING;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_LINKED_SET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ATTACHMENTS_ON_BOTTOM;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_AUTO_LOCATION;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
@@ -136,7 +138,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentTransaction;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.google.android.material.snackbar.Snackbar;
 import com.h6ah4i.android.widget.advrecyclerview.animator.DraggableItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
@@ -159,6 +160,7 @@ import pk.tappdesign.knizka.async.bus.NotesUpdatedEvent;
 import pk.tappdesign.knizka.async.bus.PushbulletReplyEvent;
 import pk.tappdesign.knizka.async.bus.SwitchFragmentEvent;
 import pk.tappdesign.knizka.async.notes.NoteProcessorDelete;
+import pk.tappdesign.knizka.async.notes.SaveLinkedNoteAfterEditTask;
 import pk.tappdesign.knizka.async.notes.SaveNoteTask;
 import pk.tappdesign.knizka.databinding.FragmentDetailBinding;
 import pk.tappdesign.knizka.db.DbHelper;
@@ -175,6 +177,7 @@ import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 import pk.tappdesign.knizka.models.Attachment;
 import pk.tappdesign.knizka.models.Category;
 import pk.tappdesign.knizka.models.Note;
+import pk.tappdesign.knizka.models.NoteLink;
 import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.models.Tag;
 import pk.tappdesign.knizka.models.WebViewTouchListener;
@@ -329,6 +332,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
    private RecyclerView prayerSetRecyclerView;
    private PrayerSetItemDataProvider prayerSetDataProvider;
+   private boolean isNoteInEditMode;
 
    @Override
    public void onCreate(Bundle savedInstanceState) {
@@ -490,6 +494,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       notesIdsInListView = savedInstanceState.getStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER);
       titleForBrowsing =  savedInstanceState.getString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER);
       prayerSetDataProvider = savedInstanceState.getParcelable("prayerItemData");
+      isNoteInEditMode =  savedInstanceState.getBoolean("isNoteInEditMode");
     }
   }
 
@@ -533,6 +538,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          outState.putStringArrayList(INTENT_EXTRA_NOTE_IDS_FOR_VIEWPAGER, getNoteIdsFromListView());
          outState.putString(INTENT_EXTRA_CATEGORY_TITLE_FOR_BROWSER, getTitleForBrowsing());
          outState.putParcelable("prayerItemData", prayerSetDataProvider);
+         outState.putBoolean("isNoteInEditMode", binding.fragmentDetailContent.myweb.getVisibility() == View.VISIBLE ? false : true);
       }
       super.onSaveInstanceState(outState);
    }
@@ -1144,13 +1150,27 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
    }
 
+   private void loadDataToPrayerSetDataProvider()
+   {
+      List<NoteLink> linkedNotes = DbHelper.getInstance().getLinkedNotesWithCaptions(noteTmp.getHandleID(), COL_LINKED_SET_TEXT_ORDER, "", true);
+      prayerSetDataProvider.clear();
 
-   private void showListPrayerSet2() {
+      for (NoteLink linkedNote : linkedNotes) {
+         PrayerSetItemDataProvider.ConcreteData cd = new PrayerSetItemDataProvider.ConcreteData(prayerSetDataProvider.getCount(), linkedNote.getHandleIDRef(), linkedNote.getTextIdRef(), linkedNote.getTextType(), linkedNote.getCategory(), linkedNote.getTextRefCaption());
+         prayerSetDataProvider.addItem(cd);
+      }
+   }
+
+   private void showListPrayerSet() {
+
+      if (isNoteInEditMode == false)
+      {
+         loadDataToPrayerSetDataProvider();
+      }
 
       RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(requireContext());
       RecyclerView.Adapter mWrappedAdapter;
 
-      //noinspection ConstantConditions
       prayerSetRecyclerView = getView().findViewById(R.id.recycler_view);
 
       // touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
@@ -1230,6 +1250,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       View contentView = binding.detailRoot.findViewById(R.id.detail_content);
       View tileCard = binding.detailRoot.findViewById(R.id.detail_tile_card);
 
+      binding.fragmentDetailContent.recyclerView.setVisibility(View.GONE);
+
       if (newNote) {
          binding.fragmentDetailContent.myweb.setVisibility(View.GONE);
          contentView.setVisibility(View.VISIBLE);
@@ -1240,7 +1262,10 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          contentView.setVisibility(View.GONE);
          tileCard.setVisibility(View.GONE);
       }
-      showListPrayerSet2();
+      if (isNoteInEditMode)
+      {
+         editNote();
+      }
    }
 
    @Override
@@ -1415,12 +1440,13 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          }
          menu.findItem(R.id.menu_tag).setVisible(true);
          menu.findItem(R.id.menu_category).setVisible(true);
+         menu.findItem(R.id.menu_add_random_from_category_to_prayer_set).setVisible(isEditMode);
       }
    }
 
    @SuppressLint("NewApi")
    private boolean goHome() {
-      stopPlaying();
+          stopPlaying();
 
       // The activity has managed a shared intent from third party app and
       // performs a normal onBackPressed instead of returning back to ListActivity
@@ -1483,6 +1509,9 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
             break;
          case R.id.menu_share:
             shareNote();
+            break;
+         case R.id.menu_add_random_from_category_to_prayer_set:
+            addNewCategoryItemToPrayerSet();
             break;
          case R.id.menu_favorite:
          case R.id.menu_favorite_off:
@@ -1964,9 +1993,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       View tileCard = binding.detailRoot.findViewById(R.id.detail_tile_card);
 
       binding.fragmentDetailContent.myweb.setVisibility(View.GONE);
-      binding.fragmentDetailContent.detailContent.setText(removeTitleFrom(noteTmp.getHTMLContent()));
-      contentView.setVisibility(View.VISIBLE);
       tileCard.setVisibility(View.VISIBLE);
+
+      if (noteTmp.getPrayerMerged() == PRAYER_MERGED_LINKED_SET)
+      {
+         showListPrayerSet();
+         binding.fragmentDetailContent.recyclerView.setVisibility(View.VISIBLE);
+      } else {
+         binding.fragmentDetailContent.detailContent.setText(removeTitleFrom(noteTmp.getHTMLContent()));
+         contentView.setVisibility(View.VISIBLE);
+      }
+
       mainActivity.supportInvalidateOptionsMenu(); // need refresh action bar menu because some icons are irrelevant in edit mode
    }
 
@@ -2064,6 +2101,52 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     */
    void saveNote(OnNoteSaved mOnNoteSaved) {
 
+      if (isNoteEdited())
+      {
+         if (noteTmp.getPrayerMerged() == PRAYER_MERGED_LINKED_SET)
+         {
+            saveNotePrayerSet(mOnNoteSaved);
+         } else {
+            saveNoteStandard(mOnNoteSaved);
+         }
+      } else {
+         exitMessage = "";
+         if (goBack) {
+            goHome();
+         }
+      }
+   }
+
+   private boolean isNotePrayerSetEdited()
+   {
+      boolean result = true;
+
+      if (binding.fragmentDetailContent.myweb.getVisibility() == View.VISIBLE)
+      {
+         result = false;
+      }
+
+      return result;
+   }
+
+   private boolean isNoteEdited()
+   {
+      boolean result = true;
+
+      if (binding.fragmentDetailContent.myweb.getVisibility() == View.VISIBLE)
+      {
+         result = false;
+      }
+
+      if (saveNotNeeded() == false)
+      {
+         result = true;
+      }
+      return result;
+   }
+
+   private void saveNoteStandard(OnNoteSaved mOnNoteSaved)
+   {
       // Changed fields
       noteTmp.setTitle(getNoteTitle());
       noteTmp.setContent(getNoteContent());
@@ -2091,6 +2174,41 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
               .THREAD_POOL_EXECUTOR, noteTmp);
+   }
+
+   private void saveNotePrayerSet(OnNoteSaved mOnNoteSaved)
+   {
+      List<NoteLink> linkedNotesFromDataProvider = null;
+
+      if (isNotePrayerSetEdited())
+      {
+         linkedNotesFromDataProvider = cretateNoteLinksFromDataProvider();
+      }
+
+      noteTmp.setTitle(getNoteTitle());
+
+      noteTmp.setAttachmentsListOld(note.getAttachmentsList());
+
+      // now save note
+      new SaveLinkedNoteAfterEditTask(mOnNoteSaved, linkedNotesFromDataProvider).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);
+   }
+
+   private  List<NoteLink> cretateNoteLinksFromDataProvider()
+   {
+      List<NoteLink> result = new ArrayList<>();
+
+      for (int i = 0; i < prayerSetDataProvider.getCount(); i++)
+      {
+         NoteLink nl = new NoteLink();
+         nl.setHandleIDRef(noteTmp.getHandleID());
+         nl.setTextIdRef(prayerSetDataProvider.getItem(i).getTextRefId());
+         nl.setTextType(prayerSetDataProvider.getItem(i).getTextType());
+         nl.setCategory(prayerSetDataProvider.getItem(i).getCategoryType());
+         nl.setTextOrder(i);
+         result.add(nl);
+      }
+
+      return result;
    }
 
    /**
@@ -2714,6 +2832,36 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       noteTmp.setTagList(taggingResult.first);
    }
 
+   private void addNewCategoryItemToPrayerSet()
+   {
+      String currentCategory = null;
+      final List<Category> categories = Observable.from(DbHelper.getInstance().getCategories()).map(category -> {
+         if (String.valueOf(category.getId()).equals(currentCategory)) {
+            category.setCount(category.getCount() + 1);
+         }
+         return category;
+      }).toList().toBlocking().single();
+
+      final MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
+              .title(R.string.choose_category_for_prayerset)
+              .adapter(new CategoryRecyclerViewAdapter(mainActivity, categories), null)
+              .backgroundColorAttr(R.attr.themeDialogBackgroundColor)
+              .negativeText(R.string.cancel)
+              .negativeColorAttr(R.attr.themeDialogNormalButtonColor)
+              .onNegative((dialog12, which) -> {
+              }).build();
+
+      RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView()).setOnItemClickListener((recyclerView, position, v) -> {
+         PrayerSetItemDataProvider.ConcreteData cd = new PrayerSetItemDataProvider.ConcreteData(prayerSetDataProvider.getCount(), noteTmp.getHandleID() , 0,  1, new Integer(categories.get(position).getId().intValue()).intValue(), "["+categories.get(position).getName()+"]");
+         prayerSetDataProvider.addItem(cd);
+         prayerSetRecyclerView.getAdapter().notifyDataSetChanged();
+
+         dialog.dismiss();
+      });
+
+      dialog.show();
+   }
+
    private int getCursorIndex() {
       if (!noteTmp.isChecklist()) {
          return binding.fragmentDetailContent.detailContent.getSelectionStart();
@@ -2919,6 +3067,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          }
       }
    }
+
 
    private class ourBrowser extends WebViewClient {
       @SuppressWarnings("deprecation")

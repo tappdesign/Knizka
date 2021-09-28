@@ -35,6 +35,15 @@ public abstract class ItemAbstractDataProvider {
       public abstract void setPinned(boolean pinned);
 
       public abstract boolean isPinned();
+
+      public abstract long getTextRefId();
+
+      public abstract long getHandleIdRef();
+
+      public abstract int getTextType();
+
+      public abstract int getCategoryType();
+
    }
 
    public abstract int getCount();
@@ -48,5 +57,10 @@ public abstract class ItemAbstractDataProvider {
    public abstract void swapItem(int fromPosition, int toPosition);
 
    public abstract int undoLastRemoval();
+
+   public abstract void clear();
+
+   public abstract void addItem(PrayerSetItemDataProvider.ConcreteData item);
+
 }
 

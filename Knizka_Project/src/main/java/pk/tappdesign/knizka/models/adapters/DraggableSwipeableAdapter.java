@@ -179,7 +179,8 @@ public class DraggableSwipeableAdapter
             // need to clear drawable state here to get correct appearance of the dragging item.
             DrawableUtils.clearState(holder.mContainer.getForeground());
          } else if (dragState.isDragging()) {
-            bgResId = R.drawable.bg_item_dragging_state;
+            //bgResId = R.drawable.bg_item_dragging_state;
+            bgResId = R.drawable.bg_item_normal_state;  // do not change color of dragged item
          } else if (swipeState.isActive()) {
             //bgResId = R.drawable.bg_item_swiping_active_state;
             bgResId = R.drawable.bg_item_normal_state;  // do not change color of swipped item

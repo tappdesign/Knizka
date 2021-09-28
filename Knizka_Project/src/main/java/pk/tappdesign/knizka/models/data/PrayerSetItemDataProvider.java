@@ -39,19 +39,9 @@ public class PrayerSetItemDataProvider extends ItemAbstractDataProvider implemen
    private int mLastRemovedPosition = -1;
 
    public PrayerSetItemDataProvider() {
-      final String atoz = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
       mData = new LinkedList<>();
-
-      for (int i = 0; i < 2; i++) {
-         for (int j = 0; j < atoz.length(); j++) {
-            final long id = mData.size();
-            final int viewType = 0;
-            final String text = Character.toString(atoz.charAt(j));
-            final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
-            mData.add(new ConcreteData(id, viewType, text, swipeReaction));
-         }
-      }
+     // addDummyData();
    }
 
    protected PrayerSetItemDataProvider(Parcel in) {
@@ -138,6 +128,31 @@ public class PrayerSetItemDataProvider extends ItemAbstractDataProvider implemen
       mLastRemovedPosition = position;
    }
 
+   @Override
+   public void clear() {
+      mData.clear();
+   }
+
+   @Override
+   public void addItem(ConcreteData item) {
+      mData.add(mData.size(), item);
+   }
+
+   private void addDummyData()
+   {
+      final String atoz = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+      for (int i = 0; i < 2; i++) {
+         for (int j = 0; j < atoz.length(); j++) {
+            final long id = mData.size();
+            final int viewType = 0;
+            final String text = Character.toString(atoz.charAt(j));
+            final int swipeReaction = RecyclerViewSwipeManager.REACTION_CAN_SWIPE_UP | RecyclerViewSwipeManager.REACTION_CAN_SWIPE_DOWN;
+            mData.add(new ConcreteData(id, viewType, text, swipeReaction));
+         }
+      }
+   }
+
    public static final class ConcreteData extends Data implements Parcelable {
 
       private final long mId;
@@ -145,11 +160,28 @@ public class PrayerSetItemDataProvider extends ItemAbstractDataProvider implemen
       private final String mText;
       private final int mViewType;
       private boolean mPinned;
+      private final long mTextIdRef;
+      private final long prayerHandleIdRef;
+      private final int prayerTextType;
+      private final int prayerTextCategory;
 
       ConcreteData(long id, int viewType, @NonNull String text, int swipeReaction) {
          mId = id;
          mViewType = viewType;
          mText = makeText(id, text, swipeReaction);
+         mTextIdRef = 0;
+         prayerHandleIdRef = 0;
+         prayerTextType = 0;
+         prayerTextCategory = 0;
+      }
+      public ConcreteData(long id, long prayerHandleIdRef, long textIdRef, int prayertextType, int prayertextCategory, @NonNull String text) {
+         mId = id;
+         mViewType = 0;
+         mText = text;
+         mTextIdRef = textIdRef;
+         this.prayerHandleIdRef = prayerHandleIdRef;
+         this.prayerTextType = prayertextType;
+         this.prayerTextCategory = prayertextCategory;
       }
 
       public static final Creator<ConcreteData> CREATOR = new Creator<ConcreteData>() {
@@ -210,11 +242,35 @@ public class PrayerSetItemDataProvider extends ItemAbstractDataProvider implemen
       }
 
       @Override
+      public long getTextRefId() {
+         return mTextIdRef;
+      }
+
+      @Override
+      public long getHandleIdRef() {
+         return prayerHandleIdRef;
+      }
+
+      @Override
+      public int getTextType() {
+         return prayerTextType;
+      }
+
+      @Override
+      public int getCategoryType() {
+         return prayerTextCategory;
+      }
+
+      @Override
       public void writeToParcel(Parcel parcel, int flags) {
          parcel.writeLong(mId);
          parcel.writeString(mText);
          parcel.writeInt(mViewType);
          parcel.writeInt(mPinned ? 1 : 0);
+         parcel.writeLong(mTextIdRef);
+         parcel.writeLong(prayerHandleIdRef);
+         parcel.writeInt(prayerTextType);
+         parcel.writeInt(prayerTextCategory);
       }
 
       private ConcreteData(Parcel in) {
@@ -222,6 +278,10 @@ public class PrayerSetItemDataProvider extends ItemAbstractDataProvider implemen
          mText = in.readString();
          mViewType = in.readInt();
          mPinned = in.readInt() == 1;
+         mTextIdRef = in.readLong();
+         prayerHandleIdRef = in.readLong();
+         prayerTextType = in.readInt();
+         prayerTextCategory = in.readInt();
       }
    }
 

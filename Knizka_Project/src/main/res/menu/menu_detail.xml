@@ -44,6 +44,12 @@
         android:title="@string/favorite"
         app:showAsAction="always"/>
     <item
+        android:id="@+id/menu_add_random_from_category_to_prayer_set"
+        android:icon="@drawable/ic_outline_note_add_white_24"
+        android:orderInCategory="250"
+        android:title="@string/favorite"
+        app:showAsAction="always"/>
+    <item
         android:id="@+id/menu_favorite"
         android:icon="@drawable/ic_favorite_white_24dp"
         android:orderInCategory="300"
