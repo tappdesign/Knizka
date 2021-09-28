@@ -98,7 +98,7 @@
   <string name="click_to_refresh_application">Kliknite pre obnovu aplikácie</string>
   <string name="backup_existing">Záloha už existuje, a preto bude prepísaná</string>
   <string name="dialog_title_warning">Upozornenie</string>
-  <string name="dialog_message_SystemSet">Systémové zostavy sa nedajú editovať priamo.\nBola vytvorená kópia zostavy.</string>
+  <string name="dialog_message_system_prayer">Predkonfigurované texty sa nedajú editovať priamo.\nBola vytvorená kópia textu.</string>
   <string name="choose_prayer_set">Vyberte zostavu</string>
   <string name="choose_prayer_set_name">Zadajte meno zostavy</string>
   <string name="btn_dlg_cancel">Zrušiť</string>

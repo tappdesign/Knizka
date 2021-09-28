@@ -1090,22 +1090,12 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
     showDialogForPrayerSetSelecting();
   }
 
-  private void showSystemSetWarningDialog()
-  {
-    MaterialAlertDialogBuilder warningDialog = new MaterialAlertDialogBuilder(getActivity())
-            .setTitle(R.string.dialog_title_warning)
-            .setMessage(R.string.dialog_message_SystemSet)
-            .setPositiveButton(R.string.ok, (dialog, which) -> {
-            });
-    warningDialog.show();
-  }
-
   private void saveToLinkedTask(Note note)
   {
     if (note.getPackageID() == PACKAGE_SYSTEM)
     {
       note = DbHelper.getInstance().duplicateNote(note);
-      showSystemSetWarningDialog();
+      mainActivity.showWarningDialogForSystemEditing(getActivity());
     }
     new SaveLinkedNoteTask(this, getSelectedNotes()).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note.getHandleID());
   }

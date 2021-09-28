@@ -60,6 +60,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_SKETCH_EXT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_VIDEO;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIME_TYPE_VIDEO_EXT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MIN_X_MOVING_OFFSET_FOR_TEXT_BROWSING;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_SYSTEM;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PRAYER_MERGED_LINKED_SET;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ATTACHMENTS_ON_BOTTOM;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_AUTO_LOCATION;
@@ -900,9 +901,14 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    private void initViewAttachments() {
       // Attachments position based on preferences
       if (Prefs.getBoolean(PREF_ATTACHMENTS_ON_BOTTOM, false)) {
-         binding.detailAttachmentsBelow.inflate();
+         if (binding.detailAttachmentsBelow.getParent() != null)
+         {
+            binding.detailAttachmentsBelow.inflate();
+         }
       } else {
-         binding.detailAttachmentsAbove.inflate();
+         if (binding.detailAttachmentsAbove.getParent() != null) {
+            binding.detailAttachmentsAbove.inflate();
+         }
       }
       mGridView = binding.detailRoot.findViewById(R.id.gridview);
 
@@ -1264,7 +1270,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       }
       if (isNoteInEditMode)
       {
-         editNote();
+         startEditNote();
       }
    }
 
@@ -1433,7 +1439,8 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          menu.findItem(R.id.menu_archive).setVisible(!newNote && !noteTmp.isArchived());
          menu.findItem(R.id.menu_unarchive).setVisible(!newNote && noteTmp.isArchived());
          menu.findItem(R.id.menu_trash).setVisible(!newNote);
-         menu.findItem(R.id.menu_edit_note).setVisible(!newNote && ((noteTmp.getPackageID() == ConstantsBase.PACKAGE_USER_ADDED) || (noteTmp.getPackageID() == ConstantsBase.PACKAGE_USER_INTENT)));
+         menu.findItem(R.id.menu_edit_note).setVisible(!newNote);
+
          if (menu.findItem(R.id.menu_edit_note).isVisible() && (isEditMode)) {
             menu.findItem(R.id.menu_edit_note).setVisible(false);  // note is already editing, we cannot display this menu
             menu.findItem(R.id.menu_discard_changes).setVisible(true);
@@ -1988,7 +1995,20 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       return sanitizedtext;
    }
 
-   private void editNote() {
+   private void editNote()
+   {
+      if (note.getPackageID() == PACKAGE_SYSTEM)
+      {
+         note = DbHelper.getInstance().duplicateNote(note);
+         noteTmp = null;
+         noteOriginal = null;
+         init();
+         mainActivity.showWarningDialogForSystemEditing(getActivity());
+      }
+      startEditNote();
+   }
+
+   private void startEditNote() {
       View contentView = binding.detailRoot.findViewById(R.id.detail_content);
       View tileCard = binding.detailRoot.findViewById(R.id.detail_tile_card);
 
