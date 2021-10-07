@@ -2121,56 +2121,16 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
     */
    void saveNote(OnNoteSaved mOnNoteSaved) {
 
-      if (isNoteEdited())
-      {
-         if (noteTmp.getPrayerMerged() == PRAYER_MERGED_LINKED_SET)
-         {
-            saveNotePrayerSet(mOnNoteSaved);
-         } else {
-            saveNoteStandard(mOnNoteSaved);
-         }
-      } else {
-         exitMessage = "";
-         if (goBack) {
-            goHome();
-         }
-      }
-   }
-
-   private boolean isNotePrayerSetEdited()
-   {
-      boolean result = true;
-
-      if (binding.fragmentDetailContent.myweb.getVisibility() == View.VISIBLE)
-      {
-         result = false;
-      }
-
-      return result;
-   }
-
-   private boolean isNoteEdited()
-   {
-      boolean result = true;
-
-      if (binding.fragmentDetailContent.myweb.getVisibility() == View.VISIBLE)
-      {
-         result = false;
-      }
-
-      if (saveNotNeeded() == false)
-      {
-         result = true;
-      }
-      return result;
-   }
-
-   private void saveNoteStandard(OnNoteSaved mOnNoteSaved)
-   {
       // Changed fields
       noteTmp.setTitle(getNoteTitle());
       noteTmp.setContent(getNoteContent());
       noteTmp.setHTMLContent(getNoteContent());
+
+      if (noteTmp.getPrayerMerged() == PRAYER_MERGED_LINKED_SET)
+      {
+         noteTmp.setHTMLContent(note.getHTMLContent());
+         noteTmp.setContent(note.getContent());
+      }
 
       // Check if some text or attachments of any type have been inserted or is an empty note
       if (goBack && TextUtils.isEmpty(noteTmp.getTitle()) && TextUtils.isEmpty(noteTmp.getContent())
@@ -2182,7 +2142,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
          return;
       }
 
-      if (saveNotNeeded()) {
+      if ((saveNotNeeded()) &&  (!isNotePrayerSetEdited())) {
          exitMessage = "";
          if (goBack) {
             goHome();
@@ -2192,8 +2152,26 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
-      new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
-              .THREAD_POOL_EXECUTOR, noteTmp);
+      if (noteTmp.getPrayerMerged() == PRAYER_MERGED_LINKED_SET)
+      {
+         saveNotePrayerSet(mOnNoteSaved);
+      } else {
+         new SaveNoteTask(mOnNoteSaved, lastModificationUpdatedNeeded()).executeOnExecutor(AsyncTask
+                 .THREAD_POOL_EXECUTOR, noteTmp);
+      }
+
+   }
+
+   private boolean isNotePrayerSetEdited()
+   {
+      boolean result = false;
+
+      if (binding.fragmentDetailContent.recyclerView.getVisibility() == View.VISIBLE)
+      {
+         result = true;
+      }
+
+      return result;
    }
 
    private void saveNotePrayerSet(OnNoteSaved mOnNoteSaved)
@@ -2204,10 +2182,6 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       {
          linkedNotesFromDataProvider = cretateNoteLinksFromDataProvider();
       }
-
-      noteTmp.setTitle(getNoteTitle());
-
-      noteTmp.setAttachmentsListOld(note.getAttachmentsList());
 
       // now save note
       new SaveLinkedNoteAfterEditTask(mOnNoteSaved, linkedNotesFromDataProvider).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteTmp);

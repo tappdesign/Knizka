@@ -30,6 +30,8 @@
     <string name="bitcoin_url">http://goo.gl/I6Xboe</string>
     <string name="help_online_url">https://goo.gl/Q843oh</string>
 
+    <!-- list items -->
+    <string name="list_item_button_delete">Delete</string>
 
     <!-- Activities -->
     <string name="title_item_list">Prayers</string>

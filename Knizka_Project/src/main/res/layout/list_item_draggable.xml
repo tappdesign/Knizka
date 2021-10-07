@@ -43,7 +43,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="16dp"
-            android:text="Button" />
+            android:text="@string/list_item_button_delete" />
+
 
     </RelativeLayout>
 

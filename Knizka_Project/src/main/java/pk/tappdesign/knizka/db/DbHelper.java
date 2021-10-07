@@ -1440,13 +1440,16 @@ public class DbHelper extends SQLiteOpenHelper {
   public ArrayList<Note> getLinkedSets() {
     ArrayList<Note> notesList = new ArrayList<>();
 
-    String sql = " select " + COL_HANDLE_ID + ", " + COL_TITLE + ", " + COL_PRAYER_MERGED +  ", " + COL_PACKAGE_ID +
+    String sql = " select " + COL_HANDLE_ID + ", " + COL_TITLE + ", " + COL_PRAYER_MERGED +  ", " + COL_PACKAGE_ID + ", "
+             + COL_UF_IS_TRASHED +  ", " + COL_IS_FAVORITE +  ", " +  COL_UF_IS_ARCHIVED +  ", " +  COL_UF_IS_ERASED +
             " FROM ( " +
             " select * from " + ATTCH_PRAYERS +
             " UNION " +
             " select * from " + MAIN_PRAYERS +
             " ) foo " +
-            " WHERE " + COL_PRAYER_MERGED + " = 2 " +
+            " LEFT JOIN " + TBL_USER_FLAGS +
+            " ON (" + COL_UF_HANDLE_ID_REF + " = " + COL_HANDLE_ID + ") " +
+            " WHERE " + COL_PRAYER_MERGED + " = 2 AND " + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT +
             " ORDER BY " + COL_TITLE + " ASC ";
 
     try (Cursor cursor = getDatabase().rawQuery(sql, null)) {
