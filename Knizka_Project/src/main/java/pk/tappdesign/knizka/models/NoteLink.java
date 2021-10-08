@@ -29,6 +29,8 @@ public class NoteLink {
    private int textOrder;
    private int textType;
    private int category;
+   private String textRefCaption;
+   private String categoryRefCaption;
 
    public NoteLink() {
       linkID = 0;
@@ -37,6 +39,8 @@ public class NoteLink {
       textOrder = 0;
       textType = 0;
       category = 0;
+      textRefCaption = "";
+      categoryRefCaption = "";
    }
 
    public long getLinkID() {
@@ -85,5 +89,21 @@ public class NoteLink {
 
    public void setCategory(int category) {
       this.category = category;
+   }
+
+   public String getTextRefCaption() {
+      return textRefCaption;
+   }
+
+   public void setTextRefCaption(String textRefCaption) {
+      this.textRefCaption = textRefCaption;
+   }
+
+   public String getCategoryRefCaption() {
+      return categoryRefCaption;
+   }
+
+   public void setCategoryRefCaption(String categoryRefCaption) {
+      this.categoryRefCaption = categoryRefCaption;
    }
 }

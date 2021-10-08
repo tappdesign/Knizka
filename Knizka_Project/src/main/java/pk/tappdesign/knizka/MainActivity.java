@@ -35,9 +35,7 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_KEY;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_NOTE;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_PASSWORD;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PACKAGE_USER_ADDED;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT;
-import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_DARK;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -53,9 +51,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.pixplicity.easyprefs.library.Prefs;
 
 import de.greenrobot.event.EventBus;
@@ -76,6 +76,7 @@ import pk.tappdesign.knizka.models.Category;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.models.ONStyle;
 import pk.tappdesign.knizka.utils.FileProviderHelper;
+import pk.tappdesign.knizka.utils.PKStringUtils;
 import pk.tappdesign.knizka.utils.PasswordHelper;
 import pk.tappdesign.knizka.utils.SystemHelper;
 import it.feio.android.pixlui.links.UrlCompleter;
@@ -448,7 +449,18 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
   }
 
 
-  /**
+   public void showWarningDialogForSystemEditing(FragmentActivity fragmentActivity)
+   {
+      MaterialAlertDialogBuilder warningDialog = new MaterialAlertDialogBuilder(fragmentActivity)
+              .setTitle(R.string.dialog_title_warning)
+              .setMessage(R.string.dialog_message_system_prayer)
+              .setPositiveButton(R.string.ok, (dialog, which) -> {
+              });
+      warningDialog.show();
+   }
+
+
+   /**
    * Used to perform a quick text-only note saving (eg. Tasker+Pushbullet)
    */
   private void saveAndExit(Intent i) {
@@ -530,9 +542,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
     String titleText = note.getTitle();
 
-   // String contentText = titleText + System.getProperty("line.separator") + note.getContent();
-
-    String contentText = note.getContent();
+    String contentText = PKStringUtils.stripHTML(DbHelper.getInstance().getNoteContentForShare(note));
 
     Intent shareIntent = new Intent();
     // Prepare sharing intent with only text
