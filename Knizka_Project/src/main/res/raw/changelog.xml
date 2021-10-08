@@ -20,8 +20,7 @@
     <changelogversion
         changeDate="Október 08, 2021"
         versionName="2.0.0">
-        <changelogtext><![CDATA[Možnosť vytvorenia modlitbových zostáv (<a href="https://youtu.be/6FbBeGber8A">video návod</a>)]]></changelogtext>
-        <changelogtext>[b]New:[/b] Možnosť vytvorenia modlitbových zostáv</changelogtext>
+        <changelogtext><![CDATA[[b]New:[/b] Možnosť vytvorenia modlitbových zostáv (<a href="https://youtu.be/6FbBeGber8A">video návod</a>)]]></changelogtext>
         <changelogtext>[b]New:[/b] Zjednodušená editácia predkonfigurovaných textov</changelogtext>
         <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
     </changelogversion>
