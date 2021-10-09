@@ -18,6 +18,12 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Október 09, 2021"
+        versionName="2.0.1">
+         <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Október 08, 2021"
         versionName="2.0.0">
         <changelogtext><![CDATA[[b]New:[/b] Možnosť vytvorenia modlitbových zostáv (<a href="https://youtu.be/6FbBeGber8A">video návod</a>)]]></changelogtext>
