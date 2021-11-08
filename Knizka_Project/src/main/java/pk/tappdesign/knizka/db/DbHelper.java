@@ -1188,7 +1188,8 @@ public class DbHelper extends SQLiteOpenHelper {
             .map(note -> {
               boolean matches = rx.Observable.from(tags)
                       .all(tag -> {
-                        Pattern p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", Pattern.MULTILINE);
+                        Pattern p = Pattern.compile(".*" + tag + ".*", Pattern.MULTILINE);
+                     //   Pattern p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", Pattern.MULTILINE);
 //                        return p.matcher((note.getTitle() + " " + note.getContent())).find();
                         return p.matcher((note.getTitle() + " " + note.getTagList())).find();
                       }).toBlocking().single();
