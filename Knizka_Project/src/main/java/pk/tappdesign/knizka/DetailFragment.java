@@ -2798,6 +2798,17 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       currentNote.setTitle(getNoteTitle());
       currentNote.setContent(getNoteContent());
       currentNote.setTagList(noteTmp.getTagList());
+
+      if (!newTags.isEmpty()) // preselect newtags
+      {
+         if ((noteTmp.getTagList() != null) && (!noteTmp.getTagList().isEmpty()))
+         {
+            currentNote.setTagList(noteTmp.getTagList() + ", " + TagsHelper.createHashtagFromTags(newTags));
+         } else {
+            currentNote.setTagList(TagsHelper.createHashtagFromTags(newTags));
+         }
+      }
+
       Integer[] preselectedTags = TagsHelper.getPreselectedTagsArray(currentNote, tags);
 
       // Dialog and events creation

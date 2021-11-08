@@ -73,9 +73,24 @@ public class TagsHelper {
         }
     }
 
+    public static String createHashtagFromTags(String newTags) {
+        String result = "";
+        if (newTags != null && !newTags.isEmpty()) {
+            String[] words = newTags.replaceAll(",", " ").replaceAll("#", " ").replaceAll(" +", " ").trim().split(" ");
+            for (String word : words) {
+                if (!result.isEmpty()) {
+                    result =  result + ", #" + word;
+                } else {
+                    result = "#" + word;
+                }
+            }
+        }
+        return result;
+    }
+
 	public static HashMap<String, Integer> retrieveTags(Note note) {
 		HashMap<String, Integer> tagsMap = new HashMap<>();
-        String[] words = (note.getTitle() + " " + note.getTagList()).replaceAll("\n", " ").trim().split(" ");
+        String[] words = (note.getTagList()).replaceAll("\n", " ").trim().split(" ");
 		for (String word: words) {
             String parsedHashtag = UrlCompleter.parseHashtag(word);
 		    if (StringUtils.isNotEmpty(parsedHashtag)) {
@@ -99,7 +114,7 @@ public class TagsHelper {
             } else {
                 if (selectedTagsList.contains(i)) {
                    if (sbTags.length() > 0) {
-                        sbTags.append(" ");
+                        sbTags.append(", ");
                    }
                    sbTags.append(tags.get(i));
                 }
