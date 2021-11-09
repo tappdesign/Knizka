@@ -81,6 +81,7 @@ public class TagsHelper {
            // String[] words = newTags.replaceAll(",", " ").replaceAll("#", " ").replaceAll(" +", " ").trim().split(" ");
             String[] words = newTags.replaceAll("#", " ").replaceAll(" +", " ").trim().split(",");
             for (String word : words) {
+                word = word.trim();
                 if (!result.isEmpty()) {
                     result =  result + ", #" + word;
                 } else {
@@ -97,7 +98,8 @@ public class TagsHelper {
       {
           String[] words = (note.getTagList()).replaceAll("\n", " ").trim().split(",");
           for (String word: words) {
-              String parsedHashtag = UrlCompleter.parseHashtag(word);
+//              String parsedHashtag = UrlCompleter.parseHashtag(word);
+              String parsedHashtag = word.trim();
               if (StringUtils.isNotEmpty(parsedHashtag)) {
                   int count = tagsMap.get(parsedHashtag) == null ? 0 : tagsMap.get(parsedHashtag);
                   tagsMap.put(parsedHashtag, ++count);
