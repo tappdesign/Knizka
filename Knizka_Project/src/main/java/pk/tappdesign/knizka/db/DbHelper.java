@@ -1176,8 +1176,8 @@ public class DbHelper extends SQLiteOpenHelper {
       if (i != 0) {
         whereCondition.append(" AND ");
       }
-      whereCondition.append("(" + COL_UF_TAG_LIST + " LIKE '%").append(tags[i]).append("%' OR ").append(COL_TITLE)
-              .append(" LIKE '%").append(tags[i]).append("%')");
+      whereCondition.append("(" + COL_UF_TAG_LIST + " LIKE '%").append(tags[i].trim()).append("%' OR ").append(COL_TITLE)
+              .append(" LIKE '%").append(tags[i].trim()).append("%')");
     }
     // Trashed notes must be included in search results only if search if performed from trash
     whereCondition.append(" AND " + COL_UF_IS_TRASHED + " IS ").append(Navigation.checkNavigation(Navigation.TRASH) ?
