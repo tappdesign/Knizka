@@ -2330,8 +2330,8 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
           }
 
           // Saved here to allow persisting search
-          searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1)
-              .replace(" ", "");
+          searchTags = selectedTags.toString().substring(1, selectedTags.toString().length() - 1);
+             // .replace(" ", "");
           Intent intent = mainActivity.getIntent();
 
           // Hides keyboard

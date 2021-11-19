@@ -61,9 +61,11 @@ public class TagsHelper {
     {
         if (newTags != null && !newTags.isEmpty())
         {
-            String[] words = newTags.replaceAll(",", " ").replaceAll("#", " ").replaceAll(" +", " "). trim().split(" ");
+//            String[] words = newTags.replaceAll(",", " ").replaceAll("#", " ").replaceAll(" +", " "). trim().split(" ");
+            String[] words = newTags.replaceAll("#", " ").replaceAll(" +", " "). trim().split(",");
+
             for (String word: words) {
-                Tag tag = new Tag("#" + word, 1 );
+                Tag tag = new Tag("#" + word.trim(), 1 );
                 // add to list only if not existing in list yet. (todo: rewrite it to some more sophisticated comparator, not just hepler function "isAlreadyExistinginList()")
                 if (isAlreadyExistinginList(aTags, tag) == false)
                 {
@@ -73,16 +75,38 @@ public class TagsHelper {
         }
     }
 
+    public static String createHashtagFromTags(String newTags) {
+        String result = "";
+        if (newTags != null && !newTags.isEmpty()) {
+           // String[] words = newTags.replaceAll(",", " ").replaceAll("#", " ").replaceAll(" +", " ").trim().split(" ");
+            String[] words = newTags.replaceAll("#", " ").replaceAll(" +", " ").trim().split(",");
+            for (String word : words) {
+                word = word.trim();
+                if (!result.isEmpty()) {
+                    result =  result + ", #" + word;
+                } else {
+                    result = "#" + word;
+                }
+            }
+        }
+        return result;
+    }
+
 	public static HashMap<String, Integer> retrieveTags(Note note) {
 		HashMap<String, Integer> tagsMap = new HashMap<>();
-        String[] words = (note.getTitle() + " " + note.getTagList()).replaceAll("\n", " ").trim().split(" ");
-		for (String word: words) {
-            String parsedHashtag = UrlCompleter.parseHashtag(word);
-		    if (StringUtils.isNotEmpty(parsedHashtag)) {
-				int count = tagsMap.get(parsedHashtag) == null ? 0 : tagsMap.get(parsedHashtag);
-				tagsMap.put(parsedHashtag, ++count);
-			}
-		}
+		if (note.getTagList() != null)
+      {
+          String[] words = (note.getTagList()).replaceAll("\n", " ").trim().split(",");
+          for (String word: words) {
+//              String parsedHashtag = UrlCompleter.parseHashtag(word);
+              String parsedHashtag = word.trim();
+              if (StringUtils.isNotEmpty(parsedHashtag)) {
+                  int count = tagsMap.get(parsedHashtag) == null ? 0 : tagsMap.get(parsedHashtag);
+                  tagsMap.put(parsedHashtag, ++count);
+              }
+          }
+      }
+
 		return tagsMap;
 	}
 
@@ -99,7 +123,7 @@ public class TagsHelper {
             } else {
                 if (selectedTagsList.contains(i)) {
                    if (sbTags.length() > 0) {
-                        sbTags.append(" ");
+                        sbTags.append(", ");
                    }
                    sbTags.append(tags.get(i));
                 }

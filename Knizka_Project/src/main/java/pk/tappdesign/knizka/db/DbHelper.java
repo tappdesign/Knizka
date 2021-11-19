@@ -1176,8 +1176,8 @@ public class DbHelper extends SQLiteOpenHelper {
       if (i != 0) {
         whereCondition.append(" AND ");
       }
-      whereCondition.append("(" + COL_UF_TAG_LIST + " LIKE '%").append(tags[i]).append("%' OR ").append(COL_TITLE)
-              .append(" LIKE '%").append(tags[i]).append("%')");
+      whereCondition.append("(" + COL_UF_TAG_LIST + " LIKE '%").append(tags[i].trim()).append("%' OR ").append(COL_TITLE)
+              .append(" LIKE '%").append(tags[i].trim()).append("%')");
     }
     // Trashed notes must be included in search results only if search if performed from trash
     whereCondition.append(" AND " + COL_UF_IS_TRASHED + " IS ").append(Navigation.checkNavigation(Navigation.TRASH) ?
@@ -1188,7 +1188,8 @@ public class DbHelper extends SQLiteOpenHelper {
             .map(note -> {
               boolean matches = rx.Observable.from(tags)
                       .all(tag -> {
-                        Pattern p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", Pattern.MULTILINE);
+                        Pattern p = Pattern.compile(".*" + tag + ".*", Pattern.MULTILINE);
+                     //   Pattern p = Pattern.compile(".*(\\s|^)" + tag + "(\\s|$).*", Pattern.MULTILINE);
 //                        return p.matcher((note.getTitle() + " " + note.getContent())).find();
                         return p.matcher((note.getTitle() + " " + note.getTagList())).find();
                       }).toBlocking().single();
