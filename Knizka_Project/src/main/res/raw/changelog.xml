@@ -19,6 +19,12 @@
 
     <changelogversion
         changeDate="Október 25, 2021"
+        versionName="2.1.0">
+        <changelogtext>[b]New:[/b] Pridané tagy k textom</changelogtext>
+    </changelogversion>
+
+    <changelogversion
+        changeDate="Október 25, 2021"
         versionName="2.0.2">
         <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
     </changelogversion>

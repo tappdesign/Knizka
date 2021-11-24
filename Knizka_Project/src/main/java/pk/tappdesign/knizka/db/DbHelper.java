@@ -59,10 +59,13 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map.Entry;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -72,6 +75,7 @@ import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.async.upgrade.UpgradeProcessor;
 import pk.tappdesign.knizka.exceptions.DatabaseException;
 import pk.tappdesign.knizka.helpers.BackupHelper;
+import pk.tappdesign.knizka.helpers.LanguageHelper;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.models.Attachment;
 import pk.tappdesign.knizka.models.Category;
@@ -1149,7 +1153,16 @@ public class DbHelper extends SQLiteOpenHelper {
       tags.add(tag);
     }
 
-    Collections.sort(tags, (tag1, tag2) -> tag1.getText().compareToIgnoreCase(tag2.getText()));
+    // localized sorting
+    Collections.sort(tags, new Comparator<Tag>() {
+      Collator collator = Collator.getInstance(new Locale(LanguageHelper.getCurrentLocaleAsString(Knizka.getAppContext())));
+      @Override
+      public int compare(Tag o1, Tag o2) {
+        return collator.compare(o1.getText(), o2.getText());
+      }
+    });
+
+   // Collections.sort(tags, (tag1, tag2) -> tag1.getText().compareToIgnoreCase(tag2.getText()));
     return tags;
   }
 
