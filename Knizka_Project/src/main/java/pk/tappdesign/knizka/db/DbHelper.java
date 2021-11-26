@@ -1155,14 +1155,15 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // localized sorting
     Collections.sort(tags, new Comparator<Tag>() {
-      Collator collator = Collator.getInstance(new Locale(LanguageHelper.getCurrentLocaleAsString(Knizka.getAppContext())));
+    Collator collator = Collator.getInstance(new Locale(LanguageHelper.getCurrentLocaleAsString(Knizka.getAppContext())));
+//      Collator collator = Collator.getInstance(LanguageHelper.getCurrentLanguageFromPrefs());
+
       @Override
       public int compare(Tag o1, Tag o2) {
         return collator.compare(o1.getText(), o2.getText());
       }
     });
 
-   // Collections.sort(tags, (tag1, tag2) -> tag1.getText().compareToIgnoreCase(tag2.getText()));
     return tags;
   }
 

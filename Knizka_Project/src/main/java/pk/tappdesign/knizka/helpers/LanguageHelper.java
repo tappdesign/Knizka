@@ -115,4 +115,19 @@ public class LanguageHelper {
 		}
 	}
 
+	public static Locale getCurrentLanguageFromPrefs () {
+
+		String language = Prefs.getString(PREF_LANG, "");
+
+		Locale locale;
+		if (TextUtils.isEmpty(language)) {
+			locale = Locale.getDefault();
+		} else {
+			locale = getLocale(language);
+		}
+
+		return locale;
+
+	}
+
 }
