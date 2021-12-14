@@ -33,8 +33,11 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
+import pk.tappdesign.knizka.exceptions.checked.BackupAttachmentException;
 import pk.tappdesign.knizka.helpers.BackupHelper;
+import android.provider.OpenableColumns;
 
+import androidx.documentfile.provider.DocumentFile;
 
 import pk.tappdesign.knizka.exceptions.unchecked.ExternalDirectoryCreationException;
 import pk.tappdesign.knizka.helpers.LogDelegate;
@@ -171,7 +174,6 @@ public class StorageHelper {
     return false;
   }
 
-
     /**
      * Generic file copy method
      *
@@ -189,6 +191,26 @@ public class StorageHelper {
         }
     }
 
+
+   public static boolean copyDocumentFile(DocumentFile source, DocumentFile destination) {
+      try {
+
+         InputStream inStream = Knizka.getAppContext().getContentResolver().openInputStream(source.getUri());
+         OutputStream outStream = Knizka.getAppContext().getContentResolver().openOutputStream(destination.getUri());
+
+         StorageHelper.copyFile(inStream, outStream);
+
+         outStream.flush();
+         outStream.close();
+         inStream.close();
+
+         return true;
+      } catch (IOException e) {
+         LogDelegate.e("Error copying file: " + e.getMessage(), e);
+      }
+
+      return false;
+   }
 
     public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
         // Checks for external storage availability
@@ -355,7 +377,6 @@ public class StorageHelper {
                 + packageName
                 + "_preferences.xml");
     }
-
 
     /**
      * Returns a directory size in bytes
@@ -564,5 +585,27 @@ public class StorageHelper {
         FileUtils.copyURLToFile(imageUrl, file);
         return file;
     }
+
+   public static String getFileName(Context mContext, Uri uri) {
+      String result = null;
+      if (uri.getScheme().equals("content")) {
+         Cursor cursor = mContext.getContentResolver().query(uri, null, null, null, null);
+         try {
+            if (cursor != null && cursor.moveToFirst()) {
+               result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+         } finally {
+            cursor.close();
+         }
+      }
+      if (result == null) {
+         result = uri.getPath();
+         int cut = result.lastIndexOf('/');
+         if (cut != -1) {
+            result = result.substring(cut + 1);
+         }
+      }
+      return result;
+   }
 
 }

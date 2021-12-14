@@ -221,6 +221,15 @@ public class NotificationsHelper {
         mNotificationManager.notify(id, mBuilder.build());
     }
 
+    public void finishScopedStorageExport(Intent intent, String titleMessage, String contentMessage) {
+       finishScopedStorageExport(0, intent, titleMessage, contentMessage);
+    }
+
+    public void finishScopedStorageExport(int id, Intent intent, String titleMessage, String contentMessage) {
+        mBuilder.setContentTitle(titleMessage).setContentText(contentMessage). setProgress(0,0,false).setOngoing(false);
+        mNotificationManager.notify(id, mBuilder.build());
+    }
+
     public void cancel() {
         mNotificationManager.cancel(0);
     }

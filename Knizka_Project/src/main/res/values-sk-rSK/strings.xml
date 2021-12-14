@@ -259,6 +259,8 @@
   <string name="dialog_JKS_categories_caption">Kategórie piesní</string>
   <string name="dialog_choose_linked_set_caption">Zostavy modlitieb</string>
   <string name="dialog_button_cancel">Zrušiť</string>
+  <string name="exported_texts">Počet textov</string>
+  <string name="exported_attachments">Príloh</string>
 
   <!-- Settings -->
   <string name="dashclock_description">Zobrazí niektoré štatistiky a blížiace sa pripomienky z Knižky</string>

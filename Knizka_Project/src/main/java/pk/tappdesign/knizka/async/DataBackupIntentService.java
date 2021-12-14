@@ -51,7 +51,7 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
     public static final String INTENT_BACKUP_NAME = "backup_name";
     public static final String INTENT_BACKUP_INCLUDE_SETTINGS = "backup_include_settings";
-    public static final String ACTION_DATA_EXPORT = "action_data_export";
+    public static final String ACTION_DATA_EXPORT = "action_data_export_scoped_storage";
    public static final String ACTION_DATA_EXPORT_RAW_DATABASE = "action_data_export_raw_database";
     public static final String ACTION_DATA_IMPORT = "action_data_import";
     public static final String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";

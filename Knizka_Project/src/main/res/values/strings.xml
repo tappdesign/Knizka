@@ -278,6 +278,8 @@
     <string name="dialog_JKS_categories_caption">Category of JKS songs</string>
     <string name="dialog_choose_linked_set_caption">Choose linked set</string>
     <string name="dialog_button_cancel">Cancel</string>
+    <string name="exported_texts">Texts count</string>
+    <string name="exported_attachments">Attachments</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>

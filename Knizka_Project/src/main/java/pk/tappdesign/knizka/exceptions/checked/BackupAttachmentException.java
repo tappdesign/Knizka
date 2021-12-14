@@ -22,5 +22,7 @@ public class BackupAttachmentException extends Exception {
   public BackupAttachmentException(Exception e) {
     super(e);
   }
-
+  public BackupAttachmentException() {
+   super ();
+  }
 }

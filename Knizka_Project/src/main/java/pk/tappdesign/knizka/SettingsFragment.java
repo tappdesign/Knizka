@@ -24,6 +24,7 @@ import static android.provider.Settings.System.DEFAULT_NOTIFICATION_URI;
 import static pk.tappdesign.knizka.db.DBConst.DB_ATTACHED;
 import static pk.tappdesign.knizka.db.DBConst.DB_USER_DATA;
 import static pk.tappdesign.knizka.utils.ConstantsBase.DATE_FORMAT_EXPORT;
+import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_AUTO_LOCATION;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_COLORS_APP_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_ENABLE_FILE_LOGGING;
@@ -50,6 +51,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -59,6 +61,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.Toolbar;
+import androidx.documentfile.provider.DocumentFile;
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -88,6 +91,9 @@ import pk.tappdesign.knizka.utils.StorageHelper;
 import pk.tappdesign.knizka.utils.SystemHelper;
 import pk.tappdesign.knizka.db.DbHelper;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
@@ -98,8 +104,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
+  private static final int CHOOSE_DIRECTORY_REQUEST_CODE = 200;
   public static final String XML_NAME = "xmlName";
-
+  public static final String INTENT_KEY_BACKUP_NAME = "keyBackupName";
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -158,10 +165,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_backup_layout, null);
 
-        // Finds actually saved backups names
-        PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-            .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> export
-            (v));
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+          // Finds actually saved backups names
+          PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                  .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> exportBeforeAndroid9
+                  (v));
+        } else {
+          exportAfterAndroid9();
+        }
 
         return false;
       });
@@ -704,8 +715,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
   }
 
+  private void exportAfterAndroid9()
+  {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+    startActivityForResult(intent, CHOOSE_DIRECTORY_REQUEST_CODE);
+  }
 
-  private void export(View v) {
+
+  private void exportBeforeAndroid9(View v) {
     String[] backupsArray = StorageHelper.getOrCreateExternalStoragePublicDir().list();
     final List<String> backups = ArrayUtils.isEmpty(backupsArray) ? emptyList() : asList(backupsArray);
 
@@ -750,6 +767,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
               fileNameEditText.getHint().toString() : fileNameEditText.getText().toString();
           BackupHelper.startBackupService(backupName);
         }).build().show();
+
   }
 
 
@@ -806,7 +824,6 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     super.onStart();
   }
 
-
   @Override
   public void onActivityResult (int requestCode, int resultCode, Intent intent) {
     if (resultCode == Activity.RESULT_OK) {
@@ -825,6 +842,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           Uri uri = intent.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
           String notificationSound = uri == null ? null : uri.toString();
           Prefs.edit().putString("settings_notification_ringtone", notificationSound).apply();
+          break;
+
+        case CHOOSE_DIRECTORY_REQUEST_CODE:
+          Uri treePath = intent.getData();
+          if (treePath != null)
+          {
+            BackupHelper.startBackupServiceScopedStorage(treePath);
+          } else {
+            LogDelegate.e("No Uri data provided");
+          }
+
           break;
 
         default:
