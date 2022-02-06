@@ -861,6 +861,7 @@ public class DbHelper extends SQLiteOpenHelper {
     newNote.setCreation("");
     newNote.setLastModification("");
     newNote.setTitle(note.getTitle() + Knizka.getAppContext().getString(R.string.note_duplicate_title_text));
+    newNote.getAttachmentsList().clear();
 
     if (note.getPrayerMerged() == PRAYER_MERGED_LINKED_SET) {
       newNote.setPackageID(PACKAGE_USER_ADDED);
@@ -1318,6 +1319,12 @@ public class DbHelper extends SQLiteOpenHelper {
 
     // update category ID if required. (if not exist)
     category.setId(category.getId() != null ? category.getId() : Calendar.getInstance().getTimeInMillis());
+
+    // skip JKS categories, cannot be edited
+    if ((category.getId() >= 1000) && (category.getId() <= 1100))
+    {
+      return category;
+    }
 
     if (category.getId() > 100)
     {

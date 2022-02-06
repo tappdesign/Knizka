@@ -23,6 +23,7 @@ import static android.media.RingtoneManager.EXTRA_RINGTONE_EXISTING_URI;
 import static android.provider.Settings.System.DEFAULT_NOTIFICATION_URI;
 import static pk.tappdesign.knizka.db.DBConst.DB_ATTACHED;
 import static pk.tappdesign.knizka.db.DBConst.DB_USER_DATA;
+import static pk.tappdesign.knizka.helpers.PermissionsHelper.requestPermission;
 import static pk.tappdesign.knizka.utils.ConstantsBase.DATE_FORMAT_EXPORT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.INTENT_EXTRA_MAX_PAGES_IN_BROWSER;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_AUTO_LOCATION;
@@ -105,6 +106,9 @@ public class SettingsFragment extends PreferenceFragmentCompat {
   private static final int SPRINGPAD_IMPORT = 0;
   private static final int RINGTONE_REQUEST_CODE = 100;
   private static final int CHOOSE_DIRECTORY_REQUEST_CODE = 200;
+  private static final int CHOOSE_RAW_DIRECTORY_REQUEST_CODE = 300;
+  private static final int CHOOSE_DIRECTORY_FOR_IMPORT_REQUEST_CODE = 400;
+  private static final int CHOOSE_DIRECTORY_FOR_RAW_IMPORT_REQUEST_CODE = 500;
   public static final String XML_NAME = "xmlName";
   public static final String INTENT_KEY_BACKUP_NAME = "keyBackupName";
 
@@ -167,7 +171,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
           // Finds actually saved backups names
-          PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+          requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                   .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> exportBeforeAndroid9
                   (v));
         } else {
@@ -187,10 +191,14 @@ public class SettingsFragment extends PreferenceFragmentCompat {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.dialog_backup_layout, null);
 
-        // Finds actually saved backups names
-        PermissionsHelper.requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> exportRAWDB
-                (v));
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+          // Finds actually saved backups names
+          requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                  .string.permission_external_storage, getActivity().findViewById(R.id.crouton_handle), () -> exportRAWDB
+                  (v));
+        } else {
+          exportRAWAfterAndroid9();
+        }
 
         return false;
       });
@@ -200,12 +208,17 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     Preference importData = findPreference("settings_import_data");
     if (importData != null) {
       importData.setOnPreferenceClickListener(arg0 -> {
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), this::importNotes);
-        return false;
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+          requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+                          .string.permission_external_storage,
+                  getActivity().findViewById(R.id.crouton_handle), this::importNotes);
+          return false;
+        } else {
+          importAfterAndroid9();
+          return false;
+        }
       });
+
     }
 
     // Import legacy notes
@@ -214,14 +227,19 @@ public class SettingsFragment extends PreferenceFragmentCompat {
       importLegacyData.setOnPreferenceClickListener(arg0 -> {
 
         // Finds actually saved backups names
-        PermissionsHelper
-            .requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
-                    .string.permission_external_storage,
-                getActivity().findViewById(R.id.crouton_handle), () -> new
-                    FolderChooserDialog.Builder(getActivity())
-                    .chooseButton(R.string.md_choose_label)
-                    .show(getActivity()));
-        return false;
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.P) {
+          PermissionsHelper
+                  .requestPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE, R
+                                  .string.permission_external_storage,
+                          getActivity().findViewById(R.id.crouton_handle), () -> new
+                                  FolderChooserDialog.Builder(getActivity())
+                                  .chooseButton(R.string.md_choose_label)
+                                  .show(getActivity()));
+          return false;
+        } else {
+          importRAWDBAfterAndroid9();
+          return false;
+        }
       });
     }
 
@@ -617,8 +635,7 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     if (enableFileLogging != null) {
       enableFileLogging.setOnPreferenceChangeListener((preference, newValue) -> {
         if ((Boolean) newValue) {
-          PermissionsHelper
-              .requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
+          requestPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE, R
                       .string.permission_external_storage,
                   getActivity().findViewById(R.id.crouton_handle),
                   () -> enableFileLogging.setChecked(true));
@@ -715,10 +732,30 @@ public class SettingsFragment extends PreferenceFragmentCompat {
     }
   }
 
+
+  private void importAfterAndroid9()
+  {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+    startActivityForResult(intent, CHOOSE_DIRECTORY_FOR_IMPORT_REQUEST_CODE);
+  }
+
+
+  private void importRAWDBAfterAndroid9()
+  {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+    startActivityForResult(intent, CHOOSE_DIRECTORY_FOR_RAW_IMPORT_REQUEST_CODE);
+  }
+
   private void exportAfterAndroid9()
   {
     Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
     startActivityForResult(intent, CHOOSE_DIRECTORY_REQUEST_CODE);
+  }
+
+  private void exportRAWAfterAndroid9()
+  {
+    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+    startActivityForResult(intent, CHOOSE_RAW_DIRECTORY_REQUEST_CODE);
   }
 
 
@@ -852,8 +889,38 @@ public class SettingsFragment extends PreferenceFragmentCompat {
           } else {
             LogDelegate.e("No Uri data provided");
           }
-
           break;
+
+        case CHOOSE_RAW_DIRECTORY_REQUEST_CODE:
+          Uri treePathRaw = intent.getData();
+          if (treePathRaw != null)
+          {
+            BackupHelper.startRAWBackupServiceScopedStorage(treePathRaw);
+          } else {
+            LogDelegate.e("No Uri data provided");
+          }
+          break;
+
+        case CHOOSE_DIRECTORY_FOR_IMPORT_REQUEST_CODE:
+          Uri treePathImport = intent.getData();
+          if (treePathImport != null)
+          {
+            BackupHelper.startImportServiceScopedStorage(treePathImport);
+          } else {
+            LogDelegate.e("No Uri data provided");
+          }
+          break;
+
+        case CHOOSE_DIRECTORY_FOR_RAW_IMPORT_REQUEST_CODE:
+          Uri treePathRAWImport = intent.getData();
+          if (treePathRAWImport != null)
+          {
+            BackupHelper.startRAWImportServiceScopedStorage(treePathRAWImport);
+          } else {
+            LogDelegate.e("No Uri data provided");
+          }
+          break;
+
 
         default:
           LogDelegate.e("Wrong element choosen: " + requestCode);

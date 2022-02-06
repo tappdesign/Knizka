@@ -31,6 +31,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
@@ -57,7 +59,6 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
     public static final String ACTION_DATA_IMPORT_LEGACY = "action_data_import_legacy";
     public static final String ACTION_DATA_DELETE = "action_data_delete";
 
-    private SharedPreferences prefs;
     private NotificationsHelper mNotificationsHelper;
 
 //    {
@@ -222,9 +223,9 @@ public class DataBackupIntentService extends IntentService implements OnAttachin
 
         NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
         notificationsHelper.createStandardNotification(NotificationChannelNames.BACKUPS, R.drawable.ic_content_save_white_24dp, title, notifyIntent)
-                .setMessage(message).setRingtone(prefs.getString("settings_notification_ringtone", null))
+                .setMessage(message).setRingtone(Prefs.getString("settings_notification_ringtone", null))
                 .setLedActive();
-        if (prefs.getBoolean("settings_notification_vibration", true)) notificationsHelper.setVibration();
+        if (Prefs.getBoolean("settings_notification_vibration", true)) notificationsHelper.setVibration();
         notificationsHelper.show();
     }
 

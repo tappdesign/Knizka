@@ -97,8 +97,11 @@
   <string name="data_export_message">Vložte názov zálohy</string>
   <string name="data_import_message">Obnoviť</string>
   <string name="data_import_message_warning">VAROVANIE: Toto nahradí všetky aktuálne údaje!</string>
+  <string name="data_export_started">Export dát bol spustený na pozadí. Priebeh je zobrazený v notifikačnej lište.</string>
   <string name="data_export_completed">Záloha údajov bola dokončená</string>
+  <string name="data_import_started">Import dát bol spustený na pozadí. Priebeh je zobrazený v notifikačnej lište.</string>
   <string name="data_import_completed">Import údajov bol dokončený</string>
+  <string name="data_import_failed">Import údajov neprebehol korektne</string>
   <string name="click_to_refresh_application">Kliknite pre obnovu aplikácie</string>
   <string name="backup_existing">Záloha už existuje, a preto bude prepísaná</string>
   <string name="dialog_title_warning">Upozornenie</string>
@@ -227,6 +230,8 @@
   <string name="online_manual">Návod na internete</string>
   <string name="tags_added">Značky boli pridané</string>
   <string name="working">Pracovanie...</string>
+  <string name="working_export">Prebieha export...</string>
+  <string name="working_import">Prebieha import...</string>
   <string name="imported">importovaných</string>
   <string name="synchronize">Synchronizovať</string>
   <string name="extracted">extrahovaných</string>

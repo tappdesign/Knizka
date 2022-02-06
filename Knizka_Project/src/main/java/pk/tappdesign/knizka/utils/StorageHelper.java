@@ -42,18 +42,23 @@ import androidx.documentfile.provider.DocumentFile;
 import pk.tappdesign.knizka.exceptions.unchecked.ExternalDirectoryCreationException;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.models.Attachment;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -191,6 +196,19 @@ public class StorageHelper {
         }
     }
 
+
+   public static String readTextFromDocumentFile(DocumentFile documentFile) throws IOException {
+      StringBuilder stringBuilder = new StringBuilder();
+      try (InputStream inputStream = Knizka.getAppContext().getContentResolver().openInputStream(documentFile.getUri());
+         BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream))))
+         {
+            String line;
+            while ((line = reader.readLine()) != null) {
+               stringBuilder.append(line);
+            }
+         }
+      return stringBuilder.toString();
+   }
 
    public static boolean copyDocumentFile(DocumentFile source, DocumentFile destination) {
       try {
