@@ -30,14 +30,19 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
+import androidx.documentfile.provider.DocumentFile;
+
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
+import pk.tappdesign.knizka.async.DataBackupIntentScopedStorageService;
 import pk.tappdesign.knizka.async.DataBackupIntentService;
 import pk.tappdesign.knizka.db.DbHelper;
 import pk.tappdesign.knizka.exceptions.checked.BackupAttachmentException;
+import pk.tappdesign.knizka.exceptions.checked.BackupNoteException;
 import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 import pk.tappdesign.knizka.models.Attachment;
 import pk.tappdesign.knizka.models.Note;
+import pk.tappdesign.knizka.models.data.ExportImportResult;
 import pk.tappdesign.knizka.utils.FileProviderHelper;
 import pk.tappdesign.knizka.utils.Security;
 import pk.tappdesign.knizka.utils.StorageHelper;
@@ -46,6 +51,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -53,7 +59,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
@@ -61,6 +66,7 @@ import org.apache.commons.io.filefilter.RegexFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.bitbucket.cowwoc.diffmatchpatch.DiffMatchPatch;
 import android.os.Environment;
+import android.widget.Toast;
 
 import com.pixplicity.easyprefs.library.Prefs;
 
@@ -93,23 +99,94 @@ public class BackupHelper {
 		}
 	}
 
+	private static void copyDBFile(File databaseFile, DocumentFile backupDir)
+	{
+		DocumentFile sourceFile = DocumentFile.fromFile(databaseFile);
+		String fileName = StorageHelper.getFileName(Knizka.getAppContext(), sourceFile.getUri());
+		DocumentFile destinationFile = backupDir.createFile(sourceFile.getType(), fileName);
+
+		StorageHelper.copyDocumentFile(sourceFile, destinationFile);
+	}
+
+	public static void exportRawDBScopedStorage(Context context, DocumentFile backupDir)
+	{
+		try {
+				File database = context.getDatabasePath(DB_ATTACHED);
+				if (database.exists()) {
+					copyDBFile(database, backupDir);
+				}
+
+				database = context.getDatabasePath(DB_USER_DATA);
+				if (database.exists()) {
+					copyDBFile(database, backupDir);
+				}
+		} catch (Exception e) {
+			LogDelegate.e("Error backupping DB file. " + e.getStackTrace());
+		}
+	}
+
   public static void exportNotes(File backupDir) {
     for (Note note : DbHelper.getInstance(true).getAllNotes(false)) {
       exportNote(backupDir, note);
     }
   }
 
-  public static void exportNote(File backupDir, Note note) {
-    if (Boolean.TRUE.equals(note.isLocked())) {
-      note.setContent(Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
-    }
-    File noteFile = getBackupNoteFile(backupDir, note);
-    try {
-      FileUtils.write(noteFile, note.toJSON());
-    } catch (IOException e) {
-      LogDelegate.e(String.format("Error on note %s backup: %s",  note.get_id(), e.getMessage()));
-    }
-  }
+	public static void exportNote(File backupDir, Note note) {
+		if (Boolean.TRUE.equals(note.isLocked())) {
+			note.setContent(Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
+		}
+		File noteFile = getBackupNoteFile(backupDir, note);
+		try {
+			FileUtils.write(noteFile, note.toJSON());
+		} catch (IOException e) {
+			LogDelegate.e(String.format("Error on note %s backup: %s",  note.get_id(), e.getMessage()));
+		}
+	}
+
+	public static ExportImportResult exportNotesScopedStorage(DocumentFile backupDir, NotificationsHelper notificationsHelper) {
+		ExportImportResult result = new ExportImportResult();
+
+		String failedString = "";
+
+		List<Note> list = DbHelper.getInstance(true).getAllNotes(false);
+		for (Note note : list) {
+			try {
+				exportNoteScopedStorage(backupDir, note);
+				result.addSuccessfully();
+			} catch (BackupNoteException e) {
+				result.addFailed();
+				failedString = " (" + result.getFailed() + " " + Knizka.getAppContext().getString(R.string.failed) + ")";
+			}
+			notifyNoteBackup(notificationsHelper, list.size(), result.getSuccessfully(), failedString);
+		}
+		return result;
+	}
+
+	public static void exportNoteScopedStorage(DocumentFile backupDir, Note note)
+			throws BackupNoteException {
+
+		try {
+			if (Boolean.TRUE.equals(note.isLocked())) {
+				note.setContent(Security.encrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
+			}
+
+			DocumentFile noteFile = backupDir.createFile("application/json", "" + note.get_id());
+
+			try {
+				OutputStream outputStream = Knizka.getAppContext().getContentResolver().openOutputStream(noteFile.getUri());
+				outputStream.write(note.toJSON().getBytes());
+				outputStream.flush();
+				outputStream.close();
+			} catch (IOException e) {
+				LogDelegate.e(String.format("Error on note %s backup: %s", note.get_id(), e.getMessage()));
+				throw new BackupNoteException(e);
+			}
+		} catch (Exception e) {
+			LogDelegate.e("Error during note backup: " + note.get_id(), e);
+			throw new BackupNoteException(e);
+		}
+	}
+
 
 	@NonNull
 	public static File getBackupNoteFile(File backupDir, Note note) {
@@ -145,8 +222,10 @@ public class BackupHelper {
 				result = false;
 			}
 		}
-		duplicatedNote.setAttachmentsListOld(list);
-		duplicatedNote.setAttachmentsList(new ArrayList<>(list));
+		duplicatedNote.getAttachmentsListOld().clear();
+		duplicatedNote.setAttachmentsList(list);
+		DbHelper.getInstance().updateNote(duplicatedNote, false);
+
 		return result;
 	}
 
@@ -167,8 +246,84 @@ public class BackupHelper {
 		return exportAttachments(backupDir, null);
 	}
 
+	public static void exportSettingsScopedStorage(DocumentFile backupDir) {
 
-  /**
+		try
+		{
+			// create directory for settings
+			DocumentFile settingsFolder = backupDir.createDirectory("Settings");
+
+			File preferences = StorageHelper.getSharedPreferencesFile(Knizka.getAppContext());
+			DocumentFile sourceFile = DocumentFile.fromFile(preferences);
+			String fileName = StorageHelper.getFileName(Knizka.getAppContext(), sourceFile.getUri());
+			DocumentFile destinationFile = settingsFolder.createFile(sourceFile.getType(), fileName);
+
+			StorageHelper.copyDocumentFile(sourceFile, destinationFile);
+		} catch (Exception e) {
+			LogDelegate.e("Exception during settings backup: ", e);
+		}
+
+		return;
+	}
+
+
+	public static ExportImportResult exportAttachmentsScopedStorage(DocumentFile backupDir, NotificationsHelper notificationsHelper) {
+
+		ExportImportResult result;
+
+		// create directory for attachments
+		DocumentFile attachmentFolder = backupDir.createDirectory("Attachments");
+
+		ArrayList<Attachment> list = DbHelper.getInstance().getAllAttachments();
+
+		result = exportAllAttachmentsScopedStorage(attachmentFolder, list, notificationsHelper);
+
+		return result;
+	}
+
+
+	public static ExportImportResult exportAllAttachmentsScopedStorage(DocumentFile attachmentFolder, List<Attachment> list, NotificationsHelper notificationsHelper) {
+
+		ExportImportResult result = new ExportImportResult();
+
+		String failedString = "";
+
+		for (Attachment attachment : list) {
+			try {
+				exportAttachmentScopedStorage(attachmentFolder, attachment);
+				result.addSuccessfully();
+			} catch (BackupAttachmentException e) {
+				result.addFailed();
+				failedString = " (" + result.getFailed() + " " + Knizka.getAppContext().getString(R.string.failed) + ")";
+			}
+			notifyAttachmentBackup(notificationsHelper, list, result.getSuccessfully(), failedString);
+		}
+
+		return result;
+	}
+
+
+	private static void exportAttachmentScopedStorage(DocumentFile attachmentFolder, Attachment attachment)
+			throws BackupAttachmentException {
+		try {
+
+			String fileName = StorageHelper.getFileName(Knizka.getAppContext(), attachment.getUri());
+			DocumentFile fileToBackup = DocumentFile.fromSingleUri(Knizka.getAppContext(), attachment.getUri());
+			DocumentFile destinationFile = attachmentFolder.createFile(attachment.getMime_type(), fileName);
+
+			if (StorageHelper.copyDocumentFile(fileToBackup, destinationFile) == false)
+			{
+				LogDelegate.e("Exception by copying file: " + attachment.getUri());
+				throw new BackupAttachmentException();
+			}
+		} catch (Exception e) {
+			LogDelegate.e("Error during attachment backup: " + attachment.getUriPath(), e);
+			throw new BackupAttachmentException(e);
+		}
+	}
+
+
+	/**
    * Export attachments to backup folder notifying for each attachment copied
    *
    * @return True if success, false otherwise
@@ -211,15 +366,59 @@ public class BackupHelper {
     return result;
   }
 
-  private static void notifyAttachmentBackup(NotificationsHelper notificationsHelper,
+  private static String notifyAttachmentBackup(NotificationsHelper notificationsHelper,
       List<Attachment> list, int exported, String failedString) {
-    if (notificationsHelper != null) {
-      String notificationMessage =
+  	 String notificationMessage = "";
+
+  	 if (notificationsHelper != null) {
+       notificationMessage =
           TextHelper.capitalize(Knizka.getAppContext().getString(R.string.attachment)) + " "
               + exported + "/" + list.size() + failedString;
       notificationsHelper.updateMessage(notificationMessage);
     }
+	  return notificationMessage;
   }
+
+	private static String notifyNoteBackup(NotificationsHelper notificationsHelper,
+															 int AllNotes, int exported, String failedString) {
+		String notificationMessage = "";
+
+		if (notificationsHelper != null) {
+			 notificationMessage =
+					TextHelper.capitalize(Knizka.getAppContext().getString(R.string.note)) + " "
+							+ exported + "/" + AllNotes + failedString;
+			notificationsHelper.updateMessage(notificationMessage);
+		}
+
+		return notificationMessage;
+	}
+
+	private static String notifyAttachmentImport(NotificationsHelper notificationsHelper,
+																int listSize, int imported) {
+		String notificationMessage = "";
+
+		if (notificationsHelper != null) {
+			notificationMessage =
+					TextHelper.capitalize(Knizka.getAppContext().getString(R.string.attachment)) + " "
+							+ imported + "/" + listSize;
+			notificationsHelper.updateMessage(notificationMessage);
+		}
+		return notificationMessage;
+	}
+
+	private static String notifyNoteImport(NotificationsHelper notificationsHelper,
+														int AllNotes, int imported) {
+		String notificationMessage = "";
+
+		if (notificationsHelper != null) {
+			notificationMessage =
+					TextHelper.capitalize(Knizka.getAppContext().getString(R.string.note)) + " "
+							+ imported + "/" + AllNotes;
+			notificationsHelper.updateMessage(notificationMessage);
+		}
+
+		return notificationMessage;
+	}
 
   private static void exportAttachment(File attachmentsDestination, Attachment attachment)
       throws BackupAttachmentException {
@@ -233,7 +432,22 @@ public class BackupHelper {
     }
   }
 
-  public static List<Note> importNotes(File backupDir) {
+	public static ExportImportResult importNotesScopedStorage(DocumentFile backupDir, NotificationsHelper notificationsHelper) {
+
+  		ExportImportResult result = new ExportImportResult();
+		int i = 0;
+		for(DocumentFile documentFile:backupDir.listFiles()){
+			if (documentFile.getName().endsWith("json"))
+			{
+				importNote(documentFile);
+				notifyNoteImport(notificationsHelper, backupDir.listFiles().length, ++i);
+			}
+		}
+
+		return result;
+	}
+
+	public static List<Note> importNotes(File backupDir) {
     List<Note> notes = new ArrayList<>();
     for (File file : FileUtils
         .listFiles(backupDir, new RegexFileFilter("\\d{13}.json"), TrueFileFilter.INSTANCE)) {
@@ -242,18 +456,51 @@ public class BackupHelper {
     return notes;
   }
 
+   public static void finishImportNote(Note note)
+	{
+		if (note.getCategory() != null) {
+			DbHelper.getInstance().updateCategory(note.getCategory());
+		}
+		if (Boolean.TRUE.equals(note.isLocked())) {
+			note.setContent(Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
+		}
+		DbHelper.getInstance().updateNote(note, false);
+	}
+
+	public static Note importNote(DocumentFile documentFile) {
+
+  	   Note note = getImportNote(documentFile);
+
+		finishImportNote(note);
+
+		return note;
+	}
+
   public static Note importNote(File file) {
-    Note note = getImportNote(file);
-    if (note.getCategory() != null) {
-      DbHelper.getInstance().updateCategory(note.getCategory());
-    }
-    if (Boolean.TRUE.equals(note.isLocked())) {
-      note.setContent(Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
-    }
-    DbHelper.getInstance().updateNote(note, false);
+
+  	Note note = getImportNote(file);
+
+    finishImportNote(note);
+
     return note;
   }
 
+	/**
+	 * Retrieves single note from its file
+	 */
+	public static Note getImportNote(DocumentFile file) {
+		try {
+			Note note = new Note();
+			String jsonString = StorageHelper.readTextFromDocumentFile(file);
+			if (!TextUtils.isEmpty(jsonString)) {
+				note.buildFromJson(jsonString);
+			}
+			return note;
+		} catch (IOException e) {
+			LogDelegate.e("Error parsing note json");
+			return new Note();
+		}
+	}
 
 	/**
 	 * Retrieves single note from its file
@@ -274,9 +521,35 @@ public class BackupHelper {
 		}
 	}
 
-  /**
-   * Import attachments from backup folder notifying for each imported item
-   */
+	public static boolean importAttachmentsScopedStorage(DocumentFile backupDir, NotificationsHelper notificationsHelper) {
+
+		DocumentFile attachmentFiles = backupDir.findFile("Attachments");
+
+		if (attachmentFiles != null)
+		{
+			int i =0;
+			for (DocumentFile attachmentFile:attachmentFiles.listFiles()) {
+
+				File f = null;
+				f = new File(Knizka.getAppContext().getExternalFilesDir(null), attachmentFile.getName());
+				// if file not exists, copy from backup application files
+				if (!f.exists())
+				{
+					Uri attachmentUri = FileProviderHelper.getFileProvider(f);
+					DocumentFile destinationFile = DocumentFile.fromSingleUri(Knizka.getAppContext(), attachmentUri);
+					StorageHelper.copyDocumentFile(attachmentFile,destinationFile);
+				}
+
+				notifyAttachmentImport(notificationsHelper, attachmentFiles.listFiles().length, ++i);
+			}
+		}
+
+		return true;
+	}
+
+		/**
+       * Import attachments from backup folder notifying for each imported item
+       */
   public static boolean importAttachments(File backupDir, NotificationsHelper notificationsHelper) {
     AtomicBoolean result = new AtomicBoolean(true);
     File attachmentsDir = StorageHelper.getAttachmentDir();
@@ -328,6 +601,18 @@ public class BackupHelper {
 	}
 
 	/**
+	 * Starts backup service for android versions above 9
+	 * @param backupFolderName folder which was chosen by user
+	 */
+	public static void startBackupServiceScopedStorage(Uri backupFolderName) {
+		Intent service = new Intent(Knizka.getAppContext(), DataBackupIntentScopedStorageService.class);
+		service.setAction(DataBackupIntentScopedStorageService.ACTION_DATA_EXPORT_SCOPED_STORAGE);
+		service.putExtra(DataBackupIntentScopedStorageService.INTENT_BACKUP_URI, backupFolderName.toString());
+		Knizka.getAppContext().startService(service);
+		Toast.makeText(Knizka.getAppContext(), Knizka.getAppContext().getString(R.string.data_export_started), Toast.LENGTH_LONG).show();
+	}
+
+	/**
 	 * Starts backup service
 	 * @param backupFolderName subfolder of the app's external sd folder where notes will be stored
 	 */
@@ -335,6 +620,17 @@ public class BackupHelper {
 		Intent service = new Intent(Knizka.getAppContext(), DataBackupIntentService.class);
 		service.setAction(DataBackupIntentService.ACTION_DATA_EXPORT_RAW_DATABASE);
 		service.putExtra(DataBackupIntentService.INTENT_BACKUP_NAME, backupFolderName);
+		Knizka.getAppContext().startService(service);
+	}
+
+	/**
+	 * Starts backup service for android versions above 9
+	 * @param backupFolderName folder which was chosen by user
+	 */
+	public static void startRAWBackupServiceScopedStorage(Uri backupFolderName) {
+		Intent service = new Intent(Knizka.getAppContext(), DataBackupIntentScopedStorageService.class);
+		service.setAction(DataBackupIntentScopedStorageService.ACTION_DATA_EXPORT_RAW_DATABASE);
+		service.putExtra(DataBackupIntentScopedStorageService.INTENT_BACKUP_URI, backupFolderName.toString());
 		Knizka.getAppContext().startService(service);
 	}
 
@@ -356,6 +652,28 @@ public class BackupHelper {
 		return (StorageHelper.copyFile(preferenceBackup, preferences));
 	}
 
+	/**
+	 * Starts import service for android versions above 9
+	 * @param backupFolderName folder which was chosen by user
+	 */
+	public static void startImportServiceScopedStorage(Uri backupFolderName) {
+		Intent service = new Intent(Knizka.getAppContext(), DataBackupIntentScopedStorageService.class);
+		service.setAction(DataBackupIntentScopedStorageService.ACTION_DATA_IMPORT_SCOPED_STORAGE);
+		service.putExtra(DataBackupIntentScopedStorageService.INTENT_BACKUP_URI, backupFolderName.toString());
+		Knizka.getAppContext().startService(service);
+		Toast.makeText(Knizka.getAppContext(), Knizka.getAppContext().getString(R.string.data_import_started), Toast.LENGTH_LONG).show();
+	}
+
+	/**
+	 * Starts RAW DB import service for android versions above 9
+	 * @param backupFolderName folder which was chosen by user
+	 */
+	public static void startRAWImportServiceScopedStorage(Uri backupFolderName) {
+		Intent service = new Intent(Knizka.getAppContext(), DataBackupIntentScopedStorageService.class);
+		service.setAction(DataBackupIntentScopedStorageService.ACTION_DATA_IMPORT_RAW_SCOPED_STORAGE);
+		service.putExtra(DataBackupIntentScopedStorageService.INTENT_BACKUP_URI, backupFolderName.toString());
+		Knizka.getAppContext().startService(service);
+	}
 
 	public static boolean deleteNoteBackup(File backupDir, Note note) {
 		File noteFile = getBackupNoteFile(backupDir, note);

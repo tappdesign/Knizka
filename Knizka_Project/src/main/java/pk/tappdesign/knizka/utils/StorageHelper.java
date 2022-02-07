@@ -33,24 +33,32 @@ import android.webkit.MimeTypeMap;
 import android.widget.Toast;
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
+import pk.tappdesign.knizka.exceptions.checked.BackupAttachmentException;
 import pk.tappdesign.knizka.helpers.BackupHelper;
+import android.provider.OpenableColumns;
 
+import androidx.documentfile.provider.DocumentFile;
 
 import pk.tappdesign.knizka.exceptions.unchecked.ExternalDirectoryCreationException;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.models.Attachment;
+
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.URL;
 import java.security.InvalidParameterException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Objects;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
@@ -171,7 +179,6 @@ public class StorageHelper {
     return false;
   }
 
-
     /**
      * Generic file copy method
      *
@@ -189,6 +196,39 @@ public class StorageHelper {
         }
     }
 
+
+   public static String readTextFromDocumentFile(DocumentFile documentFile) throws IOException {
+      StringBuilder stringBuilder = new StringBuilder();
+      try (InputStream inputStream = Knizka.getAppContext().getContentResolver().openInputStream(documentFile.getUri());
+         BufferedReader reader = new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream))))
+         {
+            String line;
+            while ((line = reader.readLine()) != null) {
+               stringBuilder.append(line);
+            }
+         }
+      return stringBuilder.toString();
+   }
+
+   public static boolean copyDocumentFile(DocumentFile source, DocumentFile destination) {
+      try {
+
+         InputStream inStream = Knizka.getAppContext().getContentResolver().openInputStream(source.getUri());
+         OutputStream outStream = Knizka.getAppContext().getContentResolver().openOutputStream(destination.getUri());
+
+         StorageHelper.copyFile(inStream, outStream);
+
+         outStream.flush();
+         outStream.close();
+         inStream.close();
+
+         return true;
+      } catch (IOException e) {
+         LogDelegate.e("Error copying file: " + e.getMessage(), e);
+      }
+
+      return false;
+   }
 
     public static boolean deleteExternalStoragePrivateFile(Context mContext, String name) {
         // Checks for external storage availability
@@ -355,7 +395,6 @@ public class StorageHelper {
                 + packageName
                 + "_preferences.xml");
     }
-
 
     /**
      * Returns a directory size in bytes
@@ -564,5 +603,27 @@ public class StorageHelper {
         FileUtils.copyURLToFile(imageUrl, file);
         return file;
     }
+
+   public static String getFileName(Context mContext, Uri uri) {
+      String result = null;
+      if (uri.getScheme().equals("content")) {
+         Cursor cursor = mContext.getContentResolver().query(uri, null, null, null, null);
+         try {
+            if (cursor != null && cursor.moveToFirst()) {
+               result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+         } finally {
+            cursor.close();
+         }
+      }
+      if (result == null) {
+         result = uri.getPath();
+         int cut = result.lastIndexOf('/');
+         if (cut != -1) {
+            result = result.substring(cut + 1);
+         }
+      }
+      return result;
+   }
 
 }

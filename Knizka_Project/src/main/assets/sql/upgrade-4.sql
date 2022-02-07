@@ -1,13 +1,17 @@
 
+-- correct old style tags (with no space allowed)
+UPDATE user_flags SET uf_tag_list = REPLACE(uf_tag_list,' ',', ');
+
+-- insert tags
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000048); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#anjel, #najzákladnejšie' WHERE uf_handle_id_ref = 11000048;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000070); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#anjel, #pobožnosť' WHERE uf_handle_id_ref = 11000070;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000044); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#anjel' WHERE uf_handle_id_ref = 11000044;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000043); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#anjel' WHERE uf_handle_id_ref = 11000043;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000219); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#anjel' WHERE uf_handle_id_ref = 11000219;
-INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000098); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #zasvätenie, #Kristus Ježiš, #pobožnosť' WHERE uf_handle_id_ref = 11000098;
-INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000050); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #Kristus Ježiš, #pobožnosť' WHERE uf_handle_id_ref = 11000050;
-INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000097); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #Kristus Ježiš, #pobožnosť' WHERE uf_handle_id_ref = 11000097;
-INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000113); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #Kristus Ježiš' WHERE uf_handle_id_ref = 11000113;
+INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000098); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #zasvätenie, #Kristus Ježiš, #pobožnosť, #prvý piatok' WHERE uf_handle_id_ref = 11000098;
+INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000050); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #Kristus Ježiš, #pobožnosť, #prvý piatok' WHERE uf_handle_id_ref = 11000050;
+INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000097); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #Kristus Ježiš, #pobožnosť, #prvý piatok' WHERE uf_handle_id_ref = 11000097;
+INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000113); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Božské Srdce, #Kristus Ježiš, #prvý piatok' WHERE uf_handle_id_ref = 11000113;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000099); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#chorí umierajúci, #rodina, #k svätému mužovi, #pobožnosť' WHERE uf_handle_id_ref = 11000099;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000213); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#chorí umierajúci, #pobožnosť, #milosrdenstvo' WHERE uf_handle_id_ref = 11000213;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000254); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#chorí umierajúci, #milosrdenstvo' WHERE uf_handle_id_ref = 11000254;
@@ -80,7 +84,7 @@ INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000184); UPDATE us
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000060); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#latinské' WHERE uf_handle_id_ref = 11000060;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000039); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#latinské' WHERE uf_handle_id_ref = 11000039;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000188); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#latinské' WHERE uf_handle_id_ref = 11000188;
-INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000010); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#latinské' WHERE uf_handle_id_ref = 11000010;
+INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000010); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#latinské, #prvý piatok' WHERE uf_handle_id_ref = 11000010;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000008); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#latinské' WHERE uf_handle_id_ref = 11000008;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000057); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#latinské' WHERE uf_handle_id_ref = 11000057;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000042); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#mariánske, #spoveď, #chválospev, #ďakovné' WHERE uf_handle_id_ref = 11000042;
@@ -207,8 +211,8 @@ INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000122); UPDATE us
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000209); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#spoveď' WHERE uf_handle_id_ref = 11000209;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000078); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#stolovanie, #najzákladnejšie' WHERE uf_handle_id_ref = 11000078;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000077); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#stolovanie, #najzákladnejšie' WHERE uf_handle_id_ref = 11000077;
-INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000011); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Sviatosť oltárna, #chválospev' WHERE uf_handle_id_ref = 11000011;
-INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000201); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Sviatosť oltárna, #pobožnosť' WHERE uf_handle_id_ref = 11000201;
+INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000011); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Sviatosť oltárna, #chválospev, #prvý piatok' WHERE uf_handle_id_ref = 11000011;
+INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000201); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Sviatosť oltárna, #pobožnosť, #prvý piatok' WHERE uf_handle_id_ref = 11000201;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000087); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Sviatosť oltárna' WHERE uf_handle_id_ref = 11000087;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000241); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Sviatosť oltárna' WHERE uf_handle_id_ref = 11000241;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000126); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#Sviatosť oltárna' WHERE uf_handle_id_ref = 11000126;
@@ -275,4 +279,3 @@ INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000014); UPDATE us
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000032); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#zosnulí, #najzákladnejšie, #milosrdenstvo' WHERE uf_handle_id_ref = 11000032;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000214); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#zosnulí, #pobožnosť, #milosrdenstvo' WHERE uf_handle_id_ref = 11000214;
 INSERT OR IGNORE INTO user_flags (uf_handle_id_ref) VALUES (11000251); UPDATE user_flags SET uf_tag_list = IFNULL(uf_tag_list, '') || ', ' || '#zosnulí' WHERE uf_handle_id_ref = 11000251;
-

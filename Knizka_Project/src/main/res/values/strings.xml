@@ -114,9 +114,12 @@
     <string name="data_export_message">Insert backup name</string>
     <string name="data_import_message">Click -&gt; restore\nLong-click -&gt; delete</string>
     <string name="data_import_message_warning">WARNING: This will replace all current data!</string>
+    <string name="data_export_started">Data export is running on background. You can see the progress in notifications area</string>
     <string name="data_export_completed">Data backup completed</string>
     <string name="data_export_failed">Data backup failed: check logcat for details</string>
+    <string name="data_import_started">Data import is running on background. You can see the progress in notifications area</string>
     <string name="data_import_completed">Data restore completed</string>
+    <string name="data_import_failed">Data restore probably failed</string>
     <string name="click_to_refresh_application">Click to refresh application</string>
     <string name="backup_existing">Backup already exists. It\'ll be overwritten</string>
     <string name="remove_pinned">FATTO</string>
@@ -246,6 +249,8 @@
     <string name="online_manual">Online manual</string>
     <string name="tags_added">Tags added</string>
     <string name="working">Working...</string>
+    <string name="working_export">Export in progress...</string>
+    <string name="working_import">Import in progress...</string>
     <string name="imported">imported</string>
     <string name="synchronize">Synchronize</string>
     <string name="extracted">Extracted</string>
@@ -278,6 +283,8 @@
     <string name="dialog_JKS_categories_caption">Category of JKS songs</string>
     <string name="dialog_choose_linked_set_caption">Choose linked set</string>
     <string name="dialog_button_cancel">Cancel</string>
+    <string name="exported_texts">Texts count</string>
+    <string name="exported_attachments">Attachments</string>
 
     <!-- Settings -->
     <string name="dashclock_description">Displays some statistics and expiring reminders from Omni Notes</string>
