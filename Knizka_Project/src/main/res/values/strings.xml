@@ -433,6 +433,9 @@
     <string name="settings_jks_show_music_score_summary_off">Music sheet for JKS songs is not displayed</string>
     <string name="settings_jks_show_music_score_summary_on">Music sheet for JKS songs is displayed</string>
     <string name="settings_jks_show_music_score_title">Show JKS notes</string>
+    <string name="settings_bold_font_in_texts_summary_off">bold font is not applied in texts</string>
+    <string name="settings_bold_font_in_texts_summary_on">texts are show in bold font</string>
+    <string name="settings_bold_font_in_texts_title">Switch on/off bold font in texts</string>
     <string name="settings_keep_screen_on">Keep screen on</string>
     <string name="settings_keep_screen_on_summary_on">Screen will be always ON</string>
     <string name="settings_keep_screen_on_summary_off">Screen will switch off as it is configured in system settings</string>

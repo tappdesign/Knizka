@@ -32,6 +32,8 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_DIV_MUSIC_SCORE_CONT
 import static pk.tappdesign.knizka.utils.ConstantsBase.HTML_TEXT_TITLE_CLASS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MUSIC_LIBRARY_ABCJS;
 import static pk.tappdesign.knizka.utils.ConstantsBase.MUSIC_LIBRARY_OSMD;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_BOLD_FONT_IN_TEXTS;
+import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_BOLD_FONT_IN_TEXTS_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_DEFAULT;
 import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_HTML_COLOR_SCHEME_VALUE_BRIGHT;
@@ -206,6 +208,25 @@ public class HTMLProducer {
         return result;
     }
 
+    private static String startBoldFontIfConfigured()
+    {
+       String result = "";
+        if (Prefs.getBoolean(PREF_BOLD_FONT_IN_TEXTS, PREF_BOLD_FONT_IN_TEXTS_DEFAULT))
+        {
+            result = "<B>";
+        }
+       return result;
+    }
+    private static String endBoldFontIfConfigured()
+    {
+        String result = "";
+        if (Prefs.getBoolean(PREF_BOLD_FONT_IN_TEXTS, PREF_BOLD_FONT_IN_TEXTS_DEFAULT))
+        {
+            result = "</B>";
+        }
+        return result;
+    }
+
     public static String getHTML(long noteHandleID, String caption, String htmlText)
     {
         String retVal;
@@ -218,11 +239,13 @@ public class HTMLProducer {
                 ReadFileAssetsHelper.getInstance().getTDJSUtils() +
                 getMusicScoreLibrary(noteHandleID) +
                 "</head><body onload=\"assignAccordions()\">"+
+                startBoldFontIfConfigured() +
                 HTML_TEXT_TITLE_CLASS + caption + HTML_DIV_END_TAG +
                 HTML_DIV_MUSIC_SCORE_CONTAINER +
                 htmlText +
                 getMusicSheetAsJS(noteHandleID) +
                 getMusicScoreScriptRenderer(noteHandleID)+
+                endBoldFontIfConfigured() +
                 "</body></html>";
 
         return retVal;

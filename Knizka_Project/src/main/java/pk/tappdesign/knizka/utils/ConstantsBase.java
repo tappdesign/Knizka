@@ -149,6 +149,8 @@ public interface ConstantsBase {
 	String PREF_ATTACHMENTS_ON_BOTTOM = "settings_attachments_on_bottom";
 	String PREF_JKS_SHOW_MUSIC_SCORE = "settings_jks_show_music_score";
 	boolean PREF_JKS_SHOW_MUSIC_SCORE_DEFAULT = true;
+	String PREF_BOLD_FONT_IN_TEXTS = "settings_bold_font_in_texts";
+	boolean PREF_BOLD_FONT_IN_TEXTS_DEFAULT = false;
 	String PREF_KEEP_SCREEN_ON = "settings_keep_screen_on";
 	boolean PREF_KEEP_SCREEN_ON_DEFAULT = false;
 	String PREF_SHOW_FULLSCREEN = "settings_show_full_screen";

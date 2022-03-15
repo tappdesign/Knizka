@@ -411,6 +411,9 @@
   <string name="settings_jks_show_music_score_summary_off">Notový zápis v JKS piesňach je vypnutý</string>
   <string name="settings_jks_show_music_score_summary_on">Notový zápis v JKS piesňach je zapnutý</string>
   <string name="settings_jks_show_music_score_title">Zobraziť noty v piesňach</string>
+  <string name="settings_bold_font_in_texts_summary_off">Tučné písmo je v textoch vypnuté</string>
+  <string name="settings_bold_font_in_texts_summary_on">V textoch je zobrazené tučné písmo</string>
+  <string name="settings_bold_font_in_texts_title">Zobraziť tučné písmo v textoch</string>
   <string name="settings_keep_screen_on">Nezhasínať obrazovku</string>
   <string name="settings_keep_screen_on_summary_on">Obrazovka zariadenia bude stále zapnutá</string>
   <string name="settings_keep_screen_on_summary_off">Obrazovka zariadenia sa po čase vypne, ako je nastavené v systémových nastaveniach</string>

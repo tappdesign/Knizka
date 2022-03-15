@@ -253,7 +253,12 @@ div.chordline {
 	font-size:xx-large;
 }
 
-
+.NoteWrapper ul
+{
+	margin: 0;
+	-webkit-margin-after: 0em;
+	-webkit-margin-before: 0em;
+}
 
 
 /* --- Decoration class - Start and End of HTML   */

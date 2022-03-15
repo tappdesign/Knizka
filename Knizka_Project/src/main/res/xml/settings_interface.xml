@@ -50,6 +50,14 @@
       android:title="@string/settings_jks_show_music_score_title"
       app:iconSpaceReserved="false" />
 
+  <SwitchPreference
+      android:defaultValue="false"
+      android:key="settings_bold_font_in_texts"
+      android:summaryOff="@string/settings_bold_font_in_texts_summary_off"
+      android:summaryOn="@string/settings_bold_font_in_texts_summary_on"
+      android:title="@string/settings_bold_font_in_texts_title"
+      app:iconSpaceReserved="false" />
+
   <ListPreference
     android:defaultValue="strip"
     android:entries="@array/colors_app"

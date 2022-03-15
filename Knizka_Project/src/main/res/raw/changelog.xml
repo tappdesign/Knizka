@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Marec 15, 2022"
+        versionName="2.2.0">
+        <changelogtext>[b]New:[/b] Možnosť nastavenia tučného písma v textoch</changelogtext>
+        <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Február 27, 2022"
         versionName="2.1.1">
         <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
