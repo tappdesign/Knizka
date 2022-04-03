@@ -983,7 +983,7 @@ public class DbHelper extends SQLiteOpenHelper {
    * @param pattern String to match with
    * @return Notes list
    */
-  public List<Note> getNotesByPattern(String pattern) {
+  public List<Note> getNotesByPatternWithAccents(String pattern) {
     String escapedPattern = escapeSql(pattern);
     int navigation = Navigation.getNavigation();
     String whereCondition = " WHERE "
@@ -999,6 +999,76 @@ public class DbHelper extends SQLiteOpenHelper {
             + " OR ( " + KEY_LOCKED + " = 1 AND " + COL_TITLE + " LIKE '%" + escapedPattern + "%' ESCAPE '\\' )"
             + ")";
     return getNotes(whereCondition, "", "", true);
+  }
+
+  public static String addTildeOptions(String searchText, boolean inAnyPosition) {
+    String result;
+    result = searchText.toLowerCase()
+            .replaceAll("[aáàäâã]", "\\[aáàäâã\\]")
+            .replaceAll("[eéèëê]", "\\[eéèëê\\]")
+            .replaceAll("[iíìî]", "\\[iíìî\\]")
+            .replaceAll("[oóòöôõ]", "\\[oóòöôõ\\]")
+            .replaceAll("[uúùüû]", "\\[uúùüû\\]")
+            .replaceAll("[lľĺ]", "\\[lľĺ\\]")
+            .replaceAll("[sš]", "\\[sš\\]")
+            .replaceAll("[cč]", "\\[cč\\]")
+            .replaceAll("[tť]", "\\[tť\\]")
+            .replaceAll("[zž]", "\\[zž\\]")
+            .replaceAll("[yý]", "\\[yý\\]")
+            .replaceAll("[nň]", "\\[nň\\]")
+            .replaceAll("[rŕř]", "\\[rŕř\\]");
+
+    if (inAnyPosition) {
+      // search with "OR" operator --> match words in any position separated by space, coma, dot
+      result =  result.toLowerCase().replaceAll("[,. ]", "*");
+    }
+    return result;
+  }
+
+  public List<Note> getNotesByPatternIgnoreAccents(String pattern, boolean inAnyPosition) {
+    String escapedPattern = escapeSql(pattern);
+    int navigation = Navigation.getNavigation();
+    String searchGlob = addTildeOptions(escapedPattern, inAnyPosition);
+    String whereCondition = " WHERE "
+            + COL_UF_IS_TRASHED + (navigation == Navigation.TRASH ? " IS 1" : " IS NOT 1")
+            + (navigation == Navigation.ARCHIVE ? " AND " + COL_UF_IS_ARCHIVED + " IS 1" : "")
+            + (navigation == Navigation.CATEGORY ? " AND " + COL_MERGED_CATEGORY + " = " + Navigation.getCategory() : "")
+            + (navigation == Navigation.UNCATEGORIZED ? " AND (" + COL_MERGED_CATEGORY + " IS NULL OR " + COL_MERGED_CATEGORY
+            + " == 0) " : "")
+            + (Navigation.checkNavigation(Navigation.REMINDERS) ? " AND " + COL_UF_IS_ALARM + " IS NOT NULL" : "")
+            + " AND ("
+            + " ( " + KEY_LOCKED + " IS NOT 1 AND (lower(" + COL_TITLE + ") GLOB '*" + searchGlob + "*' " +
+            " OR  lower("+ COL_CONTENT + ") GLOB '*" + searchGlob + "*' " +" ))"
+            + ")";
+
+    return getNotes(whereCondition, "", "", true);
+  }
+
+  /**
+   * Gets notes matching pattern with title or content text
+   *
+   * @param pattern String to match with
+   * @return Notes list
+   */
+  public List<Note> getNotesByPattern(String pattern) {
+
+    if (pattern.startsWith(","))
+    {
+      // if start with coma ",", then use old search function
+      pattern = pattern.substring(1);
+      return getNotesByPatternWithAccents(pattern);
+    } else {
+      if (pattern.startsWith("."))
+      {
+        // if start with dot "." then do not ignore comas, match exact string without accents
+        pattern = pattern.substring(1);
+        return getNotesByPatternIgnoreAccents(pattern, false);
+      } else
+      {
+        // ignore comas, search all words as "OR" operator in any position in text
+        return getNotesByPatternIgnoreAccents(pattern, true);
+      }
+    }
   }
 
 
