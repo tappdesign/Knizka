@@ -1016,7 +1016,8 @@ public class DbHelper extends SQLiteOpenHelper {
             .replaceAll("[zž]", "\\[zž\\]")
             .replaceAll("[yý]", "\\[yý\\]")
             .replaceAll("[nň]", "\\[nň\\]")
-            .replaceAll("[rŕř]", "\\[rŕř\\]");
+            .replaceAll("[rŕř]", "\\[rŕř\\]")
+            .replaceAll("[dď]", "\\[dď\\]");
 
     if (inAnyPosition) {
       // search with "OR" operator --> match words in any position separated by space, coma, dot

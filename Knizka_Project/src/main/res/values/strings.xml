@@ -138,6 +138,7 @@
     <string name="add_new_tag_hint">e.g. Tag1 Tag2 Tag3</string>
     <string name="add_new_tag_caption">Add new tags</string>
     <string name="select_tags">Select tag(s)</string>
+    <string name="modify_tags">Select tag(s)</string>
     <string name="categories">Categories</string>
     <string name="edit_tag">Edit category</string>
     <string name="add_category">Add category</string>

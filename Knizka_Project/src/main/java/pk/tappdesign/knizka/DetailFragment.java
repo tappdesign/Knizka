@@ -2813,7 +2813,7 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
 
       // Dialog and events creation
       MaterialDialog dialog = new MaterialDialog.Builder(mainActivity)
-              .title(R.string.select_tags)
+              .title(R.string.modify_tags)
               .positiveText(R.string.ok)
               .negativeText(R.string.add_new_tag)
               .negativeColorRes(R.color.colorPrimary)
