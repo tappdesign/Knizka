@@ -61,6 +61,7 @@ import com.pixplicity.easyprefs.library.Prefs;
 import de.greenrobot.event.EventBus;
 import de.keyboardsurfer.android.widget.crouton.Crouton;
 import de.keyboardsurfer.android.widget.crouton.Style;
+import pk.tappdesign.knizka.async.RestoreRemindersTask;
 import pk.tappdesign.knizka.async.UpdateWidgetsTask;
 import pk.tappdesign.knizka.async.UpdaterTask;
 import pk.tappdesign.knizka.async.bus.PasswordRemovedEvent;
@@ -130,6 +131,7 @@ public class MainActivity extends BaseActivity implements SharedPreferences.OnSh
 
     // check for an apk update
 	 new UpdaterTask(this).execute();
+    new RestoreRemindersTask().execute();
   }
 
   @Override

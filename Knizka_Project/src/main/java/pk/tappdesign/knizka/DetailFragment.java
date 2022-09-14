@@ -1489,8 +1489,12 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
    @Override
    public boolean onOptionsItemSelected(MenuItem item) {
 
-      if (isOptionsItemFastClick()) {
-         return true;
+      // do not check fast item click in case of zooming
+      if ((item.getItemId() != R.id.menu_ZoomIn) && (item.getItemId() != R.id.menu_ZoomOut) )
+      {
+         if (isOptionsItemFastClick()) {
+            return true;
+         }
       }
 
       switch (item.getItemId()) {

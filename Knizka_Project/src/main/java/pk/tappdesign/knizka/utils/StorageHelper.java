@@ -604,6 +604,18 @@ public class StorageHelper {
         return file;
     }
 
+   public static String getFileName(String fullPath) {
+      String result = fullPath;
+
+      int cut = result.lastIndexOf('/');
+      if (cut != -1) {
+         result = result.substring(cut + 1);
+      } else {
+         result = "";
+      }
+      return result;
+   }
+
    public static String getFileName(Context mContext, Uri uri) {
       String result = null;
       if (uri.getScheme().equals("content")) {

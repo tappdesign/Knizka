@@ -232,7 +232,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.12'
     implementation "androidx.core:core-ktx:1.6.0"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.20"
 }
 
 configurations.all {

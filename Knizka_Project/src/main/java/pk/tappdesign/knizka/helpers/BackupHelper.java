@@ -456,7 +456,29 @@ public class BackupHelper {
     return notes;
   }
 
-   public static void finishImportNote(Note note)
+	/**
+	 * Imported notes can have wrong URI attachment. If we import data from different flavour (it has flavour name in uri)
+	 * so we should change it to the uri for current app (flavour)
+	 * @param note
+	 */
+	public static void fixAttachmentsURI(Note note)
+	{
+		for (Attachment attachment : note.getAttachmentsList()) {
+			// get file name from attachment.uri
+			String FileName = StorageHelper.getFileName(attachment.getUri().toString());
+
+			// get a file object with attachment filename
+			File f = new File(Knizka.getAppContext().getExternalFilesDir(null),FileName);
+
+			// get uri from prepared file object
+			Uri attachmentUri = FileProviderHelper.getFileProvider(f);
+
+			// now the uri has to be correct, we can set it to the attachment
+			attachment.setUri(attachmentUri);
+		}
+	}
+
+	public static void finishImportNote(Note note)
 	{
 		if (note.getCategory() != null) {
 			DbHelper.getInstance().updateCategory(note.getCategory());
@@ -464,6 +486,9 @@ public class BackupHelper {
 		if (Boolean.TRUE.equals(note.isLocked())) {
 			note.setContent(Security.decrypt(note.getContent(), Prefs.getString(PREF_PASSWORD, "")));
 		}
+
+		//fixAttachmentsURI(note);  probably need fo fixing attachments uri
+
 		DbHelper.getInstance().updateNote(note, false);
 	}
 

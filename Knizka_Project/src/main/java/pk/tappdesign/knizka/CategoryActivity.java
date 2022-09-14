@@ -28,10 +28,14 @@ import static pk.tappdesign.knizka.utils.ConstantsBase.PREF_NAVIGATION;
 import static java.lang.Integer.parseInt;
 
 import android.content.SharedPreferences;
+import android.graphics.Point;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -48,6 +52,8 @@ import pk.tappdesign.knizka.models.Category;
 import it.feio.android.simplegallery.util.BitmapUtils;
 import java.util.Calendar;
 import java.util.Random;
+
+import pk.tappdesign.knizka.utils.Display;
 import pk.tappdesign.knizka.utils.ThemeHelper;
 
 
@@ -80,6 +86,16 @@ public class CategoryActivity extends AppCompatActivity implements ColorChooserD
         }
         selectedColor = parseInt(category.getColor());
         populateViews();
+       resetWindowSize();
+    }
+
+   private void resetWindowSize() {
+      Point screen = Display.getScreenDimensions(this);
+      Window window = getWindow();
+      WindowManager.LayoutParams params = window.getAttributes();
+      params.width = (int) (screen.x * 0.8);
+      params.height = WindowManager.LayoutParams.WRAP_CONTENT;
+      window.setAttributes(params);
     }
 
     @Override

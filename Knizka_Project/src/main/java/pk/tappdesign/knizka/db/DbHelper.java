@@ -126,6 +126,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public static final String COL_ATTCH_PRAYER_HANDLE_ID_REF = "prayer_handle_id_ref";
 
   public static final String COL_HANDLE_ID = "handle_id";
+  public static final String COL_CREATION = "creation";
   public static final String COL_LAST_MODIFICATION = "last_modification";
   public static final String COL_TITLE = "title";
   public static final String COL_TEXT_NUMBER = "text_number";
@@ -416,6 +417,7 @@ public class DbHelper extends SQLiteOpenHelper {
     values.put(COL_CONTENT, addHTMLTagsIfNeeded(content));
     values.put(COL_INSIGHT, replaceLineBreak( stripToMaxChars(stripHTML(content), 500)));
     values.put(COL_HANDLE_ID, note.getCreation());
+    values.put(COL_CREATION, note.getCreation());
     long lastModification = note.getLastModification() != null && !updateLastModification
             ? note.getLastModification()
             : Calendar.getInstance().getTimeInMillis();
@@ -1118,7 +1120,7 @@ public class DbHelper extends SQLiteOpenHelper {
   public List<Note> getNotesWithReminderNotFired () {
     String whereCondition = " WHERE " + COL_IS_UF_ALARM + " IS NOT NULL"
             + " AND " + COL_UF_IS_REMINDER_FIRED + " IS NOT 1"
-            + " AND " + WHERE_NOT_ARCHIVED_NOT_TRASHED_NOT_INTENT;
+            + " AND " + WHERE_NOT_ARCHIVED_NOT_TRASHED;
     return getNotes(whereCondition, "", "", true);
   }
 

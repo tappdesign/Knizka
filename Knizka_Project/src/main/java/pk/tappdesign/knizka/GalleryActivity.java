@@ -41,15 +41,12 @@ import pk.tappdesign.knizka.databinding.ActivityGalleryBinding;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.models.Attachment;
 import pk.tappdesign.knizka.models.listeners.OnViewTouchedListener;
-import pk.tappdesign.knizka.models.views.InterceptorFrameLayout;
 import pk.tappdesign.knizka.utils.FileProviderHelper;
 import pk.tappdesign.knizka.utils.StorageHelper;
 import it.feio.android.simplegallery.models.GalleryPagerAdapter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-
-import it.feio.android.simplegallery.views.GalleryViewPager;
-import pk.tappdesign.knizka.utils.ThemeHelper;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e. status bar and navigation/system bar) 
@@ -61,10 +58,10 @@ public class GalleryActivity extends AppCompatActivity {
 
     private List<Attachment> images;
     OnViewTouchedListener screenTouches = new OnViewTouchedListener() {
-        private final int MOVING_THRESHOLD = 30;
+        private static final int MOVING_THRESHOLD = 30;
         float x;
         float y;
-        private boolean status_pressed = false;
+        private boolean statusPressed = false;
 
 
         @Override
@@ -72,7 +69,7 @@ public class GalleryActivity extends AppCompatActivity {
             if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_DOWN) {
                 x = ev.getX();
                 y = ev.getY();
-                status_pressed = true;
+                statusPressed = true;
             }
             if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_MOVE) {
                 float dx = Math.abs(x - ev.getX());
@@ -80,14 +77,12 @@ public class GalleryActivity extends AppCompatActivity {
                 double dxy = Math.sqrt(dx * dx + dy * dy);
                 LogDelegate.d("Moved of " + dxy);
                 if (dxy >= MOVING_THRESHOLD) {
-                    status_pressed = false;
+                    statusPressed = false;
                 }
             }
-            if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP) {
-                if (status_pressed) {
+      if ((ev.getAction() & MotionEvent.ACTION_MASK) == MotionEvent.ACTION_UP && statusPressed) {
                     click();
-                    status_pressed = false;
-                }
+                    statusPressed = false;
             }
         }
 
@@ -157,7 +152,9 @@ public class GalleryActivity extends AppCompatActivity {
      */
     private void initData() {
         String title = getIntent().getStringExtra(GALLERY_TITLE);
-        images = getIntent().getParcelableArrayListExtra(GALLERY_IMAGES);
+    images = getIntent().getParcelableArrayListExtra(GALLERY_IMAGES) != null
+        ? getIntent().getParcelableArrayListExtra(GALLERY_IMAGES)
+        : Collections.emptyList();
         int clickedImage = getIntent().getIntExtra(GALLERY_CLICKED_IMAGE, 0);
 
         ArrayList<Uri> imageUris = new ArrayList<>();
