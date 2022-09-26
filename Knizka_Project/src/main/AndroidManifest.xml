@@ -208,7 +208,8 @@
         <activity
             android:name="pk.tappdesign.knizka.ShortcutActivity"
             android:icon="@drawable/shortcut_icon"
-            android:label="@string/add_note">
+      android:label="@string/add_note"
+      android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.CREATE_SHORTCUT" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -247,7 +248,8 @@
         <service
             android:name="pk.tappdesign.knizka.services.NotificationListener"
             android:label="@string/app_name"
-            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+      android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"
+      android:exported="false">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
             </intent-filter>
@@ -262,7 +264,8 @@
         <!-- Widget configuration Activity -->
         <activity
             android:name="pk.tappdesign.knizka.widget.WidgetConfigurationActivity"
-            android:theme="@style/AppTheme.Bright.ApiSpec.Dialog">
+            android:theme="@style/AppTheme.Bright.ApiSpec.Dialog"
+android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -273,7 +276,8 @@
             android:name="pk.tappdesign.knizka.widget.SimpleWidgetProvider"
             android:description="@string/widget_simple_description"
             android:icon="@drawable/logo"
-            android:label="@string/app_name">
+      android:label="@string/app_name"
+      android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -287,7 +291,8 @@
             android:name="pk.tappdesign.knizka.widget.ListWidgetProvider"
             android:description="@string/widget_list_description"
             android:icon="@drawable/logo"
-            android:label="@string/app_name">
+      android:label="@string/app_name"
+      android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -306,7 +311,8 @@
             android:name="pk.tappdesign.knizka.extensions.ONDashClockExtension"
             android:icon="@drawable/ic_stat_literal_icon"
             android:label="@string/app_name"
-            android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA">
+      android:permission="com.google.android.apps.dashclock.permission.READ_EXTENSION_DATA"
+      android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.apps.dashclock.Extension" />
             </intent-filter>
@@ -324,7 +330,8 @@
 
         <service
             android:name="pk.tappdesign.knizka.extensions.PushBulletExtension"
-            android:permission="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA">
+      android:permission="com.pushbullet.android.permission.READ_MESSAGING_EXTENSION_DATA"
+      android:exported="false">
             <intent-filter>
                 <action android:name="com.pushbullet.android.extension.MessagingExtension" />
             </intent-filter>

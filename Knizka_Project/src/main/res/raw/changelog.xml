@@ -18,6 +18,14 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="September 26, 2022"
+        versionName="2.3.1">
+        <changelogtext>[b]Fix:[/b] Oprava opakujúcich sa pripomienok</changelogtext>
+        <changelogtext>[b]Fix:[/b] Rýchlejšia reakcia na zväčšenie/zmenšenie textu</changelogtext>
+        <changelogtext>[b]Fix:[/b] Oprava exportov s prílohami</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="Apríl 06, 2022"
         versionName="2.3.0">
         <changelogtext>[b]New:[/b] Vylepšené vyhľadávnie (diakritika nie je potrebná)</changelogtext>
