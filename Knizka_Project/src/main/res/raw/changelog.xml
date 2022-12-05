@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="December 2, 2022"
+        versionName="2.3.2">
+        <changelogtext>[b]Fix:[/b] Drobné opravy</changelogtext>
+        <changelogtext>[b]New:[/b] Aktualizácia textov</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="September 26, 2022"
         versionName="2.3.1">
         <changelogtext>[b]Fix:[/b] Oprava opakujúcich sa pripomienok</changelogtext>

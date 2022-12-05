@@ -148,6 +148,7 @@ public class UpdaterTask extends AsyncTask<String, Void, Void> {
   }
 
   private void restoreReminders () {
+    //AlarmRestoreOnRebootService.enqueueWork(Knizka.getAppContext(), new Intent());
     Intent service = new Intent(mActivity, AlarmRestoreOnRebootService.class);
     mActivity.startService(service);
   }

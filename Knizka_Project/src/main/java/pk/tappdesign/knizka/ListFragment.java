@@ -438,7 +438,7 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
 
   private void refreshListScrollPosition () {
-    if(binding.list != null) {
+    if ((binding != null) && (binding.list != null)) {
       listViewPosition = ((LinearLayoutManager) binding.list.getLayoutManager())
           .findFirstVisibleItemPosition();
       View v = binding.list.getChildAt(0);
