@@ -33,6 +33,7 @@ import android.widget.RemoteViews;
 
 import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.R;
+import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 
 
 public class ListWidgetProvider extends WidgetProvider {
@@ -77,8 +78,8 @@ public class ListWidgetProvider extends WidgetProvider {
 
             Intent clickIntent = new Intent(mContext, MainActivity.class);
             clickIntent.setAction(ACTION_WIDGET);
-            PendingIntent clickPI = PendingIntent.getActivity(mContext, 0,
-                    clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//            PendingIntent clickPI = PendingIntent.getActivity(mContext, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent clickPI = NotificationsHelper.createPendingIntent(mContext, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
             views.setPendingIntentTemplate(R.id.widget_list, clickPI);
         }

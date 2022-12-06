@@ -46,6 +46,7 @@ import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.helpers.date.DateHelper;
+import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 import pk.tappdesign.knizka.models.Attachment;
 import pk.tappdesign.knizka.models.Note;
 import java.util.Optional;
@@ -91,7 +92,7 @@ public class ShortcutHelper {
           .build();
       Intent pinnedShortcutCallbackIntent = shortcutManager.createShortcutResultIntent(pinShortcutInfo);
       //Get notified when a shortcut is pinned successfully//
-      PendingIntent successCallback = PendingIntent.getBroadcast(context, 0, pinnedShortcutCallbackIntent, 0);
+      PendingIntent successCallback = NotificationsHelper.getBroatcastPendingIntent(context, 0, pinnedShortcutCallbackIntent, 0);
       shortcutManager.requestPinShortcut(pinShortcutInfo, successCallback.getIntentSender()
       );
     }

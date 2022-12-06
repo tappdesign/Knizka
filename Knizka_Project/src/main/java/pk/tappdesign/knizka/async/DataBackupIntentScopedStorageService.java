@@ -264,8 +264,7 @@ public class DataBackupIntentScopedStorageService  extends IntentService impleme
       intentLaunch.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
       intentLaunch.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
       // Creates the PendingIntent
-      PendingIntent notifyIntent = PendingIntent.getActivity(mContext, 0, intentLaunch,
-              PendingIntent.FLAG_UPDATE_CURRENT);
+      PendingIntent notifyIntent = NotificationsHelper.createPendingIntent(mContext, 0, intentLaunch, PendingIntent.FLAG_UPDATE_CURRENT);
 
       NotificationsHelper notificationsHelper = new NotificationsHelper(mContext);
       notificationsHelper.createStandardNotification(NotificationChannels.NotificationChannelNames.BACKUPS, R.drawable.ic_content_save_white_24dp, title, notifyIntent)

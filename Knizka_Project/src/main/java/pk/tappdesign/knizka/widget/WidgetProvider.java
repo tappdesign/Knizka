@@ -41,7 +41,7 @@ import android.widget.RemoteViews;
 import pk.tappdesign.knizka.MainActivity;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.helpers.LogDelegate;
-
+import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 
 
 public abstract class WidgetProvider extends AppWidgetProvider {
@@ -79,20 +79,20 @@ public abstract class WidgetProvider extends AppWidgetProvider {
     Intent intentDetail = new Intent(context, MainActivity.class);
     intentDetail.setAction(ACTION_WIDGET);
     intentDetail.putExtra(INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentDetail = PendingIntent.getActivity(context, widgetId, intentDetail, FLAG_ACTIVITY_NEW_TASK);
+    PendingIntent pendingIntentDetail = NotificationsHelper.createPendingIntent(context, widgetId, intentDetail, FLAG_ACTIVITY_NEW_TASK);
+
 
     // Create an Intent to launch ListActivity
     Intent intentList = new Intent(context, MainActivity.class);
     intentList.setAction(ACTION_WIDGET_SHOW_LIST);
     intentList.putExtra(INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentList = PendingIntent.getActivity(context, widgetId, intentList, FLAG_ACTIVITY_NEW_TASK);
+    PendingIntent pendingIntentList = NotificationsHelper.createPendingIntent(context, widgetId, intentList, FLAG_ACTIVITY_NEW_TASK);
 
     // Create an Intent to launch DetailActivity to take a photo
     Intent intentDetailPhoto = new Intent(context, MainActivity.class);
     intentDetailPhoto.setAction(ACTION_WIDGET_TAKE_PHOTO);
     intentDetailPhoto.putExtra(INTENT_WIDGET, widgetId);
-    PendingIntent pendingIntentDetailPhoto = PendingIntent.getActivity(context, widgetId, intentDetailPhoto,
-        FLAG_ACTIVITY_NEW_TASK);
+    PendingIntent pendingIntentDetailPhoto = NotificationsHelper.createPendingIntent(context, widgetId, intentDetailPhoto, FLAG_ACTIVITY_NEW_TASK);
 
     // Check various dimensions aspect of widget to choose between layouts
     boolean isSmall = false;

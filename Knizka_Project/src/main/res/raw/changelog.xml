@@ -18,6 +18,12 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="December 6, 2022"
+        versionName="2.3.4">
+        <changelogtext>[b]Fix:[/b] Úprava pre android 12</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="December 5, 2022"
         versionName="2.3.3">
         <changelogtext>[b]Fix:[/b] Oprava pádu aplikácie</changelogtext>

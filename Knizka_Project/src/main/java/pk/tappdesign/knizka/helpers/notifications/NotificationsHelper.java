@@ -181,22 +181,64 @@ public class NotificationsHelper {
         return this;
     }
 
+    private static int getPendingIntentFlags(int intentFlags)
+    {
+       if (intentFlags == 0)
+       {
+          intentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+       }
+       if (android.os.Build.VERSION.SDK_INT >= 23) {
+          intentFlags = intentFlags | PendingIntent.FLAG_IMMUTABLE;
+       }
+       return intentFlags;
+    }
+
+   public static Intent getExplicitIntent(Context context, Intent explicitIntent)
+   {
+      if (explicitIntent == null)
+      {
+         explicitIntent = new Intent(context, MainActivity.class);
+      }
+      return explicitIntent;
+   }
+
+   public static PendingIntent getBroatcastPendingIntent(Context context, int requestCode, Intent explicitIntent, int intentFlags)
+   {
+      intentFlags = getPendingIntentFlags(intentFlags);
+      explicitIntent = getExplicitIntent(context, explicitIntent);
+
+      return  PendingIntent.getBroadcast(context, requestCode, explicitIntent, intentFlags);
+   }
+
+    public static PendingIntent createPendingIntent(Context context, int requestCode, Intent explicitIntent, int intentFlags)
+    {
+       intentFlags = getPendingIntentFlags(intentFlags);
+       explicitIntent = getExplicitIntent(context, explicitIntent);
+
+       return  PendingIntent.getActivity(context, requestCode, explicitIntent, intentFlags);
+    }
+
     public NotificationsHelper show() {
         show(0);
         return this;
     }
 
    public NotificationsHelper show(long id) {
-      Notification mNotification = mBuilder.build();
+      var mNotification = mBuilder.build();
       if (mNotification.contentIntent == null) {
-         // Creates a dummy PendingIntent
-         mBuilder.setContentIntent(PendingIntent.getActivity(mContext, 0, new Intent(),
-                 PendingIntent.FLAG_UPDATE_CURRENT));
+//         var pIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
+//         if (android.os.Build.VERSION.SDK_INT >= 23) {
+//            pIntentFlags = pIntentFlags | PendingIntent.FLAG_IMMUTABLE;
+//         }
+//         var emptyExplicitIntent = new Intent(mContext, MainActivity.class);
+//         var pendingIntent = PendingIntent.getActivity(mContext, 0, emptyExplicitIntent, pIntentFlags);
+         var pendingIntent = createPendingIntent(mContext, 0, null, 0);
+         mBuilder.setContentIntent(pendingIntent);
       }
-      // Builds an anonymous Notification object from the builder, and passes it to the NotificationManager
       mNotificationManager.notify(String.valueOf(id), 0, mBuilder.build());
       return this;
    }
+
 
 
    public NotificationsHelper start(NotificationChannels.NotificationChannelNames channelName, int

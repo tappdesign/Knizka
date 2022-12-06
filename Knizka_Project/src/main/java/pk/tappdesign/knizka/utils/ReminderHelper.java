@@ -34,6 +34,7 @@ import android.widget.Toast;
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.R;
 import pk.tappdesign.knizka.helpers.date.DateHelper;
+import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 import pk.tappdesign.knizka.models.Note;
 import pk.tappdesign.knizka.receiver.AlarmReceiver;
 import pk.tappdesign.knizka.utils.date.DateUtils;
@@ -58,8 +59,7 @@ public class ReminderHelper {
 		if (DateUtils.isFuture(reminder)) {
 			Intent intent = new Intent(context, AlarmReceiver.class);
 			intent.putExtra(INTENT_NOTE, ParcelableUtil.marshall(note));
-			PendingIntent sender = PendingIntent.getBroadcast(context, getRequestCode(note), intent,
-					PendingIntent.FLAG_CANCEL_CURRENT);
+			PendingIntent sender = NotificationsHelper.getBroatcastPendingIntent(context, getRequestCode(note), intent, PendingIntent.FLAG_CANCEL_CURRENT);
 			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			am.setExact(AlarmManager.RTC_WAKEUP, reminder, sender);
 		}
@@ -70,8 +70,8 @@ public class ReminderHelper {
 	 * Checks if exists any reminder for given note
 	 */
 	public static boolean checkReminder(Context context, Note note) {
-		return PendingIntent.getBroadcast(context, getRequestCode(note), new Intent(context, AlarmReceiver
-				.class), PendingIntent.FLAG_NO_CREATE) != null;
+
+		return NotificationsHelper.getBroatcastPendingIntent(context, getRequestCode(note), new Intent(context, AlarmReceiver.class), PendingIntent.FLAG_NO_CREATE) != null;
 	}
 
 
@@ -85,7 +85,7 @@ public class ReminderHelper {
 		if (!TextUtils.isEmpty(note.getAlarm())) {
 			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, AlarmReceiver.class);
-			PendingIntent p = PendingIntent.getBroadcast(context, getRequestCode(note), intent, 0);
+			PendingIntent p = NotificationsHelper.getBroatcastPendingIntent(context, getRequestCode(note), intent, 0);
 			if (p != null)
 			{
 				am.cancel(p);

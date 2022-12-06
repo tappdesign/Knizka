@@ -24,6 +24,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+
+import pk.tappdesign.knizka.helpers.notifications.NotificationsHelper;
 import pk.tappdesign.knizka.models.Note;
 import lombok.experimental.UtilityClass;
 
@@ -48,7 +50,7 @@ public class IntentHelper {
   public static PendingIntent getNotePendingIntent (@NonNull Context context, @NonNull Class target, String action,
       Note note) {
     Intent intent = getNoteIntent(context, target, action, note);
-    return PendingIntent.getActivity(context, getUniqueRequestCode(note), intent, PendingIntent.FLAG_UPDATE_CURRENT);
+    return NotificationsHelper.createPendingIntent(context, getUniqueRequestCode(note), intent, 0);
   }
 
   static int getUniqueRequestCode (Note note) {

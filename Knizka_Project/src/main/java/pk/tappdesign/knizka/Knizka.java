@@ -78,7 +78,6 @@ public class Knizka extends MultiDexApplication {
 				builder.getPluginConfigurationBuilder(MailSenderConfigurationBuilder.class).setMailTo("tappdesignstudio@gmail.com").setEnabled(true);
 				ACRA.init(this, builder);
 		}
-
 	}
 
 	@Override
