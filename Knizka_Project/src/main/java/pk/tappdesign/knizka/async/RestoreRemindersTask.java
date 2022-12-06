@@ -24,7 +24,7 @@ public class RestoreRemindersTask extends AsyncTask<Void, Void, Void> {
          ReminderHelper.removeReminder(Knizka.getAppContext(), note);
          if (!DateUtils.isFuture(note.getAlarm())) {
             if (!TextUtils.isEmpty(note.getRecurrenceRule())) {
-               SnoozeActivity.setNextRecurrentReminder(note);
+               SnoozeActivity.setNextRecurrentReminder(note, false);
             }
          }
 

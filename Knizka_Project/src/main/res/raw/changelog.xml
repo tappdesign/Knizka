@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="December 5, 2022"
+        versionName="2.3.3">
+        <changelogtext>[b]Fix:[/b] Oprava pádu aplikácie</changelogtext>
+        <changelogtext>[b]New:[/b] Povolenie poslania e-mailu s chybovým hlásením (ACRA reports)</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="December 2, 2022"
         versionName="2.3.2">
         <changelogtext>[b]Fix:[/b] Drobné opravy</changelogtext>

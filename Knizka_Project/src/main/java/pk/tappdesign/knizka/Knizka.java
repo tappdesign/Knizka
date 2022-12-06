@@ -42,13 +42,17 @@ import org.acra.ACRA;
 import org.acra.annotation.AcraCore;
 import org.acra.annotation.AcraHttpSender;
 import org.acra.annotation.AcraToast;
+import org.acra.config.CoreConfigurationBuilder;
+import org.acra.config.MailSenderConfigurationBuilder;
+
+import org.acra.data.StringFormat;
 import org.acra.sender.HttpSender;
 
-
-@AcraCore(buildConfigClass = BuildConfig.class)
-@AcraHttpSender(uri = BuildConfig.CRASH_REPORTING_URL,
-		httpMethod = HttpSender.Method.POST)
-@AcraToast(resText = R.string.crash_toast)
+//
+//@AcraCore(buildConfigClass = BuildConfig.class)
+//@AcraHttpSender(uri = BuildConfig.CRASH_REPORTING_URL,
+//		httpMethod = HttpSender.Method.POST)
+//@AcraToast(resText = R.string.crash_toast)
 public class Knizka extends MultiDexApplication {
 
 	private static Context mContext;
@@ -65,8 +69,16 @@ public class Knizka extends MultiDexApplication {
 	@Override
 	protected void attachBaseContext(Context base) {
 		super.attachBaseContext(base);
-		ACRA.init(this);
-		ACRA.getErrorReporter().putCustomData("TRACEPOT_DEVELOP_MODE", isDebugBuild() ? "1" : "0");
+
+		if (!Knizka.isDebugBuild())
+		{
+				CoreConfigurationBuilder builder = new CoreConfigurationBuilder(this);
+				builder.setBuildConfigClass(BuildConfig.class).setReportFormat(StringFormat.JSON);
+
+				builder.getPluginConfigurationBuilder(MailSenderConfigurationBuilder.class).setMailTo("tappdesignstudio@gmail.com").setEnabled(true);
+				ACRA.init(this, builder);
+		}
+
 	}
 
 	@Override

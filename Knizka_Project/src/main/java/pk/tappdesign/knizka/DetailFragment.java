@@ -2863,7 +2863,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
       RecyclerViewItemClickSupport.addTo(dialog.getRecyclerView()).setOnItemClickListener((recyclerView, position, v) -> {
          PrayerSetItemDataProvider.ConcreteData cd = new PrayerSetItemDataProvider.ConcreteData(prayerSetDataProvider.getCount(), noteTmp.getHandleID() , 0,  1, new Integer(categories.get(position).getId().intValue()).intValue(), "["+categories.get(position).getName()+"]");
          prayerSetDataProvider.addItem(cd);
-         prayerSetRecyclerView.getAdapter().notifyDataSetChanged();
+         if (prayerSetRecyclerView != null)
+         {
+            prayerSetRecyclerView.getAdapter().notifyDataSetChanged();
+         }
+
 
          dialog.dismiss();
       });

@@ -186,22 +186,20 @@ public class NotificationsHelper {
         return this;
     }
 
-  public NotificationsHelper show(long id) {
-    var mNotification = mBuilder.build();
-    if (mNotification.contentIntent == null) {
-      var pIntentFlags = PendingIntent.FLAG_UPDATE_CURRENT;
-      if (android.os.Build.VERSION.SDK_INT >= 23) {
-        pIntentFlags = pIntentFlags | PendingIntent.FLAG_IMMUTABLE;
+   public NotificationsHelper show(long id) {
+      Notification mNotification = mBuilder.build();
+      if (mNotification.contentIntent == null) {
+         // Creates a dummy PendingIntent
+         mBuilder.setContentIntent(PendingIntent.getActivity(mContext, 0, new Intent(),
+                 PendingIntent.FLAG_UPDATE_CURRENT));
       }
-      var emptyExplicitIntent = new Intent(mContext, MainActivity.class);
-      var pendingIntent = PendingIntent.getActivity(mContext, 0, emptyExplicitIntent, pIntentFlags);
-      mBuilder.setContentIntent(pendingIntent);
-    }
-    mNotificationManager.notify(String.valueOf(id), 0, mBuilder.build());
-    return this;
-  }
+      // Builds an anonymous Notification object from the builder, and passes it to the NotificationManager
+      mNotificationManager.notify(String.valueOf(id), 0, mBuilder.build());
+      return this;
+   }
 
-    public NotificationsHelper start(NotificationChannels.NotificationChannelNames channelName, int
+
+   public NotificationsHelper start(NotificationChannels.NotificationChannelNames channelName, int
             smallIcon, String title) {
     createStandardNotification(channelName, smallIcon, title, null).setIndeterminate().setOngoing();
         mNotificationManager.notify(0, mBuilder.setOnlyAlertOnce(true).build());

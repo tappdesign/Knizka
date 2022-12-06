@@ -21,7 +21,7 @@
 
   <SwitchPreference
     android:defaultValue="false"
-    android:enabled="false"
+    android:enabled="true"
     android:key="acra.enable"
     android:summaryOff="@string/settings_error_reporting_summary_off"
     android:summaryOn="@string/settings_error_reporting_summary_on"

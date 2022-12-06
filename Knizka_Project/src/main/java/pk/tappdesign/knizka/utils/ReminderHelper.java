@@ -86,8 +86,11 @@ public class ReminderHelper {
 			AlarmManager am = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 			Intent intent = new Intent(context, AlarmReceiver.class);
 			PendingIntent p = PendingIntent.getBroadcast(context, getRequestCode(note), intent, 0);
-			am.cancel(p);
-			p.cancel();
+			if (p != null)
+			{
+				am.cancel(p);
+				p.cancel();
+			}
 		}
 	}
 

@@ -64,7 +64,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 				Note note = ParcelableUtil.unmarshall(intent.getExtras().getByteArray(INTENT_NOTE), Note
 						.CREATOR);
 				createNotification(mContext, note);
-				SnoozeActivity.setNextRecurrentReminder(note);
+				SnoozeActivity.setNextRecurrentReminder(note, true);
 				updateNote(note);
 			}
 		} catch (Exception e) {

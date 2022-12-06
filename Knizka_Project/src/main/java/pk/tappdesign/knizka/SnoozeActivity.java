@@ -59,26 +59,28 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
   private Note note;
   private Note[] notes;
 
-  public static void setNextRecurrentReminder(Note note) {
+  public static void setNextRecurrentReminder(Note note, boolean showToast) {
     long nextReminder = RecurrenceHelper.nextReminderFromRecurrenceRule(note);
     if (nextReminder > 0) {
-      updateNoteReminder(nextReminder, note, true);
+      updateNoteReminder(nextReminder, note, true, showToast);
     } else {
       new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, note);
     }
   }
 
   private static void updateNoteReminder(long reminder, Note note) {
-    updateNoteReminder(reminder, note, false);
+    updateNoteReminder(reminder, note, false, true);
   }
 
-  private static void updateNoteReminder(long reminder, Note noteToUpdate, boolean updateNote) {
+  private static void updateNoteReminder(long reminder, Note noteToUpdate, boolean updateNote, boolean showToast) {
     if (updateNote) {
       noteToUpdate.setAlarm(reminder);
       new SaveNoteTask(false).executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, noteToUpdate);
     } else {
       ReminderHelper.addReminder(Knizka.getAppContext(), noteToUpdate, reminder);
-      ReminderHelper.showReminderMessage(noteToUpdate.getAlarm());
+      if (showToast) {
+        ReminderHelper.showReminderMessage(noteToUpdate.getAlarm());
+      }
     }
   }
 
@@ -98,7 +100,7 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
 
   private void manageNotification() {
     if (ACTION_DISMISS.equals(getIntent().getAction())) {
-      setNextRecurrentReminder(note);
+      setNextRecurrentReminder(note, true);
       finish();
     } else if (ACTION_SNOOZE.equals(getIntent().getAction())) {
       String snoozeDelay = Prefs.getString("settings_notification_snooze_delay", PREF_SNOOZE_DEFAULT);
@@ -144,11 +146,11 @@ public class SnoozeActivity extends AppCompatActivity implements OnReminderPicke
   public void onRecurrenceReminderPicked(String recurrenceRule) {
     if (note != null) {
       note.setRecurrenceRule(recurrenceRule);
-      setNextRecurrentReminder(note);
+      setNextRecurrentReminder(note, true);
     } else {
       for (Note processedNotes : notes) {
         processedNotes.setRecurrenceRule(recurrenceRule);
-        setNextRecurrentReminder(processedNotes);
+        setNextRecurrentReminder(processedNotes, true);
       }
       setResult(RESULT_OK, getIntent());
     }
