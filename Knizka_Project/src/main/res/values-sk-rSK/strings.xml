@@ -119,7 +119,7 @@
   <string name="add_new_tag_hint">napr.: Tag1 Tag2 Tag3</string>
   <string name="add_new_tag_caption">Pridanie nových tagov</string>
   <string name="select_tags">Nájdite podľa značky</string>
-  <string name="modify_tags">Modifikujte tagy</string>
+  <string name="modify_tags">Modifikujte značky</string>
   <string name="categories">Kategórie</string>
   <string name="edit_tag">Upraviť kategóriu</string>
   <string name="add_category">Pridať kategóriu</string>

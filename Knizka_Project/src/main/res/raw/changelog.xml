@@ -18,6 +18,13 @@
 <changelog bulletedList="true">
 
     <changelogversion
+        changeDate="Január 4, 2023"
+        versionName="2.3.6">
+        <changelogtext>[b]New:[/b] Pridané modlitby</changelogtext>
+        <changelogtext>[b]Fix:[/b] Drobné opravy</changelogtext>
+    </changelogversion>
+
+    <changelogversion
         changeDate="December 7, 2022"
         versionName="2.3.5">
         <changelogtext>[b]Fix:[/b] Úprava JKS piesne č. 19</changelogtext>
