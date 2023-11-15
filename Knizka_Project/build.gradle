@@ -206,9 +206,10 @@ dependencies {
     implementation 'com.github.federicoiosue:pixlui:3.0.0'
 
     // Flavors specific dependencies
-    playImplementation 'io.nlopez.smartlocation:library:3.2.4'
-    betaImplementation 'io.nlopez.smartlocation:library:3.2.4'
-    alphaImplementation 'io.nlopez.smartlocation:library:3.2.4'
+    playImplementation 'io.nlopez.smartlocation:library:3.3.3'
+    betaImplementation 'io.nlopez.smartlocation:library:3.3.3'
+    alphaImplementation 'io.nlopez.smartlocation:library:3.3.3'
+
     fossImplementation 'com.github.federicoiosue:smart-location-lib:3.2.6'
 
     playImplementation('com.github.federicoiosue:analitica:0.0.3:googleAnalyticsRelease@aar') {
@@ -223,9 +224,9 @@ dependencies {
     fossImplementation('com.github.federicoiosue:analitica:0.0.3:piwikRelease@aar') {
         transitive = true
     }
-    playImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
-    betaImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
-    alphaImplementation 'com.google.android.gms:play-services-analytics:9.0.2'
+    playImplementation 'com.google.android.gms:play-services-analytics:18.0.4'
+    betaImplementation 'com.google.android.gms:play-services-analytics:18.0.4'
+    alphaImplementation 'com.google.android.gms:play-services-analytics:18.0.4'
     fossImplementation('org.piwik.sdk:piwik-sdk:1.0.2') {
         exclude group: 'com.jakewharton.timber', module: 'timber'
     }

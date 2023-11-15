@@ -59,16 +59,16 @@ public class PermissionsHelper {
 
   private static void requestPermissionExecute (Activity activity, String permission, OnPermissionRequestedListener
       onPermissionRequestedListener, View messageView) {
-    RxPermissions.getInstance(activity)
-                 .request(permission)
-                 .subscribe(granted -> {
-                   if (granted && onPermissionRequestedListener != null) {
-                       onPermissionRequestedListener.onPermissionGranted();
-                   } else {
-                     String msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
-                     Snackbar.make(messageView, msg, Snackbar.LENGTH_LONG).show();
-                   }
-                 });
+     RxPermissions.getInstance(activity)
+             .request(permission)
+             .subscribe(granted -> {
+                if (granted && onPermissionRequestedListener != null) {
+                   onPermissionRequestedListener.onPermissionGranted();
+                } else {
+                   String msg = activity.getString(R.string.permission_not_granted) + ": " + permission;
+                   Snackbar.make(messageView, msg, Snackbar.LENGTH_LONG).show();
+                }
+             });
   }
 
 }

@@ -2916,6 +2916,11 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
               R.string.permission_external_storage_detail_attachment,
               binding.snackbarPlaceholder, this::startGetContentAction);
    }
+   private void askReadMediaImagesPermission() {
+      PermissionsHelper.requestPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES,
+              R.string.permission_external_storage_detail_attachment,
+              binding.snackbarPlaceholder, this::startGetContentAction);
+   }
 
   public void onEventMainThread(PushbulletReplyEvent pushbulletReplyEvent) {
     String text =
@@ -3049,12 +3054,23 @@ public class DetailFragment extends BaseFragment implements OnReminderPickedList
                takeVideo();
                break;
             case R.id.files:
-               if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
-                       PackageManager.PERMISSION_GRANTED) {
-                  startGetContentAction();
+               if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                  if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_MEDIA_IMAGES) ==
+                          PackageManager.PERMISSION_GRANTED) {
+                     startGetContentAction();
+                  } else {
+                     askReadMediaImagesPermission();
+                  }
                } else {
-                  askReadExternalStoragePermission();
+                  if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_EXTERNAL_STORAGE) ==
+                          PackageManager.PERMISSION_GRANTED) {
+                     startGetContentAction();
+                  } else {
+                     askReadExternalStoragePermission();
+                  }
+
                }
+
                break;
             case R.id.sketch:
                takeSketch(null);

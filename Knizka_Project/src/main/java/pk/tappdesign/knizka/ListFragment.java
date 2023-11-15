@@ -83,6 +83,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.AnimationDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -262,7 +263,11 @@ public class ListFragment extends BaseFragment implements OnViewTouchedListener,
 
     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.list.getContext(),
         linearLayoutManager.getOrientation());
-    dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.fragment_list_item_divider));
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+      dividerItemDecoration.setDrawable(Knizka.getAppContext().getDrawable(R.drawable.fragment_list_item_divider));
+    }
+    //dividerItemDecoration.setDrawable(getResources().getDrawable(R.drawable.fragment_list_item_divider));
+
     binding.list.addItemDecoration(dividerItemDecoration);
 
     RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();

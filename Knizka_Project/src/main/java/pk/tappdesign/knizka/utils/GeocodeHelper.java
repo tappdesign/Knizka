@@ -34,7 +34,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import io.nlopez.smartlocation.SmartLocation;
 import io.nlopez.smartlocation.location.config.LocationParams;
-import io.nlopez.smartlocation.rx.ObservableFactory;
+//import io.nlopez.smartlocation.rx.ObservableFactory;
 import pk.tappdesign.knizka.Knizka;
 import pk.tappdesign.knizka.helpers.LogDelegate;
 import pk.tappdesign.knizka.models.listeners.OnGeoUtilResultListener;
@@ -54,7 +54,7 @@ import java.util.regex.Pattern;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import rx.Observable;
+
 import rx.Subscriber;
 
 
@@ -93,33 +93,22 @@ public class GeocodeHelper implements LocationListener {
 				.location(getProvider(Knizka.getAppContext()))
 				.config(LocationParams.NAVIGATION).oneFix();
 
-		Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
-		locations.subscribe(new Subscriber<Location>() {
-			@Override
-			public void onNext(Location location) {
-				onGeoUtilResultListener.onLocationRetrieved(location);
-				unsubscribe();
-			}
+//		Observable<Location> locations = ObservableFactory.from(bod).timeout(2, TimeUnit.SECONDS);
+//		//locations.subscribe(new Subscriber<Location>() {
+//			@Override
+//			public void call(Location location) {
+//				// Do your stuff here :)
+//			}
+//		});
 
-			@Override
-			public void onCompleted() {
-				// Nothing to do
-			}
-
-			@Override
-			public void onError(Throwable e) {
-				onGeoUtilResultListener.onLocationUnavailable();
-				unsubscribe();
-			}
-		});
 	}
 
 
 	public static void stop() {
-		SmartLocation.with(Knizka.getAppContext()).location().stop();
-		if (Geocoder.isPresent()) {
-			SmartLocation.with(Knizka.getAppContext()).geocoding().stop();
-		}
+//		SmartLocation.with(Knizka.getAppContext()).location().stop();
+//		if (Geocoder.isPresent()) {
+//			SmartLocation.with(Knizka.getAppContext()).geocoding().stop();
+//		}
 	}
 
 
